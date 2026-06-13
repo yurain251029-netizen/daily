@@ -65,6 +65,97 @@
     initGlitch();
     initScrollReveal();
     initSilhouetteTracker(); /* 初始化版块剪影（A: 版块接力 + D: 字重呼吸） */
+    initBackToTop();         /* P4-3 返回顶部 */
+    initKeyboardShortcuts(); /* P4-5 键盘快捷键 */
+  }
+
+  /* ---------- 6. Service Worker 注册（P4-1 离线缓存） ---------- */
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/ai-daily-report/sw.js').catch(function (err) {
+        console.debug('[SW] skip:', err && err.message);
+      });
+    });
+  }
+
+  /* ---------- 7. 返回顶部按钮（P4-3） ---------- */
+  function initBackToTop() {
+    var btn = document.getElementById('backToTop');
+    if (!btn) return;
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        if (window.scrollY > 400) btn.classList.add('visible');
+        else btn.classList.remove('visible');
+        ticking = false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    btn.addEventListener('click', function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      var hero = document.getElementById('heroTitle');
+      if (hero) hero.setAttribute('tabindex', '-1');
+      setTimeout(function () { if (hero) hero.focus({ preventScroll: true }); }, reduce ? 0 : 400);
+    });
+  }
+
+  /* ---------- 8. 键盘快捷键（P4-5） ---------- */
+  function initKeyboardShortcuts() {
+    if (!document.getElementById('hero')) return;
+    var helpVisible = false;
+    var helpEl = null;
+    function showHelp() {
+      if (helpEl) return;
+      helpEl = document.createElement('div');
+      helpEl.className = 'kbd-help';
+      helpEl.setAttribute('role', 'dialog');
+      helpEl.setAttribute('aria-label', '键盘快捷键帮助');
+      helpEl.innerHTML =
+        '<div class="kbd-help-inner">' +
+        '<h3>⌨️ 键盘快捷键</h3>' +
+        '<dl><dt><kbd>J</kbd> / <kbd>↓</kbd></dt><dd>向下滚动一段</dd>' +
+        '<dt><kbd>K</kbd> / <kbd>↑</kbd></dt><dd>向上滚动一段</dd>' +
+        '<dt><kbd>G</kbd> / <kbd>Home</kbd></dt><dd>跳到页面顶部</dd>' +
+        '<dt><kbd>H</kbd> / <kbd>End</kbd></dt><dd>跳到页面底部</dd>' +
+        '<dt><kbd>?</kbd></dt><dd>显示 / 隐藏此帮助</dd>' +
+        '<dt><kbd>Esc</kbd></dt><dd>关闭弹层</dd></dl>' +
+        '<p class="kbd-hint">在输入框内自动失效</p></div>';
+      document.body.appendChild(helpEl);
+      requestAnimationFrame(function () { helpEl.classList.add('visible'); });
+      helpVisible = true;
+    }
+    function hideHelp() {
+      if (!helpEl) return;
+      helpEl.classList.remove('visible');
+      setTimeout(function () {
+        if (helpEl && helpEl.parentNode) helpEl.parentNode.removeChild(helpEl);
+        helpEl = null;
+      }, 250);
+      helpVisible = false;
+    }
+    document.addEventListener('keydown', function (e) {
+      var t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var step = window.innerHeight * 0.85;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var smooth = !reduce;
+      switch (e.key) {
+        case 'j': case 'J': case 'ArrowDown':
+          e.preventDefault(); window.scrollBy({ top: step, behavior: smooth ? 'smooth' : 'auto' }); break;
+        case 'k': case 'K': case 'ArrowUp':
+          e.preventDefault(); window.scrollBy({ top: -step, behavior: smooth ? 'smooth' : 'auto' }); break;
+        case 'g': case 'G': case 'Home':
+          e.preventDefault(); window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' }); break;
+        case 'h': case 'H': case 'End':
+          e.preventDefault(); window.scrollTo({ top: document.body.scrollHeight, behavior: smooth ? 'smooth' : 'auto' }); break;
+        case '?': e.preventDefault(); helpVisible ? hideHelp() : showHelp(); break;
+        case 'Escape': if (helpVisible) { e.preventDefault(); hideHelp(); } break;
+      }
+    });
   }
 
   /* ---------- 3. Hero 标题故障动画（hover 触发） ---------- */
