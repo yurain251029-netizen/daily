@@ -160,7 +160,8 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .news-sources{font-size:11px;color:#888;margin-bottom:6px}
 .news-sources a{color:#8b6f47;text-decoration:none;margin-right:8px}
 .news-sources a:hover{text-decoration:underline}
-.news-toggle{font-size:11px;background:transparent;color:#8b6f47;border:none;cursor:pointer;padding:4px 0;font-weight:500;transition:color 0.15s}
+.news-toggle{font-size:11px;background:transparent;color:#8b6f47;border:none;cursor:pointer;padding:4px 0;font-weight:500;transition:color 0.15s, transform 0.15s}
+.news-toggle:hover{color:#5d4a30;font-weight:600;transform:translateX(2px)}
 
 /* 展开详情优化：添加 CSS 过渡动画 */
 .news-detail{max-height:0;overflow:hidden;opacity:0;transform:translateY(-4px);transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease, transform 0.3s cubic-bezier(0.4,0,0.2,1), padding-top 0.3s ease, margin-top 0.3s ease, border-top-color 0.3s ease;margin-top:0;padding-top:0;border-top:0.5px dashed transparent}
@@ -176,7 +177,8 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 
 /* 热力图 */
 .heatmap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.heat-cell{padding:10px 12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.05);position:relative;transition:background 0.15s}
+.heat-cell{padding:10px 12px;border-radius:8px;border:0.5px solid rgba(139,111,71,0.15);position:relative;transition:background 0.15s;contain:layout style}
+.heat-cell:hover{background:#faf6ed}
 .heat-name{font-size:12px;font-weight:600;margin-bottom:6px;color:#1a1a2e}
 .heat-change{font-size:16px;font-weight:700;margin-bottom:4px}
 .heat-progress{height:4px;background:rgba(139,111,71,0.12);border-radius:2px;overflow:hidden;margin-bottom:4px}
@@ -191,7 +193,8 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .depth-section h4{font-size:12px;color:#8b6f47;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px}
 .depth-section p{font-size:12.5px;color:#444;line-height:1.6}
 .social-heat{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.social-chip{font-size:11px;padding:4px 10px;background:#faf6ed;border-radius:14px;color:#555;border:0.5px solid #ede4d3;transition:background 0.15s}
+.social-chip{font-size:11px;padding:4px 10px;background:#faf6ed;border-radius:14px;color:#555;border:0.5px solid #ede4d3;transition:background 0.15s, color 0.15s, transform 0.15s;cursor:default}
+.social-chip:hover{background:#f0e3d0;color:#8b6f47;transform:translateY(-1px)}
 
 /* 日历 */
 .calendar-item{display:flex;align-items:center;gap:12px;padding:10px 12px;background:#faf6ed;border-radius:8px;margin-bottom:6px;border:0.5px solid #ede4d3;transition:background 0.15s}
@@ -232,7 +235,7 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
       <span class="crb-pulse">●</span>
       <span class="crb-label">当前报告</span>
       <span class="crb-type">☀️ 午报</span>
-      <span class="crb-time">生成时间 · 2026-06-13 18:30</span>
+      <span class="crb-time">生成时间 · 2026-06-13 18:49</span>
     </div>
     <a href="../history.html" class="crb-history">查看历史 ↗</a>
   </div>
@@ -382,7 +385,6 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
   <div class="news-en">NVIDIA B300 chip samples ship early</div>
   <div class="news-desc">性能较 B200 提升 50%，功耗下降 30%。</div>
   <div class="news-sources"><a href="https://reuters.com" target="_blank" rel="noopener">Reuters ↗</a></div>
-  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
   
 </div>
 <div class="news-card quick">
@@ -394,9 +396,9 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
   <div class="news-en">Anthropic launches enterprise agent platform</div>
   <div class="news-desc">对标 Salesforce Agentforce，主打 B 端自动化。</div>
   <div class="news-sources"><a href="https://techcrunch.com" target="_blank" rel="noopener">TechCrunch ↗</a></div>
-  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
   
 </div>
+    
   </div>
 
   <!-- 经济 & 金融 -->
@@ -423,7 +425,6 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
   <div class="news-en">Shanghai Composite hits 4,000 with record turnover</div>
   <div class="news-desc">金融 + AI 双主线共振，市场情绪转暖。</div>
   <div class="news-sources"><a href="https://eastmoney.com" target="_blank" rel="noopener">东方财富 ↗</a></div>
-  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
   
 </div>
 <div class="news-card watch">
@@ -435,9 +436,9 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
   <div class="news-en">Nasdaq futures +0.8% ahead of CPI</div>
   <div class="news-desc">AI 龙头股盘前普涨。</div>
   <div class="news-sources"><a href="https://cnbc.com" target="_blank" rel="noopener">CNBC ↗</a></div>
-  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
   
 </div>
+    
   </div>
 
   <!-- 深度分析 -->
@@ -521,6 +522,8 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 // 展开/收起详情 - 丝滑过渡 + 真实高度测量
 function toggleDetail(btn){
   const d=btn.nextElementSibling;
+  // 防御：nextElementSibling 不存在或不是 .news-detail 时直接 return
+  if(!d||!d.classList||!d.classList.contains('news-detail'))return;
   const card=btn.closest('.news-card');
   if(d.classList.contains('show')){
     d.style.maxHeight=d.scrollHeight+'px';
@@ -616,27 +619,35 @@ backToTop.addEventListener('click',function(){
   window.scrollTo({top:0,behavior:'smooth'});
 });
 
-// Chart.js 懒加载 - 解决滚动卡顿 + 图表显示不全
+// Chart.js 懒加载 - 解决滚动卡顿 + 图表显示不全 + 数据驱动
 let chartInitialized=false;
 function initChart(){
   if(chartInitialized)return;
-  const ctx=document.getElementById('usChart');
+  const ctx=document.getElementById('aiChart');
   if(!ctx)return;
+  if(typeof Chart==='undefined'){setTimeout(initChart,80);return;}
   // 关键：确保 canvas 有有效尺寸，否则渲染失败显示不全
   if(ctx.offsetWidth===0||ctx.offsetHeight===0){
     setTimeout(initChart,100);
     return;
   }
+  // 数据驱动：从 window.__CHART_DATA__ 读取
+  const data=window.__CHART_DATA__;
+  if(!data||!data.datasets){chartInitialized=true;return;}
+  const datasets=data.datasets.map(function(d){
+    return {
+      label:d.label,
+      data:d.data,
+      borderColor:d.color||'#8b6f47',
+      backgroundColor:d.fill?((d.color||'#8b6f47').replace(')',',0.08)').replace('rgb(','rgba('):'transparent'),
+      tension:0.3,
+      fill:!!d.fill,
+      pointRadius:3
+    };
+  });
   new Chart(ctx,{
     type:'line',
-    data:{
-      labels:['Day1','Day2','Day3','Day4','Day5','Day6','Day7'],
-      datasets:[
-        {label:'纳指',data:[19000,19100,19200,19300,19400,19500,19600],borderColor:'#8b6f47',backgroundColor:'rgba(139,111,71,0.08)',tension:0.3,fill:true,pointRadius:3},
-        {label:'标普500',data:[5300,5320,5340,5360,5380,5400,5420],borderColor:'#d60000',backgroundColor:'rgba(214,0,0,0.06)',tension:0.3,fill:false,pointRadius:3},
-        {label:'费城半导体',data:[4800,4820,4840,4860,4880,4900,4920],borderColor:'#f5a623',backgroundColor:'rgba(245,166,35,0.08)',tension:0.3,fill:true,pointRadius:3}
-      ]
-    },
+    data:{labels:data.labels||[],datasets:datasets},
     options:{
       responsive:true,
       maintainAspectRatio:false,
