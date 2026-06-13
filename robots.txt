@@ -1,0 +1,8 @@
+# AI × 经济日报 · robots.txt
+# 允许所有爬虫，配合 sitemap 索引
+
+User-agent: *
+Allow: /
+
+# 站点地图
+Sitemap: https://yurain251029-netizen.github.io/ai-daily-report/sitemap.xml
