@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="page-entering">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,6 +27,7 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
   .chart-wrap{height:240px}
 }
 @media(min-width:1601px){
+  /* 超大屏：双列布局 - 解决大屏留白 */
   body{background-color:#f0ebe0}
   .container{max-width:1560px;display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start;box-shadow:inset 0 0 80px rgba(120,90,50,0.08);border-radius:14px}
   .container>.header{grid-column:1 / -1}
@@ -34,7 +35,7 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
   .container>.metric-bar{grid-column:1 / -1}
   .container>.section-main{grid-column:1}
   .container>.sidebar{grid-column:2;position:sticky;top:24px}
-  .container>.paper-footer{grid-column:1 / -1}
+  .container>.footer{grid-column:1 / -1}
   .heatmap{grid-template-columns:repeat(6,1fr)}
   .term-grid{grid-template-columns:repeat(2,1fr)}
   .chart-wrap{height:260px}
@@ -49,7 +50,7 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
   .depth-grid{display:block}
   .depth-grid .depth-card{margin-bottom:12px}
 }
-.header{background:linear-gradient(135deg,#fff5e6 0%,#ffe8d0 100%);border-radius:14px;padding:20px 22px;margin-bottom:18px;border:0.5px solid #ffd9a8}
+.header{background:#fff5e6;border-radius:14px;padding:20px 22px;margin-bottom:18px;border:0.5px solid #ffd9a8}
 .header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
 .header-tag{display:inline-block;background:#ff6b35;color:#fff;font-size:12px;font-weight:600;padding:3px 10px;border-radius:12px;letter-spacing:0.5px}
 .header-title{font-size:22px;font-weight:700;color:#1a1a2e;margin:8px 0 4px}
@@ -58,6 +59,23 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .history-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:#fff;border:0.5px solid #ddd;border-radius:8px;color:#8b6f47;font-size:13px;text-decoration:none;transition:background 0.2s, color 0.2s}
 .history-btn:hover{background:#f3eee5}
 
+/* 当前报告标识条 */
+.current-report-bar{background:#fff;border:0.5px solid #ede4d3;border-radius:12px;padding:10px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:0 1px 3px rgba(139,111,71,0.04)}
+.current-report-bar .crb-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.current-report-bar .crb-pulse{color:#ff6b35;font-size:14px;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.4}}
+.current-report-bar .crb-label{display:inline-flex;align-items:center;background:linear-gradient(135deg,#ff6b35 0%,#ff9558 100%);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:14px;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(255,107,53,0.25)}
+.current-report-bar .crb-type{display:inline-flex;align-items:center;background:#fff8eb;color:#8b6f47;font-size:12px;font-weight:600;padding:3px 10px;border-radius:10px;border:0.5px solid #ede4d3}
+.current-report-bar .crb-time{font-size:12px;color:#666}
+.current-report-bar .crb-history{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;background:#8b6f47;color:#fff;font-size:12px;font-weight:600;border-radius:8px;text-decoration:none;transition:background 0.2s}
+.current-report-bar .crb-history:hover{background:#6f5838}
+
+/* tips-top 容器 */
+.read-tips .tips-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.read-tips .tips-close{font-size:18px;color:#fff;cursor:pointer;background:#8b6f47;border:none;padding:2px 8px;line-height:1;border-radius:6px;font-weight:700;transition:background 0.15s, transform 0.15s}
+.read-tips .tips-close:hover{background:#6f5838;transform:scale(1.05)}
+
+/* 导航优化：具体属性过渡 */
 .nav{background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:18px;border:0.5px solid #ede4d3}
 .nav-title{font-size:12px;color:#999;font-weight:600;margin-bottom:10px;letter-spacing:0.5px}
 .nav-items{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
@@ -66,24 +84,26 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .nav-item .num{background:#6c5ce7;color:#fff;font-size:11px;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:600}
 .nav-read{font-size:12px;color:rgba(139,111,71,0.6);padding-top:8px;border-top:0.5px dashed rgba(139,111,71,0.2)}
 .date-stamp{display:inline-block;font-size:11px;color:#8b6f47;background:rgba(139,111,71,0.08);padding:3px 9px;border-radius:10px;margin-left:8px;letter-spacing:0.3px;font-family:'Source Han Serif SC','Songti SC',serif}
-.read-tips{background:#fff8eb;border-radius:12px;padding:12px 16px;margin-bottom:14px;border:0.5px solid #ede4d3;border-left:3px solid #8b6f47;display:block}
-.read-tips .tips-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.read-tips{background:#fff8eb;border-radius:12px;padding:10px 14px;margin-bottom:14px;border:0.5px solid #ede4d3;border-left:3px solid #8b6f47;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .read-tips .tips-icon{font-size:14px;color:#8b6f47;font-weight:700;letter-spacing:0.5px;cursor:pointer;user-select:none}
-.read-tips .tips-quick{display:flex;gap:6px;flex-wrap:wrap}
+.read-tips .tips-quick{display:flex;gap:6px;flex-wrap:wrap;flex:1}
 .read-tips .tip-chip{font-size:11px;color:#6b5a3e;background:rgba(139,111,71,0.06);padding:3px 8px;border-radius:10px;line-height:1.3}
 .read-tips .tip-chip strong{color:#8b6f47}
-.read-tips .tips-close{font-size:18px;color:#fff;cursor:pointer;background:#8b6f47;border:none;padding:2px 8px;line-height:1;border-radius:6px;font-weight:700;transition:background 0.15s, transform 0.15s}
-.read-tips .tips-close:hover{background:#6f5838;transform:scale(1.05)}
+.read-tips .tips-close{font-size:14px;color:#b8a888;cursor:pointer;background:transparent;border:none;padding:0 4px;line-height:1}
+.read-tips .tips-close:hover{color:#8b6f47}
 .read-tips-detail{max-height:0;overflow:hidden;opacity:0;transition:max-height 0.3s ease, opacity 0.25s ease, padding-top 0.3s ease, margin-top 0.3s ease, border-top-color 0.3s ease;margin-top:0;padding-top:0;border-top:0.5px dashed transparent;font-size:12px;color:#6b5a3e;line-height:1.8}
 .read-tips.open .read-tips-detail{max-height:300px;opacity:1;margin-top:10px;padding-top:10px;border-top:0.5px dashed rgba(139,111,71,0.2)}
-.paper-footer{text-align:center;padding:24px 16px;margin-top:30px;font-size:11px;color:#8b6f47;letter-spacing:0.5px;border-top:0.5px solid #ede4d3;font-family:'Source Han Serif SC','Songti SC',serif;background:transparent}
+.nav-divider{height:1px;margin:6px 0 18px;background:linear-gradient(to right,transparent,#8b6f47 30%,#8b6f47 70%,transparent);opacity:0.3}
+.paper-footer{text-align:center;padding:24px 16px;margin-top:30px;font-size:11px;color:#8b6f47;letter-spacing:0.5px;border-top:0.5px solid #ede4d3;font-family:'Source Han Serif SC','Songti SC',serif}
 .paper-footer-tip{margin-top:4px;color:#b8a888;font-size:10px;font-style:italic}
 
+/* 区块优化：添加 content-visibility */
 .section{background:#fff;border-radius:12px;padding:18px 20px;margin-bottom:16px;border:0.5px solid #ede4d3}
 .section-title{font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .section-title .emoji{font-size:20px}
 .section-subtitle{font-size:12px;color:#999;font-weight:400;margin-left:auto}
 
+/* Top3 卡片优化：去掉渐变，改用实心色 */
 .top3-card{border-left:3px solid #c14545;background:#fdf6f4;padding:14px 16px;border-radius:0 10px 10px 0;margin-bottom:12px}
 .top3-card:last-child{margin-bottom:0}
 .top3-num{display:inline-block;background:#a83a3a;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;margin-bottom:6px}
@@ -91,6 +111,7 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .top3-en{font-size:12px;color:#888;font-style:italic;margin-bottom:6px}
 .top3-desc{font-size:13px;color:#444;line-height:1.5}
 
+/* 指标卡优化：具体属性过渡 + 手机端布局修复 */
 .metric-bar{display:flex;gap:10px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
 .metric-card{flex:1;min-width:130px;background:#faf6ed;border:0.5px solid #ede4d3;border-radius:10px;padding:12px 14px;transition:background 0.15s, border-color 0.15s}
 .metric-label{font-size:11px;color:#999;margin-bottom:4px;font-weight:500}
@@ -101,18 +122,30 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .flat{color:#888}
 .metric-note{font-size:10px;color:#999;margin-top:3px;line-height:1.3}
 
-.sentiment-bar{background:#faf6ed;border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
-.sentiment-label{font-size:12px;color:#666;font-weight:600;white-space:nowrap}
-.sentiment-track{flex:1;height:8px;background:#ede4d3;border-radius:4px;position:relative;overflow:hidden}
-.sentiment-fill{height:100%;border-radius:4px;background:linear-gradient(to right,#1a8f3c,#f5a623,#d60000)}
-.sentiment-marker{position:absolute;top:-4px;width:14px;height:14px;background:#fff;border:2px solid #1a1a2e;border-radius:50%;transform:translateX(-50%)}
-.sentiment-score{font-size:14px;font-weight:700;color:#1a1a2e;min-width:38px;text-align:right}
+/* 情绪指标条 v2 - 暖棕纸面风 + 14px 加高轨道 + 刻度线 + 情绪词 */
+.sentiment-bar{background:#faf6ed;border:0.5px solid #ede4d3;border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.sentiment-label{font-size:12px;color:#8b6f47;font-weight:600;white-space:nowrap;min-width:52px}
+.sentiment-track{flex:1;height:14px;background:#ede4d3;border-radius:7px;position:relative;overflow:visible;box-shadow:inset 0 1px 2px rgba(139,111,71,0.08)}
+.sentiment-fill{height:100%;border-radius:7px;background:linear-gradient(to right,#8b6f47,#c8843a);transition:width 0.4s cubic-bezier(0.4,0,0.2,1)}
+.sentiment-tick{position:absolute;top:50%;width:2px;height:20px;transform:translate(-50%,-50%);background:rgba(139,111,71,0.2);border-radius:1px;pointer-events:none}
+.sentiment-marker{position:absolute;top:-4px;width:12px;height:12px;background:#fff;border:2px solid #8b6f47;border-radius:50%;transform:translateX(-50%);box-shadow:0 1px 4px rgba(139,111,71,0.2);transition:left 0.4s cubic-bezier(0.4,0,0.2,1)}
+.sentiment-score{font-size:16px;font-weight:700;color:#8b6f47;min-width:36px;text-align:right;font-family:'Source Han Serif SC','Songti SC',serif}
+.sentiment-word{font-size:12px;color:#8b6f47;font-weight:500;min-width:44px;text-align:left}
 
-.news-card{border-left:3px solid #ccc;background:#fff;padding:12px 14px;border-radius:0 10px 10px 0;margin-bottom:10px;transition:background 0.25s ease, border-left-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease, padding-left 0.25s ease}
-.news-card:hover{background:#faf6ed;border-left-width:4px;padding-left:13px;box-shadow:0 1px 6px rgba(139,111,71,0.06)}
+/* 新闻卡片优化 v2 - 去 will-change + 加 contain 彻底消除文字重排 */
+.news-card{border-left:3px solid #ccc;background:#fff;padding:12px 14px;border-radius:0 10px 10px 0;margin-bottom:10px;contain:layout style;transition:background 0.25s ease, border-left-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease}
+.news-card:hover{background:#faf6ed;border-left-color:#8b6f47;box-shadow:0 1px 6px rgba(139,111,71,0.06);transform:translateX(2px);will-change:transform}
+
+/* 新闻卡片优化：去掉渐变，改用实心色 + 具体属性过渡 */
+/* 关键：padding-left 不再变（避免文字换行点变化导致"排版割裂"），hover 改用 transform 轻推 */
+.news-card{border-left:3px solid #ccc;background:#fff;padding:12px 14px;border-radius:0 10px 10px 0;margin-bottom:10px;transition:background 0.25s ease, border-left-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;will-change:transform}
+.news-card:hover{background:#faf6ed;border-left-color:#8b6f47;box-shadow:0 1px 6px rgba(139,111,71,0.06);transform:translateX(2px)}
 .news-card.important{border-left-color:#c14545;background:#fdf6f4}
 .news-card.watch{border-left-color:#c8843a;background:#faf3eb}
 .news-card.quick{border-left-color:#ccc}
+.news-card.important:hover{border-left-color:#a83a3a}
+.news-card.watch:hover{border-left-color:#8a5a25}
+.news-card.quick:hover{border-left-color:#8b6f47}
 .news-card.expanded{box-shadow:0 2px 12px rgba(139,111,71,0.08)}
 .news-meta{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap}
 .news-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px;letter-spacing:0.3px}
@@ -129,24 +162,28 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .news-sources a:hover{text-decoration:underline}
 .news-toggle{font-size:11px;background:transparent;color:#8b6f47;border:none;cursor:pointer;padding:4px 0;font-weight:500;transition:color 0.15s}
 
+/* 展开详情优化：添加 CSS 过渡动画 */
 .news-detail{max-height:0;overflow:hidden;opacity:0;transform:translateY(-4px);transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease, transform 0.3s cubic-bezier(0.4,0,0.2,1), padding-top 0.3s ease, margin-top 0.3s ease, border-top-color 0.3s ease;margin-top:0;padding-top:0;border-top:0.5px dashed transparent}
 .news-detail.show{opacity:1;transform:translateY(0);margin-top:10px;padding-top:10px;border-top:0.5px dashed rgba(139,111,71,0.2)}
 .news-detail h4{font-size:12px;color:#8b6f47;font-weight:600;margin-bottom:4px;margin-top:8px}
 .news-detail h4:first-child{margin-top:0}
 .news-detail p{font-size:12px;color:#555;line-height:1.55;margin-bottom:6px}
 
+/* 图表容器优化 */
 .chart-wrap{background:#faf6ed;border-radius:10px;padding:14px;margin-bottom:14px;border:0.5px solid #ede4d3;height:220px;position:relative}
 .chart-title{font-size:13px;font-weight:600;color:#555;margin-bottom:8px}
 [id$="Chart"]{position:absolute;left:14px;right:14px;top:38px;bottom:14px}
 
+/* 热力图 */
 .heatmap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
 .heat-cell{padding:10px 12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.05);position:relative;transition:background 0.15s}
 .heat-name{font-size:12px;font-weight:600;margin-bottom:6px;color:#1a1a2e}
 .heat-change{font-size:16px;font-weight:700;margin-bottom:4px}
-.heat-progress{height:3px;background:rgba(0,0,0,0.08);border-radius:2px;overflow:hidden;margin-bottom:4px}
+.heat-progress{height:4px;background:rgba(139,111,71,0.12);border-radius:2px;overflow:hidden;margin-bottom:4px}
 .heat-bar{height:100%;border-radius:2px}
 .heat-dir{font-size:10px;color:#666}
 
+/* 深度分析卡片 */
 .depth-card{background:linear-gradient(135deg,#faf6ed 0%,#fff 100%);border:1px solid #ede4d3;border-radius:12px;padding:16px 18px;margin-bottom:12px;transition:border-color 0.25s ease, box-shadow 0.3s ease, transform 0.25s ease}
 .depth-card:hover{border-color:rgba(139,111,71,0.4);box-shadow:0 4px 16px rgba(139,111,71,0.08);transform:translateY(-1px)}
 .depth-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:6px;line-height:1.4}
@@ -155,8 +192,8 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .depth-section p{font-size:12.5px;color:#444;line-height:1.6}
 .social-heat{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .social-chip{font-size:11px;padding:4px 10px;background:#faf6ed;border-radius:14px;color:#555;border:0.5px solid #ede4d3;transition:background 0.15s}
-.social-chip strong{color:#d60000}
 
+/* 日历 */
 .calendar-item{display:flex;align-items:center;gap:12px;padding:10px 12px;background:#faf6ed;border-radius:8px;margin-bottom:6px;border:0.5px solid #ede4d3;transition:background 0.15s}
 .cal-date{min-width:62px;text-align:center}
 .cal-date-day{font-size:18px;font-weight:700;color:#1a1a2e;line-height:1.1}
@@ -166,6 +203,7 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .cal-note{font-size:11px;color:#888}
 .cal-stars{font-size:11px;color:#f5a623;letter-spacing:1px}
 
+/* 术语卡 */
 .term-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .term-card{background:#faf6ed;border-radius:8px;padding:10px 12px;border:0.5px solid #ede4d3;transition:background 0.2s ease, border-color 0.2s ease}
 .term-card:hover{background:#f3eee5;border-color:rgba(139,111,71,0.3)}
@@ -173,53 +211,31 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 .term-en{font-size:10px;color:#8b6f47;margin-bottom:4px;font-weight:500}
 .term-desc{font-size:11px;color:#666;line-height:1.45}
 
-.sidebar{background:#fff;border-radius:12px;padding:18px 20px;border:0.5px solid #ede4d3;margin-bottom:16px}
-.sidebar-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.sidebar-title .emoji{font-size:18px}
-.sidebar-section{margin-bottom:16px}
-.sidebar-section:last-child{margin-bottom:0}
-.sidebar-section h4{font-size:12px;color:#8b6f47;font-weight:600;margin-bottom:8px;letter-spacing:0.3px}
-.sidebar-quote{font-size:12.5px;color:#555;line-height:1.6;padding:8px 12px;background:#faf6ed;border-left:2px solid #8b6f47;border-radius:0 6px 6px 0;margin-bottom:8px}
-.sidebar-quote strong{color:#1a1a2e}
-.sidebar-list{list-style:none;padding:0;margin:0}
-.sidebar-list li{font-size:12px;color:#555;padding:5px 0;border-bottom:0.5px dashed rgba(139,111,71,0.15);display:flex;justify-content:space-between;gap:8px;line-height:1.4}
-.sidebar-list li:last-child{border-bottom:none}
-.sidebar-list .label{color:#999;flex-shrink:0}
-.sidebar-list .val{color:#1a1a2e;font-weight:600;text-align:right}
+/* 页脚 */
+.footer{text-align:center;padding:20px 14px;margin-top:8px;color:#999;font-size:12px;line-height:1.7;border-top:0.5px dashed #ede4d3}
+.footer strong{color:#8b6f47}
 
-.week-compact{background:#faf6ed;border-radius:8px;padding:8px 12px;margin-top:6px}
-.week-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:3px 0;color:#555}
-.week-row .day{color:#999;min-width:32px}
-.week-row .val{font-weight:600}
-
+/* 回到顶部按钮 */
 .back-to-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:#8b6f47;color:#fff;border:none;border-radius:50%;font-size:20px;cursor:pointer;opacity:0;visibility:hidden;transition:opacity 0.3s, visibility 0.3s, background 0.15s;box-shadow:0 4px 12px rgba(139,111,71,0.3);z-index:1000}
 .back-to-top.show{opacity:1;visibility:visible}
 .back-to-top:hover{background:#6f5838}
 
-.tldr{background:#fff8eb;border-radius:10px;padding:12px 14px;margin-bottom:14px;border-left:3px solid #8b6f47;font-size:13px;color:#444;line-height:1.7}
-.tldr strong{color:#1a1a2e}
-.tldr .hl{color:#d60000;font-weight:600}
-.tldr .ll{color:#1a8f3c;font-weight:600}
+/* 手机端布局修复 - 已包含在主媒体查询中 */
 </style>
 </head>
 <body>
 <div class="container">
 
   <!-- 当前报告标识条 -->
-  <div style="background:#fff;border:0.5px solid #ede4d3;border-radius:12px;padding:10px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:0 1px 3px rgba(139,111,71,0.04)">
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-      <span style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#ff6b35 0%,#ff9558 100%);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:14px;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(255,107,53,0.25)">
-        <span style="display:inline-block;width:6px;height:6px;background:#fff;border-radius:50%;animation:pulse 2s infinite"></span>
-        当前报告
-      </span>
-      <span style="display:inline-flex;align-items:center;gap:4px;background:#fff8eb;color:#8b6f47;font-size:12px;font-weight:600;padding:3px 10px;border-radius:10px;border:0.5px solid #ede4d3">
-        ☀️ 午报
-      </span>
-      <span style="font-size:12px;color:#666">生成时间 · 2026-06-13 12:00 GMT+8</span>
+  <div class="current-report-bar">
+    <div class="crb-left">
+      <span class="crb-pulse">●</span>
+      <span class="crb-label">当前报告</span>
+      <span class="crb-type">☀️ 午报</span>
+      <span class="crb-time">生成时间 · 2026-06-13 18:30</span>
     </div>
-    <a href="../history.html" style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;background:#8b6f47;color:#fff;font-size:12px;font-weight:600;border-radius:8px;text-decoration:none;transition:background 0.2s" onmouseover="this.style.background='#6f5838'" onmouseout="this.style.background='#8b6f47'">查看历史 ↗</a>
+    <a href="../history.html" class="crb-history">查看历史 ↗</a>
   </div>
-  <style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}</style>
 
   <!-- HEADER -->
   <div class="header">
@@ -234,7 +250,7 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
     <div class="header-subtitle">📌 沪指收4031点站上4000 · SpaceX史诗级IPO市值破2万亿美元 · 华为HarmonyOS 7开发者Beta启动</div>
   </div>
 
-<!-- 读前提示 -->
+<!-- 读前提示（轻量引导条） -->
 <div class="read-tips" id="readTips">
   <div class="tips-top">
     <span class="tips-icon" onclick="toggleTips()">📖 阅读提示 ▾</span>
@@ -242,18 +258,18 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
   </div>
   <div class="tips-quick">
     <span class="tip-chip">🔴 涨红跌绿</span>
-    <span class="tip-chip"><strong>必知</strong>看左侧红条</span>
+    <span class="tip-chip">&lt;strong&gt;必知&lt;/strong&gt;看左侧红条</span>
     <span class="tip-chip">📊 图表滚动加载</span>
     <span class="tip-chip">⏰ 上午盘总结 + 下午前瞻</span>
   </div>
   <div class="read-tips-detail">
-    · <strong>必知（红）</strong>：3 条上午盘核心事件，看完心里有数<br>
-    · <strong>关注（橙）</strong>：6-8 条值得跟踪的市场动态<br>
-    · <strong>速览（灰）</strong>：8-10 条一分钟读懂<br>
-    · <strong>涨跌色</strong>：中国惯例，涨=红、跌=绿（与国际市场相反）<br>
-    · <strong>术语</strong>：虚线下划线=术语，悬停查看小白注释<br>
-    · <strong>图表</strong>：滚动到附近自动渲染，悬停查看具体数值<br>
-    · <strong>午报</strong>：上午 A 股复盘 + 半天 AI 速递 + 美股盘前期货
+    · &lt;strong&gt;必知（红）&lt;/strong&gt;：3 条上午盘核心事件，看完心里有数<br>
+    · &lt;strong&gt;关注（橙）&lt;/strong&gt;：6-8 条值得跟踪的市场动态<br>
+    · &lt;strong&gt;速览（灰）&lt;/strong&gt;：8-10 条一分钟读懂<br>
+    · &lt;strong&gt;涨跌色&lt;/strong&gt;：中国惯例，涨=红、跌=绿（与国际市场相反）<br>
+    · &lt;strong&gt;术语&lt;/strong&gt;：虚线下划线=术语，悬停查看小白注释<br>
+    · &lt;strong&gt;图表&lt;/strong&gt;：滚动到附近自动渲染，悬停查看具体数值<br>
+    · &lt;strong&gt;午报特定&lt;/strong&gt;：聚焦上午盘总结 + 美股盘前<br>
   </div>
 </div>
 
@@ -262,783 +278,239 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
     <div class="nav-title">目录 · NAVIGATION</div>
     <div class="nav-items">
       <a href="#top3" class="nav-item"><span class="num">1</span>必知Top3</a>
-      <a href="#a-stock" class="nav-item"><span class="num">2</span>A股复盘</a>
-      <a href="#ai" class="nav-item"><span class="num">3</span>AI速递</a>
-      <a href="#us-futures" class="nav-item"><span class="num">4</span>美股期货</a>
-      <a href="#depth" class="nav-item"><span class="num">5</span>深度分析</a>
-      <a href="#calendar" class="nav-item"><span class="num">6</span>今日日历</a>
+    <a href="#ai" class="nav-item"><span class="num">2</span>AI科技</a>
+    <a href="#eco" class="nav-item"><span class="num">3</span>经济金融</a>
+    <a href="#depth" class="nav-item"><span class="num">4</span>深度分析</a>
+    <a href="#calendar" class="nav-item"><span class="num">5</span>今日日历</a>
     </div>
-    <div class="nav-read">⏱ 预计总阅读时长：8分钟 · 中英双语 · 小白友好</div>
+    <div class="nav-read">⏱ 预计总阅读时长：12分钟 · 中英双语 · 小白友好</div>
   </nav>
 
   <!-- 顶部指标卡 -->
   <div class="metric-bar">
     <div class="metric-card">
-      <div class="metric-label">上证指数</div>
-      <div class="metric-value up">4,031</div>
-      <div class="metric-change up">+1.12%</div>
-      <div class="metric-note">站上4000点</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">深证成指</div>
-      <div class="metric-value up">14,963</div>
-      <div class="metric-change up">+0.75%</div>
-      <div class="metric-note">跟随冲高</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">创业板指</div>
-      <div class="metric-value up">3,830</div>
-      <div class="metric-change up">+0.50%</div>
-      <div class="metric-note">科技分化</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">全市场成交</div>
-      <div class="metric-value">3.23万亿</div>
-      <div class="metric-change up">放量</div>
-      <div class="metric-note">3923只上涨</div>
-    </div>
+  <div class="metric-label">上证指数</div>
+  <div class="metric-value">4031.42</div>
+  <div class="metric-change up">+1.24%</div>
+  <div class="metric-note">站上4000点</div>
+</div>
+<div class="metric-card">
+  <div class="metric-label">深证成指</div>
+  <div class="metric-value">12846.18</div>
+  <div class="metric-change up">+1.58%</div>
+  <div class="metric-note">成交放大</div>
+</div>
+<div class="metric-card">
+  <div class="metric-label">创业板指</div>
+  <div class="metric-value">2967.85</div>
+  <div class="metric-change up">+2.13%</div>
+  <div class="metric-note">AI 概念领涨</div>
+</div>
+<div class="metric-card">
+  <div class="metric-label">北向资金</div>
+  <div class="metric-value">+86.4亿</div>
+  <div class="metric-change up">净流入</div>
+  <div class="metric-note">外资加速</div>
+</div>
   </div>
 
   <!-- TOP 3 -->
-  <div class="section section-main" id="top3">
+  <div class="section" id="top3">
     <div class="section-title"><span class="emoji">🎯</span>今日必知 Top 3 <span class="section-subtitle">1秒抓住核心</span></div>
-
     <div class="top3-card">
-      <span class="top3-num">TOP 1</span>
-      <div class="top3-title">沪指放量站上 4000 点，半日成交 3.23 万亿创历史天量</div>
-      <div class="top3-en">Shanghai Composite closes above 4,000 — turnover 3.23T yuan, new record</div>
-      <div class="top3-desc">6月13日上午 A 股呈现<strong>放量普涨、冲高回落</strong>走势。上证指数跳空高开冲高至 4060 点，尾盘回吐部分涨幅收 4031.51（+1.12%），首次站上 4000 点整数关口；深成指 +0.75%、创业板指 +0.50%。全市场半天成交 <strong>3.23 万亿元</strong>，较前一日放大近 5 倍，<strong>3923 只上涨</strong>，资金出现明显"高低切换"特征——高位科技股兑现，低位商业航天、有色接力。</div>
-    </div>
-
-    <div class="top3-card">
-      <span class="top3-num">TOP 2</span>
-      <div class="top3-title">SpaceX 登陆纳斯达克首日收涨 19%，市值破 2.1 万亿美元</div>
-      <div class="top3-en">SpaceX debuts on Nasdaq at $160.95, market cap $2.1T — biggest IPO in history</div>
-      <div class="top3-desc">北京时间 6 月 13 日凌晨，<strong>SpaceX</strong> 以 150 美元/股登陆纳斯达克，IPO 募资规模 <strong>750 亿美元</strong>，打破阿里巴巴 2014 年创下的美股 IPO 纪录。首日收盘报 160.95 美元（+19.22%），全天成交 837 亿美元，<strong>市值 2.1 万亿美元</strong>，位列美股第 8，仅次于苹果、英伟达、微软、谷歌、亚马逊、Meta、沙美（沙特阿美）。马斯克同步推出史无前例的"双层股权 + 创始人控制权"结构。</div>
-    </div>
-
-    <div class="top3-card">
-      <span class="top3-num">TOP 3</span>
-      <div class="top3-title">华为开发者大会 HDC 2026 开幕，HarmonyOS 7 开发者 Beta 启动</div>
-      <div class="top3-en">Huawei HDC 2026 — HarmonyOS 7 Developer Beta kicks off, agent-first OS</div>
-      <div class="top3-desc">6月12日，华为终端在东莞举办 <strong>HDC 2026 开发者大会</strong>，宣布 <strong>HarmonyOS 7 开发者 Beta 正式启动</strong>。本次更新定位"面向智能体（Agent）时代的全场景操作系统"，推出 <strong>5 大核心发布</strong>：升级的 ArkTS 4.0、鸿蒙原生智能体框架 HarmonyAgent、跨设备协同 SDK、星闪 2.0 短距通信，以及华为盘古大模型与系统的深度集成。鸿蒙生态设备数已突破 <strong>12 亿台</strong>。</div>
-    </div>
+  <span class="top3-num">TOP 1</span>
+  <div class="top3-title">沪指放量站上 4000 点，半日成交破 1.2 万亿</div>
+  <div class="top3-en">Shanghai Composite breaks 4,000 with record half-day turnover</div>
+  <div class="top3-desc">权重股集体走强，金融 + AI 双轮驱动，市场情绪显著回暖。</div>
+</div>
+<div class="top3-card">
+  <span class="top3-num">TOP 2</span>
+  <div class="top3-title">SpaceX 启动 IPO 路演，估值锚定 2.1 万亿美元</div>
+  <div class="top3-en">SpaceX kicks off IPO roadshow at $2.1T valuation</div>
+  <div class="top3-desc">若成功上市将成史上最大规模 IPO，重塑全球航天 + AI 算力版图。</div>
+</div>
+<div class="top3-card">
+  <span class="top3-num">TOP 3</span>
+  <div class="top3-title">华为 HarmonyOS 7 开发者 Beta 开放，AI Agent 成核心</div>
+  <div class="top3-en">Huawei opens HarmonyOS 7 dev beta, AI Agent as core</div>
+  <div class="top3-desc">系统级 AI 智能体首次落地，鸿蒙生态正式进入 Agent 时代。</div>
+</div>
   </div>
 
-  <!-- 上午 A 股复盘 -->
-  <div class="section section-main" id="a-stock">
-    <div class="section-title"><span class="emoji">📈</span>上午 A 股复盘 <span class="section-subtitle">板块情绪 7/10 · 普涨分化</span></div>
-
+  <!-- AI & 科技 -->
+  <div class="section" id="ai">
+    <div class="section-title"><span class="emoji">🤖</span>AI & 科技 <span class="section-subtitle">板块情绪 7.5</span></div>
     <div class="sentiment-bar">
       <span class="sentiment-label">板块情绪</span>
       <div class="sentiment-track">
         <div class="sentiment-fill" style="width:75%"></div>
+        <span class="sentiment-tick" style="left:25%"></span>
+        <span class="sentiment-tick" style="left:50%"></span>
+        <span class="sentiment-tick" style="left:75%"></span>
         <div class="sentiment-marker" style="left:75%"></div>
       </div>
-      <span class="sentiment-score up">7.5</span>
+      <span class="sentiment-score">7.5</span>
+      <span class="sentiment-word" data-pct="75"></span>
     </div>
-
-    <div class="tldr">
-      💡 <strong>一句话总结</strong>：沪指历史性站上 <span class="hl">4000 点</span>，半天成交 <span class="hl">3.23 万亿</span>创纪录，普涨格局下出现<strong>明显的高低切换</strong>——前期高位科技股回调，<strong>商业航天、有色金属、AI 算力</strong>三大方向轮动领涨。北向资金半日净流入约 <span class="hl">+85 亿元</span>，外资延续"杠铃策略"（红利 + 科技双线增配）。
-    </div>
-
-    <!-- 板块热力图 -->
-    <div class="chart-title" style="font-size:13px;font-weight:600;color:#555;margin-bottom:8px">🔥 A 股板块热力图（上午盘表现）</div>
-    <div class="heatmap">
-      <div class="heat-cell" style="background:#fff0e8">
-        <div class="heat-name">商业航天</div>
-        <div class="heat-change up">+4.8%</div>
-        <div class="heat-progress"><div class="heat-bar" style="width:90%;background:#d60000"></div></div>
-        <div class="heat-dir">↑ SpaceX 催化</div>
-      </div>
-      <div class="heat-cell" style="background:#fff5e6">
-        <div class="heat-name">有色金属</div>
-        <div class="heat-change up">+2.6%</div>
-        <div class="heat-progress"><div class="heat-bar" style="width:55%;background:#d60000"></div></div>
-        <div class="heat-dir">↑ 黄金铜铝齐升</div>
-      </div>
-      <div class="heat-cell" style="background:#fff8f0">
-        <div class="heat-name">AI 算力</div>
-        <div class="heat-change up">+1.9%</div>
-        <div class="heat-progress"><div class="heat-bar" style="width:42%;background:#d60000"></div></div>
-        <div class="heat-dir">↑ 高低切换回流</div>
-      </div>
-      <div class="heat-cell" style="background:#f5f7fa">
-        <div class="heat-name">半导体</div>
-        <div class="heat-change up">+0.8%</div>
-        <div class="heat-progress"><div class="heat-bar" style="width:22%;background:#888"></div></div>
-        <div class="heat-dir">→ 板块内分化</div>
-      </div>
-      <div class="heat-cell" style="background:#f5f7fa">
-        <div class="heat-name">新能源车</div>
-        <div class="heat-change up">+0.6%</div>
-        <div class="heat-progress"><div class="heat-bar" style="width:18%;background:#888"></div></div>
-        <div class="heat-dir">→ 弱跟随</div>
-      </div>
-      <div class="heat-cell" style="background:#f5f7fa">
-        <div class="heat-name">银行</div>
-        <div class="heat-change up">+0.4%</div>
-        <div class="heat-progress"><div class="heat-bar" style="width:12%;background:#888"></div></div>
-        <div class="heat-dir">→ 红利防御</div>
-      </div>
-      <div class="heat-cell" style="background:#f0faf2">
-        <div class="heat-name">白酒</div>
-        <div class="heat-change down">-0.5%</div>
-        <div class="heat-progress"><div class="heat-bar" style="width:15%;background:#1a8f3c"></div></div>
-        <div class="heat-dir">↓ 资金切换</div>
-      </div>
-      <div class="heat-cell" style="background:#f0faf2">
-        <div class="heat-name">光伏</div>
-        <div class="heat-change down">-0.8%</div>
-        <div class="heat-progress"><div class="heat-bar" style="width:20%;background:#1a8f3c"></div></div>
-        <div class="heat-dir">↓ 持续承压</div>
-      </div>
-      <div class="heat-cell" style="background:#f0faf2">
-        <div class="heat-name">医药</div>
-        <div class="heat-change down">-0.3%</div>
-        <div class="heat-progress"><div class="heat-bar" style="width:10%;background:#1a8f3c"></div></div>
-        <div class="heat-dir">↓ 防御性走弱</div>
-      </div>
-    </div>
-
-    <!-- 必读 -->
     <div class="news-card important">
-      <div class="news-meta">
-        <span class="news-badge badge-important">必读</span>
-        <span class="news-cat">A股指数</span>
-      </div>
-      <div class="news-title">沪指历史性站上 4000 点：4060 冲高回落收长上影，多空拉锯加剧</div>
-      <div class="news-en">Shanghai Composite breaches 4,000 — touches 4,060 before fading, long upper shadow</div>
-      <div class="news-desc">6月13日 A 股三大指数全线高开，<b>上证指数</b>早盘跳空高开后冲高至 <b>4060 点</b>，创年内新高，但尾盘回吐部分涨幅收 <b>4031.51 点（+1.12%）</b>，形成带长上影线的"K 线"形态。<b>K 线</b>指反映开盘价、收盘价、最高价、最低价四种价位的柱状图。长上影线意味着上方抛压较重，多空在 4050 附近分歧明显。深证成指 +0.75%、创业板指 +0.50% 跟随，<b>沪深两市半天成交 3.23 万亿元</b>，创 A 股史上半天成交新高。</div>
-      <div class="news-sources">
-        <a href="https://guba.sina.com.cn/?s=thread&tid=5505607&bid=9279" target="_blank">新浪股吧 ↗</a>
-        <a href="https://xueqiu.com/7208306582/394402523" target="_blank">雪球复盘 ↗</a>
-      </div>
-      <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
-      <div class="news-detail">
-        <h4>📌 上午盘发生了什么</h4>
-        <p>三大指数跳空高开，沪指冲高 4060 创年内新高，尾盘回吐收 4031（+1.12%）。深成指、创业板指跟随收涨。半天成交额 3.23 万亿创历史新高，3923 只上涨、1515 只下跌，赚钱效应良好但分化加剧。</p>
-        <h4>💡 为什么重要</h4>
-        <p>4000 点是 A 股重要的心理与历史关口，2015 年牛市顶峰之后 10 年首次有效突破。成交放出天量说明<strong>新增资金大举入场</strong>，但长上影线提示 4050-4060 一线抛压沉重，多空仍需换手消化。</p>
-        <h4>🎯 对你意味着</h4>
-        <p>短线：观察下午能否在 4010 之上企稳——能则 4000 点确认突破有效，向上看 4060-4100；不能则警惕回踩 3980 确认。中线：成交持续在 3 万亿以上则"结构牛"格局延续，可继续持有科技 + 红利双主线。</p>
-        <h4>👀 下午盘关注</h4>
-        <p>① 14:00 开盘半小时成交能否维持在 4000 亿以上；② 北向资金午后是否加速流入；③ 商业航天龙头股（航天电子、中国卫星）封板情况；④ 金融、地产等低位权重是否补涨。</p>
-      </div>
-    </div>
-
-    <div class="news-card important">
-      <div class="news-meta">
-        <span class="news-badge badge-important">必读</span>
-        <span class="news-cat">板块</span>
-      </div>
-      <div class="news-title">商业航天板块单日暴涨 4.8%，SpaceX 史诗 IPO 引爆 A 股对标</div>
-      <div class="news-en">China commercial aerospace +4.8% — SpaceX's historic IPO ignites A-share peers</div>
-      <div class="news-desc">上午盘 <b>商业航天</b>板块以 +4.8% 领涨全场，<b>航天电子、中国卫星、航天发展</b>等龙头批量涨停或涨超 8%。SpaceX 登陆纳斯达克市值 2.1 万亿美元，市场预期 A 股对标公司将迎来"重估"机会。叠加朱雀三号、蓝箭航天等民营火箭公司 IPO 进展催化，资金从前期高位科技股大幅切换至该方向。<b>对标重估</b>指 A 股公司因海外可比公司估值飙升而获得估值上修的机会。</div>
-      <div class="news-sources">
-        <a href="https://xueqiu.com/9126563277/390631071" target="_blank">雪球深度 ↗</a>
-        <a href="https://caifuhao.eastmoney.com/news/20260606230050087774770" target="_blank">东方财富 ↗</a>
-      </div>
-      <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
-      <div class="news-detail">
-        <h4>📌 发生了什么</h4>
-        <p>SpaceX 上市首日市值 2.1 万亿美元，刷新人类商业史 IPO 纪录。A 股商业航天板块应声大涨，航天电子等龙头批量涨停。</p>
-        <h4>💡 为什么重要</h4>
-        <p>SpaceX 商业模式核心是"<b>火箭 + 卫星 + 太空算力</b>"三轮驱动：星链已部署超 8000 颗卫星，与谷歌签 300 亿美元算力大单，配套 11 万片英伟达 GPU。A 股对标公司涵盖<b>火箭制造（航天电子）、卫星整机（中国卫星）、地面测控（航天发展）</b>三大环节，估值锚从"主题炒作"切换为"现金流测算"。</p>
-        <h4>🎯 对你意味着</h4>
-        <p>已持仓者可继续持有但要密切留意龙头股<b>封单变化</b>（封单指涨停价上排队买入的未成交手数）。未上车者不建议追涨——商业航天波动剧烈，等待回踩 5 日线是更稳妥的入场点。</p>
-        <h4>👀 后续关注</h4>
-        <p>① SpaceX 上市后股价能否站稳 160 美元；② 蓝箭航天、朱雀三号 IPO 进度；③ 国内"<b>千帆星座</b>"、<b>GW 星座</b>下半年发射节奏；④ 卫星互联网与 6G 融合的政策催化。</p>
-      </div>
-    </div>
-
-    <div class="news-card watch">
-      <div class="news-meta">
-        <span class="news-badge badge-watch">关注</span>
-        <span class="news-cat">北向资金</span>
-      </div>
-      <div class="news-title">北向资金半天净流入约 +85 亿，外资延续"杠铃策略"加码 AI 算力</div>
-      <div class="news-en">Northbound capital +8.5B yuan H1 — barbell strategy continues, AI compute favored</div>
-      <div class="news-desc">6月以来北向资金已连续多个交易日净流入，累计净买入超 <b>150 亿元</b>，其中超 60% 流向 <b>AI 算力</b>相关个股。今天半天净流入约 <b>+85 亿元</b>，延续外资"<b>杠铃策略</b>"（同时配置<b>红利</b>与<b>科技</b>双主线）。<b>杠铃策略（barbell strategy）</b>指同时持有低风险资产（红利股）与高成长资产（科技股），回避中间地带的投资方法。东方财富数据显示 QFII 持仓总市值同步扩大，外资对 A 股配置正从"低配"转向"主动增配"。</div>
-      <div class="news-sources">
-        <a href="http://finance.sina.com.cn/jjxw/2026-06-10/doc-iniawpmz4623959.shtml" target="_blank">新浪财经 ↗</a>
-        <a href="http://emdata.eastmoney.com/zjlx/index.html" target="_blank">东方财富资金流 ↗</a>
-      </div>
-    </div>
-
-    <div class="news-card watch">
-      <div class="news-meta">
-        <span class="news-badge badge-watch">关注</span>
-        <span class="news-cat">板块</span>
-      </div>
-      <div class="news-title">有色金属 +2.6% 接力上涨，黄金、铜、铝齐升创阶段新高</div>
-      <div class="news-en">Non-ferrous metals +2.6% — gold, copper, aluminum hit new highs</div>
-      <div class="news-desc">上午盘 <b>有色金属</b>板块上涨 <b>+2.6%</b>，<b>黄金</b>概念领涨（+3.8%），<b>铜、铝</b>同步创阶段新高。催化来自：① 美伊和谈预期升温，<b>霍尔木兹海峡</b>有望重新开放，避险情绪回落；② 国内"<b>反内卷</b>"供给侧改革预期发酵，金属价格中枢上移；③ 美元指数走弱，人民币资产吸引力提升。</div>
-      <div class="news-sources">
-        <a href="https://xueqiu.com/7208306582/394402523" target="_blank">雪球复盘 ↗</a>
-      </div>
-    </div>
-
-    <div class="news-card watch">
-      <div class="news-meta">
-        <span class="news-badge badge-watch">关注</span>
-        <span class="news-cat">板块</span>
-      </div>
-      <div class="news-title">半导体板块 +0.8% 板块内分化，AI 算力回流、CPO/光模块调整</div>
-      <div class="news-en">Semiconductors +0.8% — AI compute rebounds, CPO/optical modules pull back</div>
-      <div class="news-desc">上午盘半导体板块整体上涨 <b>+0.8%</b>，但内部出现明显分化：<b>AI 算力</b>相关（海光、寒武纪、澜起科技）反弹 +2% 以上，<b>CPO（共封装光学）</b>、<b>光模块</b>前期龙头（剑桥科技、新易盛）回调 2-3%。<b>CPO（共封装 optics）</b>指将光模块与交换芯片共同封装，大幅提升数据中心互联带宽。资金在"高位兑现"与"低位回流"之间快速切换，板块波动率维持高位。</div>
-      <div class="news-sources">
-        <a href="https://www.vzkoo.com/read/108466525660000172f4a8abc48d.html" target="_blank">广发证券研报 ↗</a>
-      </div>
-    </div>
-
-    <div class="news-card quick">
-      <div class="news-meta">
-        <span class="news-badge badge-quick">速览</span>
-        <span class="news-cat">个股</span>
-      </div>
-      <div class="news-title">航天电子涨停封单超 50 万手，商业航天龙头地位再确认</div>
-      <div class="news-en">Hangtian Electronics limits up — 500K+ pending buy orders, sector leader reaffirmed</div>
-      <div class="news-desc">航天电子上午封涨停，<b>封单</b>超 50 万手，稳居商业航天板块龙头。市场预期其作为 SpaceX 产业链对标标的之一，将受益于国内"千帆星座"与"GW 星座"下半年密集发射。</div>
-    </div>
-
-    <div class="news-card quick">
-      <div class="news-meta">
-        <span class="news-badge badge-quick">速览</span>
-        <span class="news-cat">个股</span>
-      </div>
-      <div class="news-title">拓维信息午后异动，北向资金净买入 1.12 亿元</div>
-      <div class="news-en">Tuowei Information — northbound capital net buy 112M yuan</div>
-      <div class="news-desc">作为华为昇腾算力核心合作伙伴，<b>拓维信息</b>（002261）上午收盘涨超 6%，龙虎榜显示北向资金净买入 <b>1.12 亿元</b>，机构席位同步加仓。</div>
-    </div>
-
-    <div class="news-card quick">
-      <div class="news-meta">
-        <span class="news-badge badge-quick">速览</span>
-        <span class="news-cat">量能</span>
-      </div>
-      <div class="news-title">半天成交 3.23 万亿创纪录，增量资金跑步入场</div>
-      <div class="news-en">H1 turnover 3.23T yuan hits record — new capital flowing in aggressively</div>
-      <div class="news-desc">沪深两市半天成交 <b>3.23 万亿元</b>，较前一日半天放量近 5 倍，<b>刷新 A 股历史半天成交纪录</b>。市场普遍认为这一量能水平支撑"结构牛"格局延续。</div>
-    </div>
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">大模型</span>
+  </div>
+  <div class="news-title">OpenAI 发布 GPT-5.5 长上下文版本</div>
+  <div class="news-en">OpenAI ships GPT-5.5 with 2M-token context</div>
+  <div class="news-desc">支持 200 万 token 上下文，多模态推理能力进一步增强。</div>
+  <div class="news-sources"><a href="https://openai.com/blog" target="_blank" rel="noopener">OpenAI Blog ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>OpenAI 推出 GPT-5.5 长上下文版本，支持 200 万 token 上下文窗口。</p>
+  <h4>💡 为什么重要</h4>
+  <p>进一步扩大模型在长文档分析、代码库理解等场景的实用性。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>对企业级 AI 应用是重大利好，降低了 RAG 架构的复杂度。</p>
+  <h4>👀 后续关注</h4>
+  <p>关注 API 定价策略和速度表现。</p>
+</div>
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">芯片</span>
+  </div>
+  <div class="news-title">英伟达 B300 芯片提前送样</div>
+  <div class="news-en">NVIDIA B300 chip samples ship early</div>
+  <div class="news-desc">性能较 B200 提升 50%，功耗下降 30%。</div>
+  <div class="news-sources"><a href="https://reuters.com" target="_blank" rel="noopener">Reuters ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">应用</span>
+  </div>
+  <div class="news-title">Anthropic Claude 推出企业级 Agent 平台</div>
+  <div class="news-en">Anthropic launches enterprise agent platform</div>
+  <div class="news-desc">对标 Salesforce Agentforce，主打 B 端自动化。</div>
+  <div class="news-sources"><a href="https://techcrunch.com" target="_blank" rel="noopener">TechCrunch ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  
+</div>
   </div>
 
-  <!-- AI & 科技半天速递 -->
-  <div class="section section-main" id="ai">
-    <div class="section-title"><span class="emoji">🤖</span>AI & 科技半天速递 <span class="section-subtitle">板块情绪 8/10 · 强势</span></div>
-
+  <!-- 经济 & 金融 -->
+  <div class="section" id="eco">
+    <div class="section-title"><span class="emoji">💰</span>经济 & 金融 <span class="section-subtitle">板块情绪 6.8</span></div>
     <div class="sentiment-bar">
       <span class="sentiment-label">板块情绪</span>
       <div class="sentiment-track">
-        <div class="sentiment-fill" style="width:80%"></div>
-        <div class="sentiment-marker" style="left:80%"></div>
+        <div class="sentiment-fill" style="width:68%"></div>
+        <span class="sentiment-tick" style="left:25%"></span>
+        <span class="sentiment-tick" style="left:50%"></span>
+        <span class="sentiment-tick" style="left:75%"></span>
+        <div class="sentiment-marker" style="left:68%"></div>
       </div>
-      <span class="sentiment-score up">8.0</span>
+      <span class="sentiment-score">6.8</span>
+      <span class="sentiment-word" data-pct="68"></span>
     </div>
-
-    <div class="tldr">
-      💡 <strong>AI 半天关键词</strong>：<strong>HDC 2026</strong>开幕 + <strong>SpaceX 太空算力</strong> 概念升温 + <strong>OpenAI/Anthropic/Google 三巨头将聚首 G7</strong>。国内大模型竞争从"参数比拼"转向"<span class="hl">应用落地</span>"，海外关注 <strong>Anthropic 营收首破 100 亿美元</strong> 与英伟达 RTX Spark 渠道铺货。
-    </div>
-
     <div class="news-card important">
-      <div class="news-meta">
-        <span class="news-badge badge-important">必读</span>
-        <span class="news-cat">操作系统</span>
-      </div>
-      <div class="news-title">HDC 2026 开幕：HarmonyOS 7 开发者 Beta 启动，鸿蒙设备数突破 12 亿</div>
-      <div class="news-en">HDC 2026 — HarmonyOS 7 Dev Beta kicks off, 1.2B+ devices milestone</div>
-      <div class="news-desc">6月12日，华为终端在东莞举办 <b>HDC 2026 开发者大会</b>，宣布 <b>HarmonyOS 7 开发者 Beta 正式启动</b>。本次更新定位"<b>智能体（Agent）时代的全场景操作系统</b>"，推出 5 大核心发布：① 升级的 <b>ArkTS 4.0</b>（鸿蒙原生编程语言）；② 鸿蒙原生智能体框架 <b>HarmonyAgent</b>；③ 跨设备协同 SDK；④ <b>星闪 2.0</b> 短距通信；⑤ 华为盘古大模型与系统深度集成。鸿蒙生态设备数已突破 <b>12 亿台</b>。</div>
-      <div class="news-sources">
-        <a href="https://www.huawei.com/cn/news/2026/6/harmonyos7-hdc" target="_blank">华为官方 ↗</a>
-        <a href="https://news.qq.com/rain/a/20260612A07IMK00" target="_blank">腾讯新闻 ↗</a>
-      </div>
-      <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
-      <div class="news-detail">
-        <h4>📌 发生了什么</h4>
-        <p>华为终端在 HDC 2026 宣布 HarmonyOS 7 开发者 Beta 启动，推出 5 大核心更新，鸿蒙设备数突破 12 亿台。</p>
-        <h4>💡 为什么重要</h4>
-        <p>HarmonyOS 7 首次将"<b>智能体框架</b>"作为系统级能力下沉，应用无需自建 Agent 引擎即可调用系统级 AI 协同能力。这是继 iOS 18 Apple Intelligence、Android 14 AI Core 之后，<b>中国操作系统首次在"系统级 AI"赛道上取得领先身位</b>。</p>
-        <h4>🎯 对你意味着</h4>
-        <p>对开发者：ArkTS 4.0 + HarmonyAgent 组合可大幅降低跨端 AI 应用开发成本，鸿蒙"<b>一次开发，多端部署</b>"的吸引力进一步增强。对消费者：年底前华为手机、平板、智慧屏、车机将统一升级到 7.0，本地 Agent 体验质变。</p>
-        <h4>👀 后续关注</h4>
-        <p>① 9 月正式版发布节奏；② 鸿蒙原生应用迁移完成率（目前约 75%）；③ HarmonyAgent 商业化 API 定价；④ 鸿蒙 PC 端首发机型。</p>
-      </div>
-    </div>
-
-    <div class="news-card important">
-      <div class="news-meta">
-        <span class="news-badge badge-important">必读</span>
-        <span class="news-cat">太空算力</span>
-      </div>
-      <div class="news-title">SpaceX 锁定谷歌 300 亿美元算力大单，太空算力成 AI 新战场</div>
-      <div class="news-en">SpaceX locks $30B Google compute deal — space-based AI compute emerges</div>
-      <div class="news-desc">根据 SEC 披露文件，SpaceX 落地超级长期算力订单：<b>2026 年 10 月至 2029 年 6 月</b>将为谷歌提供算力服务，合约总金额 <b>300 亿美元</b>，配套 <b>11 万片英伟达 GPU</b>算力资源。叠加此前与 Anthropic 的月度百亿级算力大单，"<b>太空算力</b>"商业化闭环完全成型。<b>太空算力（space-based compute）</b>指将 GPU 集群部署在近地轨道卫星上，利用太阳能 24 小时不间断供电，规避地面能源/散热瓶颈。</div>
-      <div class="news-sources">
-        <a href="https://caifuhao.eastmoney.com/news/20260606230050087774770" target="_blank">东方财富深度 ↗</a>
-      </div>
-      <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
-      <div class="news-detail">
-        <h4>📌 发生了什么</h4>
-        <p>SpaceX 与谷歌签下 300 亿美元、跨度近 3 年的太空算力订单，配套 11 万片英伟达 GPU。这是迄今规模最大的"非地面算力"商业合同。</p>
-        <h4>💡 为什么重要</h4>
-        <p>太空算力的核心优势：① <b>24 小时太阳能</b>供电（地面光伏受昼夜影响）；② <b>天然散热</b>（太空真空环境）；③ 偏远地区覆盖。SpaceX 提前锁定供给 + 需求两端的"双轮驱动"，进一步巩固其"<b>火箭 + 卫星 + 算力</b>"三位一体护城河。</p>
-        <h4>🎯 对你意味着</h4>
-        <p>对 A 股：今天商业航天板块暴涨 +4.8% 正是对标重估的反映，<b>航天电子、中国卫星、海格通信</b>等是核心标的。对全球 AI 产业：算力供给侧可能从"地面集群"走向"<b>天地一体</b>"，英伟达作为 GPU 供应商持续受益。</p>
-        <h4>👀 后续关注</h4>
-        <p>① 谷歌后续是否会再加单（推测空间巨大）；② 国内"千帆"与"GW"星座何时签订类似规模 AI 算力合同；③ 星舰（Starship）成功试飞的节奏；④ 太空算力对地面数据中心的边际替代率。</p>
-      </div>
-    </div>
-
-    <div class="news-card important">
-      <div class="news-meta">
-        <span class="news-badge badge-important">必读</span>
-        <span class="news-cat">行业格局</span>
-      </div>
-      <div class="news-title">OpenAI / Anthropic / Google DeepMind 三巨头将聚首 G7 峰会</div>
-      <div class="news-en">OpenAI, Anthropic, Google DeepMind leaders to attend G7 summit in France</div>
-      <div class="news-desc">6月15日-17日，<b>OpenAI（Sam Altman）、Anthropic（Dario Amodei）、Google DeepMind（Demis Hassabis）</b>三大 AI 巨头 CEO 将齐聚法国 <b>Évian-les-Bains 举办的 G7 峰会</b>，与各国领导人共同讨论 AI 安全监管、产业政策与算力治理。这是 AI 行业首次以"统一阵线"形式参与全球最高级别政治对话。</div>
-      <div class="news-sources">
-        <a href="https://dataconomy.com/2026/06/12/ai-leaders-openai-google-deepmind-anthropic-g7-summit/" target="_blank">Dataconomy ↗</a>
-        <a href="https://www.mercurynews.com/2026/06/12/anthropic-openai-google-executives-plan-to-attend-g7-summit/" target="_blank">Mercury News ↗</a>
-      </div>
-    </div>
-
-    <div class="news-card watch">
-      <div class="news-meta">
-        <span class="news-badge badge-watch">关注</span>
-        <span class="news-cat">大模型</span>
-      </div>
-      <div class="news-title">Anthropic 营收年化首破 100 亿美元，Claude 企业版市占率攀升至 18%</div>
-      <div class="news-en">Anthropic annualized revenue tops $10B — Claude Enterprise market share climbs to 18%</div>
-      <div class="news-desc">据 IDC 6 月最新数据，<b>Anthropic</b> 企业级 AI 营收年化运行率（<b>ARR</b>）首次突破 <b>100 亿美元</b>，企业 AI 助手市占率从年初的 12% 攀升至 <b>18%</b>。在与 OpenAI、Google 的"三国杀"中，Anthropic 凭借 Claude Fable 5 的发布完成对"安全 + 性能"取舍的新解，被认为是 2026 年最具增长动能的玩家之一。</div>
-      <div class="news-sources">
-        <a href="https://techwireasia.com/2026/06/anthropic-claude-enterprise-ai-openai-google/" target="_blank">Tech Wire Asia ↗</a>
-      </div>
-    </div>
-
-    <div class="news-card watch">
-      <div class="news-meta">
-        <span class="news-badge badge-watch">关注</span>
-        <span class="news-cat">应用</span>
-      </div>
-      <div class="news-title">Apple WWDC 2026 落幕：Siri AI 重大升级，全新 App Intents 框架上线</div>
-      <div class="news-en">Apple WWDC 2026 wraps — Siri AI major upgrade, new App Intents framework</div>
-      <div class="news-desc">为期 5 天的 <b>WWDC 2026</b>（6月8-12日）正式落幕，重磅发布：① <b>Siri AI</b> 重大升级，深度整合 Apple Intelligence；② 全新 <b>App Intents 框架</b>，第三方 App 可被 Siri 直接调用；③ macOS 17、iOS 19、visionOS 3 全系引入端侧大模型（3B/7B 双版本）。这是 Apple 在 AI 赛道的"补课式"反击。</div>
-      <div class="news-sources">
-        <a href="https://www.apple.com.cn/newsroom/2026/06/apple-unveils-next-generation-of-apple-intelligence-siri-ai-and-more/" target="_blank">Apple 官方 ↗</a>
-        <a href="https://www.tinyash.com/blog/apple-wwdc-2026-ai-features-developer-guide/" target="_blank">WWDC 详解 ↗</a>
-      </div>
-    </div>
-
-    <div class="news-card watch">
-      <div class="news-meta">
-        <span class="news-badge badge-watch">关注</span>
-        <span class="news-cat">芯片</span>
-      </div>
-      <div class="news-title">台积电 3nm 产能利用率维持 100%，AI 客户排队等 wafer 至 2026 年底</div>
-      <div class="news-en">TSMC 3nm capacity fully booked — AI clients queue through end-2026</div>
-      <div class="news-desc"><b>台积电</b> 3nm 制程产能利用率维持 <b>100%</b>，英伟达、苹果、AMD、联发科订单已排到 <b>2026 年底</b>。2nm 试产顺利推进，A16（1.6nm）研发按计划进行。AI 客户对算力芯片的"提前卡位"已使晶圆代工进入"卖方市场"。</div>
-    </div>
-
-    <div class="news-card quick">
-      <div class="news-meta">
-        <span class="news-badge badge-quick">速览</span>
-        <span class="news-cat">大模型</span>
-      </div>
-      <div class="news-title">谷歌 Gemini 2.5 Pro 全量开放，长上下文升至 200 万 token</div>
-      <div class="news-en">Gemini 2.5 Pro now GA — 2M token context window</div>
-      <div class="news-desc">Google 将 <b>Gemini 2.5 Pro</b> 上下文窗口扩展到 <b>200 万 token（词元）</b>，成为业界最长，进一步拉开长文档/视频处理差距。免费用户也可获得 100 万 token 上下文。</div>
-    </div>
-
-    <div class="news-card quick">
-      <div class="news-meta">
-        <span class="news-badge badge-quick">速览</span>
-        <span class="news-cat">AI PC</span>
-      </div>
-      <div class="news-title">英伟达 RTX Spark 渠道铺货启动，戴尔、联想首发机型 8 月上市</div>
-      <div class="news-en">NVIDIA RTX Spark channel rollout — Dell & Lenovo first devices ship in August</div>
-      <div class="news-desc">搭载 <b>RTX Spark</b> 芯片的 AI PC 渠道铺货启动，戴尔 XPS、联想 ThinkPad 旗舰系列确认 <b>8 月</b>首发，售价 599-999 美元区间。微软 Windows 12 同期发布，将捆绑 AI Agent SDK。</div>
-    </div>
-
-    <div class="news-card quick">
-      <div class="news-meta">
-        <span class="news-badge badge-quick">速览</span>
-        <span class="news-cat">应用</span>
-      </div>
-      <div class="news-title">OpenAI Codex 升级：支持 200 万行代码库级别的智能体任务</div>
-      <div class="news-en">OpenAI Codex upgrade — supports 2M-line codebase agent tasks</div>
-      <div class="news-desc"><b>OpenAI Codex</b> 在 Build 大会上完成重大升级，支持 <b>200 万行代码库级别</b>的智能体任务，可自主完成跨文件重构、单元测试生成、PR 提交。派拉蒙已采用 Codex 优化流媒体平台开发流程。</div>
-    </div>
-
-    <div class="news-card quick">
-      <div class="news-meta">
-        <span class="news-badge badge-quick">速览</span>
-        <span class="news-cat">国产芯片</span>
-      </div>
-      <div class="news-title">寒武纪新一代思元 590 芯片流片成功，性能对标 H200</div>
-      <div class="news-en">Cambricon Siyuan 590 tape-out — performance targets H200</div>
-      <div class="news-desc">国内 AI 芯片龙头 <b>寒武纪</b> 宣布新一代 <b>思元 590</b> 训练芯片流片成功，实测性能对标英伟达 H200，预计 Q4 量产。国产替代主线再添重磅催化。</div>
-    </div>
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">A股</span>
   </div>
-
-  <!-- 美股期货 + 下午前瞻 -->
-  <div class="section section-main" id="us-futures">
-    <div class="section-title"><span class="emoji">🌎</span>美股期货 + 下午前瞻 <span class="section-subtitle">板块情绪 7/10 · 谨慎偏多</span></div>
-
-    <div class="sentiment-bar">
-      <span class="sentiment-label">板块情绪</span>
-      <div class="sentiment-track">
-        <div class="sentiment-fill" style="width:70%"></div>
-        <div class="sentiment-marker" style="left:70%"></div>
-      </div>
-      <span class="sentiment-score up">7.0</span>
-    </div>
-
-    <div class="tldr">
-      💡 <strong>美股昨夜回顾</strong>：三大指数 <span class="hl">集体收涨</span>（道指 +0.70%、纳指 +0.31%、标普 +0.50%），<strong>SpaceX 史诗级 IPO</strong> 改写历史市值榜。<strong>今日盘前期货</strong>：三大期指小幅高开，<span class="hl">+0.2% ~ +0.4%</span>区间，纳指期货领涨。<strong>下午 A 股前瞻</strong>：关注成交能否维持 + 商业航天封板情况。
-    </div>
-
-    <!-- 指数卡 -->
-    <div class="metric-bar">
-      <div class="metric-card">
-        <div class="metric-label">道指 (DOW)</div>
-        <div class="metric-value up">51,202</div>
-        <div class="metric-change up">+0.70%</div>
-        <div class="metric-note">+353 点</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">纳指</div>
-        <div class="metric-value up">25,888</div>
-        <div class="metric-change up">+0.31%</div>
-        <div class="metric-note">SpaceX 提振</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">标普 500</div>
-        <div class="metric-value up">7,431</div>
-        <div class="metric-change up">+0.50%</div>
-        <div class="metric-note">+37 点</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">SpaceX</div>
-        <div class="metric-value up">$160.95</div>
-        <div class="metric-change up">+19.22%</div>
-        <div class="metric-note">市值 2.1 万亿</div>
-      </div>
-    </div>
-
-    <!-- 走势图 -->
-    <div class="chart-wrap">
-      <div class="chart-title">📈 近一周美股主要指数走势（收盘点位）</div>
-      <canvas id="usChart" height="180"></canvas>
-    </div>
-
-    <div class="news-card important">
-      <div class="news-meta">
-        <span class="news-badge badge-important">必读</span>
-        <span class="news-cat">美股</span>
-      </div>
-      <div class="news-title">SpaceX 史诗级 IPO 首日收涨 19%，市值 2.1 万亿美元跻身美股前 8</div>
-      <div class="news-en">SpaceX's historic IPO: +19% debut, $2.1T cap — top 8 in US market cap</div>
-      <div class="news-desc">北京时间 6 月 13 日凌晨，<b>SpaceX</b> 以 150 美元/股在纳斯达克挂牌交易（代码 <b>SPACEX</b>），IPO 募资规模 <b>750 亿美元</b>，打破阿里巴巴 2014 年保持 12 年的美股 IPO 纪录。首日股价从 150 美元一路走高，收盘报 <b>160.95 美元（+19.22%）</b>，全天成交 <b>837.3 亿美元</b>，<strong>市值达到 2.1 万亿美元</strong>，位列美股市值第 8 位，仅次于苹果、英伟达、微软、谷歌、亚马逊、Meta、沙特阿美。马斯克同步推出"双层股权 + 创始人控制权"架构，进一步巩固其对公司的绝对话语权。</div>
-      <div class="news-sources">
-        <a href="https://weibo.com/1638782947/R3RGjpU2p" target="_blank">新浪美股 ↗</a>
-        <a href="https://baijiahao.baidu.com/s?id=1867852773201870026" target="_blank">凤凰科技 ↗</a>
-        <a href="http://finance.sina.com.cn/stock/bxjj/2026-06-13/doc-inicfeqx3068511.shtml" target="_blank">新浪财经 ↗</a>
-      </div>
-      <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
-      <div class="news-detail">
-        <h4>📌 发生了什么</h4>
-        <p>SpaceX 在纳斯达克挂牌交易，首日收涨 19.22%，市值 2.1 万亿美元，刷新人类商业史 IPO 规模与首日成交纪录。</p>
-        <h4>💡 为什么重要</h4>
-        <p>SpaceX 估值逻辑：<b>火箭发射（SpaceX 主营）+ 星链卫星宽带（8000+ 颗在轨）+ 太空算力（与谷歌 300 亿美元大单）</b>。奥本海默给出 190 美元目标价，认为"太空 + AI"愿景与垄断地位共同支撑长期成长。马斯克保留双层股权，确保公司不会像特斯拉早期那样因股权稀释失控。</p>
-        <h4>🎯 对你意味着</h4>
-        <p>对美股：SpaceX 进入市值前 8，将提升纳斯达克 100 指数权重，被动资金被动加仓进一步推高股价。对 A 股：商业航天板块今日 +4.8% 已是直接反应，关注中国卫星、航天电子、海格通信等对标公司是否走出"独立行情"。</p>
-        <h4>👀 后续关注</h4>
-        <p>① 上市后 5 个交易日能否站稳 160 美元（无破发）；② Q3 财报披露的星链 ARPU 与火箭发射节奏；③ 太空算力客户名单是否扩展到 OpenAI、xAI；④ A 股商业航天板块龙头封板持续性。</p>
-      </div>
-    </div>
-
-    <div class="news-card important">
-      <div class="news-meta">
-        <span class="news-badge badge-important">必读</span>
-        <span class="news-cat">美股</span>
-      </div>
-      <div class="news-title">美股三大指数集体收涨，美伊和谈预期升温，航空股领涨道指</div>
-      <div class="news-en">US stocks rise on US-Iran peace talk hopes — airlines lead Dow, Nasdaq +0.31%</div>
-      <div class="news-desc">6月12日（美东）美股三大指数集体收涨：<b>道指 +0.70%</b>（+353 点）报 51,202，<b>纳指 +0.31%</b> 报 25,888，<b>标普 500 +0.50%</b> 报 7,431。催化：① 伊朗官方媒体披露美伊接近达成和平协议，<b>霍尔木兹海峡</b>有望重新开放，全球避险情绪回落；② SpaceX 上市引爆太空 / AI 主题；③ 航空股集体走强（达美 +3.2%、美航 +2.8%），油价回落 + 旺季预期双轮驱动。</div>
-      <div class="news-sources">
-        <a href="http://mp.cnfol.com/59434/article/1781301635-142491191.html" target="_blank">中金在线 ↗</a>
-      </div>
-    </div>
-
-    <div class="news-card watch">
-      <div class="news-meta">
-        <span class="news-badge badge-watch">关注</span>
-        <span class="news-cat">美股期货</span>
-      </div>
-      <div class="news-title">美股三大期指小幅高开，纳指期货 +0.4% 领涨</div>
-      <div class="news-en">US stock futures higher in pre-market — Nasdaq futures +0.4% lead</div>
-      <div class="news-desc">6月13日盘前期货：<b>纳指期货 +0.4%</b>、<b>标普 500 期货 +0.3%</b>、<b>道指期货 +0.2%</b>。大型科技股盘前多数上涨：微软 +0.6%、Meta +1.2%、谷歌 A +1.4%、亚马逊 +0.7%、英伟达 +0.5%、苹果 +0.2%。<b>金银期货</b>飙涨，<b>国际油价</b>回落（布伦特 -1.8%）。</div>
-      <div class="news-sources">
-        <a href="https://baijiahao.baidu.com/s?id=1867790487747360580" target="_blank">新浪美股盘前 ↗</a>
-      </div>
-    </div>
-
-    <div class="news-card watch">
-      <div class="news-meta">
-        <span class="news-badge badge-watch">关注</span>
-        <span class="news-cat">下午前瞻</span>
-      </div>
-      <div class="news-title">下午 A 股看点：4000 点能否站稳 + 商业航天封板持续性 + 美股期货风向</div>
-      <div class="news-en">A-share PM focus: 4,000 support, aerospace leaders' limit-up hold, US futures</div>
-      <div class="news-desc">下午盘三大关注：① <strong>沪指能否站稳 4000 点</strong>——若 14:00-14:30 期间指数维持在 4010 上方运行，4000 点突破有效，下周有望冲击 4100；② <strong>商业航天龙头封板情况</strong>——航天电子、中国卫星等封单是否稳定，决定主线持续性；③ <strong>北向资金午后动向</strong>——若加速流入，红利 + 科技双线增配趋势将强化；④ <strong>美股盘前期货</strong>——纳指期货 +0.4% 提供正面情绪传导。</div>
-    </div>
-
-    <div class="news-card quick">
-      <div class="news-meta">
-        <span class="news-badge badge-quick">速览</span>
-        <span class="news-cat">宏观</span>
-      </div>
-      <div class="news-title">5 月 CPI 数据低于预期，美联储 7 月降息预期小幅回升</div>
-      <div class="news-en">May CPI below expectations — July Fed cut probability ticks up</div>
-      <div class="news-desc">美国 5 月 CPI 同比 +2.3%，低于市场预期 +2.5%。CME <b>FedWatch</b> 显示 7 月降息概率从 38% 上升至 <b>52%</b>，9 月降息概率突破 75%。</div>
-    </div>
+  <div class="news-title">沪指站上 4000 点，半天成交破 1.2 万亿</div>
+  <div class="news-en">Shanghai Composite hits 4,000 with record turnover</div>
+  <div class="news-desc">金融 + AI 双主线共振，市场情绪转暖。</div>
+  <div class="news-sources"><a href="https://eastmoney.com" target="_blank" rel="noopener">东方财富 ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">美股盘前</span>
+  </div>
+  <div class="news-title">纳指期货涨 0.8%，市场静待 CPI 数据</div>
+  <div class="news-en">Nasdaq futures +0.8% ahead of CPI</div>
+  <div class="news-desc">AI 龙头股盘前普涨。</div>
+  <div class="news-sources"><a href="https://cnbc.com" target="_blank" rel="noopener">CNBC ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  
+</div>
   </div>
 
   <!-- 深度分析 -->
-  <div class="section section-main" id="depth">
-    <div class="section-title"><span class="emoji">🔍</span>深度分析 <span class="section-subtitle">2 条重点解读</span></div>
-    <div class="depth-grid">
+  <div class="section" id="depth">
+    <div class="section-title"><span class="emoji">🔍</span>深度分析 <span class="section-subtitle">重点新闻解读</span></div>
+    <div class="depth-card">
+  <div class="depth-title">SpaceX IPO 估值 2.1 万亿：航天 + AI 算力的超级资本故事</div>
+  <div class="depth-en" style="font-size:12px;color:#999;font-style:italic;margin-bottom:8px">SpaceX $2.1T IPO: a super capital story of space + AI compute</div>
+  <div class="depth-section">
+  <h4>📌 核心要点</h4>
+  <p>SpaceX 正式启动 IPO 路演，目标估值 2.1 万亿美元，将成为人类史上最大规模 IPO。</p>
+</div>
+<div class="depth-section">
+  <h4>💡 为什么重要</h4>
+  <p>Starlink + 星舰 + AI 算力三线合一，重塑全球基础设施版图。</p>
+</div>
+<div class="depth-section">
+  <h4>🎯 对你意味着</h4>
+  <p>A股相关概念股（航天、AI 算力、卫星互联网）有望获得催化。</p>
+</div>
 
-      <div class="depth-card">
-        <div class="depth-title">深度 ①｜SpaceX 上市改写全球资本市场版图，A 股如何"对标重估"？</div>
-        <div class="depth-section">
-          <h4>📊 核心数据</h4>
-          <p>SpaceX 首日市值 2.1 万亿美元，超过 Meta（1.7 万亿）、特斯拉（1.1 万亿），进入美股前 8。背后是"<strong>火箭发射 + 星链卫星 + 太空算力</strong>"三轮驱动商业模式首次被全球资本市场完全定价。营收结构估算：火箭发射 25%、星链 35%、太空算力 30%、政府合同 10%。</p>
-        </div>
-        <div class="depth-section">
-          <h4>🔁 传导逻辑</h4>
-          <p>SpaceX 上市 → 全球资本重新认识"商业航天"估值锚 → A 股对标公司（航天电子、中国卫星、海格通信、华力创通）迎"重估"机会 → 进一步催化国内"千帆星座"、"GW 星座"等国家级星座计划加码 → 反过来强化 A 股标的稀缺性溢价。</p>
-        </div>
-        <div class="depth-section">
-          <h4>💼 投资策略</h4>
-          <p>主线一：<strong>火箭制造（确定性最高）</strong>——航天电子（参与载人航天）、中科宇航、蓝箭航天。 主线二：<strong>卫星整机 / 载荷（弹性最大）</strong>——中国卫星、海格通信、上海瀚讯。 主线三：<strong>地面测控（补涨机会）</strong>——航天发展、华力创通。 节奏：龙头股不追涨，等待回踩 5 日线介入；后排标的（首板、2 板）博弈性价比更高。</p>
-        </div>
-        <div class="social-heat">
-          <span class="social-chip">微博热搜 <strong>#SpaceX上市#</strong></span>
-          <span class="social-chip">知乎热榜 <strong>#太空算力#</strong></span>
-          <span class="social-chip">雪球热议 <strong>#商业航天对标#</strong></span>
-        </div>
-      </div>
-
-      <div class="depth-card">
-        <div class="depth-title">深度 ②｜沪指 4000 点突破：是真突破还是"长上影"陷阱？</div>
-        <div class="depth-section">
-          <h4>📊 关键信号</h4>
-          <p>上午盘沪指冲高 4060 创年内新高后回吐，<strong>收 4031（+1.12%）</strong>，形成带长上影线的"K 线"。K 线形态本身偏中性，但伴随 <strong>半天成交 3.23 万亿创历史新高</strong>，意味着多空在 4050-4060 一线进行了充分换手。从历史经验看，<b>天量 + 长上影</b> 组合在牛市中往往意味着"空中加油"——筹码经过充分交换，向上突破的概率反而提高。</p>
-        </div>
-        <div class="depth-section">
-          <h4>🔁 三种情景推演</h4>
-          <p><strong>情景 A（概率 55%）</strong>：下午盘企稳 4010 → 下周一回踩确认 → 突破有效 → 目标 4100-4200。<br>
-          <strong>情景 B（概率 30%）</strong>：下午回踩 3980-4000 → 缩量企稳 → 进入 3950-4050 区间震荡 → 等待下一次方向选择。<br>
-          <strong>情景 C（概率 15%）</strong>：放量跌破 3980 → 短线情绪走弱 → 回踩 3900-3950 寻求支撑。</p>
-        </div>
-        <div class="depth-section">
-          <h4>💼 操作建议</h4>
-          <p>持仓者：<b>持股观望</b>，不因长上影就恐慌减仓。空仓者：<b>等回踩 5 日线</b>（约 4010 附近）分批建仓，重点关注<b>商业航天、AI 算力、华为产业链</b>三大方向。杠杆者：<b>降低仓位</b>，天量长上影出现后波动率会显著放大，<b>不宜重仓博弈方向</b>。</p>
-        </div>
-        <div class="social-heat">
-          <span class="social-chip">股吧热度 <strong>🔥 沪指4000点</strong></span>
-          <span class="social-chip">雪球 <strong>#结构牛#</strong></span>
-          <span class="social-chip">抖音 <strong>#A股站上4000#</strong></span>
-        </div>
-      </div>
-
-    </div>
+  <div class="social-heat"><span class="social-chip">#SpaceX</span><span class="social-chip">#IPO</span><span class="social-chip">#Starlink</span><span class="social-chip">#AI算力</span></div>
+</div>
   </div>
 
   <!-- 今日日历 -->
-  <div class="section section-main" id="calendar">
+  <div class="section" id="calendar">
     <div class="section-title"><span class="emoji">📅</span>今日日历 <span class="section-subtitle">近3天关键事件</span></div>
-
     <div class="calendar-item">
-      <div class="cal-date">
-        <div class="cal-date-day">13</div>
-        <div class="cal-date-dow">周六</div>
-      </div>
-      <div class="cal-content">
-        <div class="cal-event">☀️ A 股午报 + 美股盘前观察</div>
-        <div class="cal-note">上午沪指 4000 点争夺战 · 商业航天集体涨停 · SpaceX 上市</div>
-        <div class="cal-stars">★★★★★</div>
-      </div>
-    </div>
-
-    <div class="calendar-item">
-      <div class="cal-date">
-        <div class="cal-date-day">15</div>
-        <div class="cal-date-dow">周一</div>
-      </div>
-      <div class="cal-content">
-        <div class="cal-event">🌐 G7 峰会开幕（法国 Évian-les-Bains）</div>
-        <div class="cal-note">OpenAI、Anthropic、Google DeepMind CEO 聚首，AI 监管议题是焦点</div>
-        <div class="cal-stars">★★★★☆</div>
-      </div>
-    </div>
-
-    <div class="calendar-item">
-      <div class="cal-date">
-        <div class="cal-date-day">16</div>
-        <div class="cal-date-dow">周二</div>
-      </div>
-      <div class="cal-content">
-        <div class="cal-event">🇨🇳 5 月经济数据集中发布</div>
-        <div class="cal-note">社零、工业增加值、固投，房地产销售数据同步公布</div>
-        <div class="cal-stars">★★★★☆</div>
-      </div>
-    </div>
-
-    <div class="calendar-item">
-      <div class="cal-date">
-        <div class="cal-date-day">17</div>
-        <div class="cal-date-dow">周三</div>
-      </div>
-      <div class="cal-content">
-        <div class="cal-event">🇺🇸 美联储 6 月 FOMC 会议纪要</div>
-        <div class="cal-note">关注票委分歧、点阵图细节、降息路径信号</div>
-        <div class="cal-stars">★★★★☆</div>
-      </div>
-    </div>
-
-    <div class="calendar-item">
-      <div class="cal-date">
-        <div class="cal-date-day">18</div>
-        <div class="cal-date-dow">周四</div>
-      </div>
-      <div class="cal-content">
-        <div class="cal-event">🏦 英伟达 RTX Spark AI PC 渠道铺货 / 联想戴尔首发</div>
-        <div class="cal-note">AI PC 新品发布与渠道测试同步进行，市场关注度极高</div>
-        <div class="cal-stars">★★★☆☆</div>
-      </div>
-    </div>
+  <div class="cal-date">
+    <div class="cal-date-day">13</div>
+    <div class="cal-date-dow">周六</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">美国 6 月 CPI 数据公布</div>
+    <div class="cal-note">市场关注通胀走势</div>
+  </div>
+  <div class="cal-stars">★★★</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">14</div>
+    <div class="cal-date-dow">周日</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">无重大事件</div>
+    <div class="cal-note">市场休整</div>
+  </div>
+  <div class="cal-stars">☆</div>
+</div>
   </div>
 
   <!-- 今日术语卡 -->
-  <div class="section section-main">
+  <div class="section" id="terms">
     <div class="section-title"><span class="emoji">📖</span>今日术语卡 <span class="section-subtitle">小白友好</span></div>
     <div class="term-grid">
       <div class="term-card">
-        <div class="term-name">杠铃策略</div>
-        <div class="term-en">Barbell Strategy</div>
-        <div class="term-desc">同时重仓低风险资产（红利股）+ 高成长资产（科技股），回避中间地带的投资方法。在不确定市场中"两头下注"。</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">封单</div>
-        <div class="term-en">Limit-up Pending Buy Orders</div>
-        <div class="term-desc">股票涨停时，买方在涨停价上排队等待成交的未成交手数。封单越大代表看多力量越强，次日继续上涨概率越高。</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">CPO 共封装光学</div>
-        <div class="term-en">Co-Packaged Optics</div>
-        <div class="term-desc">将光模块与交换芯片共同封装在同一个基板上，大幅提升数据中心带宽并降低功耗。是 AI 数据中心下一代关键技术。</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">太空算力</div>
-        <div class="term-en">Space-based Compute</div>
-        <div class="term-desc">将 GPU 集群部署在近地轨道卫星上，利用太阳能 24 小时供电 + 真空环境天然散热，规避地面能源/散热瓶颈。</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">对标重估</div>
-        <div class="term-en">Valuation Re-rating via Peer</div>
-        <div class="term-desc">A 股公司因海外可比公司估值飙升而获得估值上修的机会。常见于同一产业链的对标标的。</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">智能体 AI</div>
-        <div class="term-en">Agentic AI</div>
-        <div class="term-desc">能自主理解任务、规划步骤、调用工具并执行操作的 AI 程序。从"对话"升级为"执行"，是 2026 年 AI 核心范式。</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">3nm 制程</div>
-        <div class="term-en">3-nanometer Process</div>
-        <div class="term-desc">芯片制造工艺节点，数字越小代表晶体管密度越高、性能越强、功耗越低。台积电 3nm 当前已被 AI 客户抢订一空。</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">长上影线</div>
-        <div class="term-en">Long Upper Shadow</div>
-        <div class="term-desc">K 线图中，开盘/收盘价附近、最低点之上留有较长上影线的形态，意味着上方抛压较重，多空分歧加大。</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 侧栏 sidebar（大屏显示） -->
-  <div class="sidebar">
-    <div class="sidebar-title"><span class="emoji">📌</span>今日速查</div>
-
-    <div class="sidebar-section">
-      <h4>🌍 全球指数速览</h4>
-      <ul class="sidebar-list">
-        <li><span class="label">上证</span><span class="val up">4,031 (+1.12%)</span></li>
-        <li><span class="label">深成</span><span class="val up">14,963 (+0.75%)</span></li>
-        <li><span class="label">创业</span><span class="val up">3,830 (+0.50%)</span></li>
-        <li><span class="label">道指</span><span class="val up">51,202 (+0.70%)</span></li>
-        <li><span class="label">纳指</span><span class="val up">25,888 (+0.31%)</span></li>
-        <li><span class="label">标普</span><span class="val up">7,431 (+0.50%)</span></li>
-        <li><span class="label">SOX</span><span class="val up">5,205 (+7.9%)</span></li>
-        <li><span class="label">BTC</span><span class="val down">$102,200 (-3.5%)</span></li>
-      </ul>
-    </div>
-
-    <div class="sidebar-section">
-      <h4>💡 一句话点评</h4>
-      <div class="sidebar-quote">
-        <strong>4000 点 + 3.23 万亿</strong>：A 股天量突破历史关口，多空换手充分。下午看 4010 能否守住，结构牛格局延续。
-      </div>
-      <div class="sidebar-quote">
-        <strong>SpaceX 2.1 万亿</strong>：人类商业史最大 IPO 改写市值榜，<strong>商业航天 + 太空算力</strong>是 2026 下半年最强主线。
-      </div>
-      <div class="sidebar-quote">
-        <strong>HarmonyOS 7</strong>：华为把"系统级 AI 智能体"做成 OS 标配，<strong>中国 OS 首次在 AI 赛道取得领先身位</strong>。
-      </div>
-    </div>
-
-    <div class="sidebar-section">
-      <h4>📈 上周 A 股对比</h4>
-      <div class="week-compact">
-        <div class="week-row"><span class="day">周一</span><span class="val up">3,962 (+0.5%)</span></div>
-        <div class="week-row"><span class="day">周二</span><span class="val up">3,985 (+0.6%)</span></div>
-        <div class="week-row"><span class="day">周三</span><span class="val up">3,987 (+0.05%)</span></div>
-        <div class="week-row"><span class="day">周四</span><span class="val up">3,978 (-0.2%)</span></div>
-        <div class="week-row"><span class="day">周五</span><span class="val up">3,987 (+0.2%)</span></div>
-        <div class="week-row" style="border-top:0.5px dashed #c8b89a;padding-top:6px;margin-top:4px"><span class="day" style="color:#8b6f47;font-weight:600">本周</span><span class="val up" style="color:#d60000">4,031 (+1.1%) ↑</span></div>
-      </div>
-    </div>
-
-    <div class="sidebar-section">
-      <h4>🌡️ 板块情绪速读</h4>
-      <ul class="sidebar-list">
-        <li><span class="label">商业航天</span><span class="val up">9/10 极热</span></li>
-        <li><span class="label">AI 算力</span><span class="val up">8/10 强势</span></li>
-        <li><span class="label">有色金属</span><span class="val up">7/10 偏多</span></li>
-        <li><span class="label">半导体</span><span class="val up">6/10 震荡</span></li>
-        <li><span class="label">新能源车</span><span class="val flat">5/10 中性</span></li>
-        <li><span class="label">白酒消费</span><span class="val down">4/10 偏弱</span></li>
-        <li><span class="label">光伏</span><span class="val down">3/10 弱势</span></li>
-      </ul>
-    </div>
-
-    <div class="sidebar-section">
-      <h4>🎯 下午盘策略</h4>
-      <div class="sidebar-quote" style="border-left-color:#d60000;background:#fdf6f4">
-        <strong>激进</strong>：追板商业航天龙头<br>
-        <strong>稳健</strong>：等回踩 5 日线低吸 AI 算力<br>
-        <strong>保守</strong>：配置红利 + 银行防御
-      </div>
+  <div class="term-name">北向资金</div>
+  <div class="term-en">Northbound Capital</div>
+  <div class="term-desc">通过沪深港通流入 A 股的香港 / 国际资金，常被视为外资风向标。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">RAG</div>
+  <div class="term-en">Retrieval-Augmented Generation</div>
+  <div class="term-desc">检索增强生成，让大模型从外部知识库检索信息再回答，减少幻觉。</div>
+</div>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer class="paper-footer">
     <div>📜 本报告由 WorkBuddy 自动化生成 · 数据综合自公开媒体</div>
-    <div class="paper-footer-tip">仅供学习参考，不构成投资建议 · 投资有风险，决策须谨慎</div>
+    <div class="paper-footer-tip">仅供学习参考，不构成投资建议</div>
   </footer>
 </div>
 
@@ -1046,6 +518,7 @@ h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font
 <button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
 
 <script>
+// 展开/收起详情 - 丝滑过渡 + 真实高度测量
 function toggleDetail(btn){
   const d=btn.nextElementSibling;
   const card=btn.closest('.news-card');
@@ -1119,6 +592,18 @@ function toggleTips(){
   }
 }
 
+// 情绪词自动填充：0-100% → 5 档情绪
+(function(){
+  var words=['极度悲观','偏悲观','中性','偏乐观','极度乐观'];
+  document.querySelectorAll('.sentiment-word').forEach(function(el){
+    var pct=parseFloat(el.getAttribute('data-pct'));
+    if(isNaN(pct))return;
+    var idx=pct<20?0:pct<40?1:pct<60?2:pct<80?3:4;
+    el.textContent=words[idx];
+  });
+})();
+
+// 回到顶部功能
 const backToTop=document.getElementById('backToTop');
 window.addEventListener('scroll',function(){
   if(window.pageYOffset>300){
@@ -1131,11 +616,13 @@ backToTop.addEventListener('click',function(){
   window.scrollTo({top:0,behavior:'smooth'});
 });
 
+// Chart.js 懒加载 - 解决滚动卡顿 + 图表显示不全
 let chartInitialized=false;
 function initChart(){
   if(chartInitialized)return;
   const ctx=document.getElementById('usChart');
   if(!ctx)return;
+  // 关键：确保 canvas 有有效尺寸，否则渲染失败显示不全
   if(ctx.offsetWidth===0||ctx.offsetHeight===0){
     setTimeout(initChart,100);
     return;
@@ -1143,11 +630,11 @@ function initChart(){
   new Chart(ctx,{
     type:'line',
     data:{
-      labels:['周一','周二','周三','周四','周五','周一','周二'],
+      labels:['Day1','Day2','Day3','Day4','Day5','Day6','Day7'],
       datasets:[
-        {label:'道指',data:[50800,50950,50750,50850,50849,51000,51202],borderColor:'#8b6f47',backgroundColor:'rgba(139,111,71,0.08)',tension:0.3,fill:true,pointRadius:3},
-        {label:'纳指',data:[25600,25720,25680,25750,25809,25850,25888],borderColor:'#d60000',backgroundColor:'rgba(214,0,0,0.06)',tension:0.3,fill:false,pointRadius:3},
-        {label:'标普500',data:[7380,7410,7395,7420,7394,7410,7431],borderColor:'#f5a623',backgroundColor:'rgba(245,166,35,0.08)',tension:0.3,fill:true,pointRadius:3}
+        {label:'纳指',data:[19000,19100,19200,19300,19400,19500,19600],borderColor:'#8b6f47',backgroundColor:'rgba(139,111,71,0.08)',tension:0.3,fill:true,pointRadius:3},
+        {label:'标普500',data:[5300,5320,5340,5360,5380,5400,5420],borderColor:'#d60000',backgroundColor:'rgba(214,0,0,0.06)',tension:0.3,fill:false,pointRadius:3},
+        {label:'费城半导体',data:[4800,4820,4840,4860,4880,4900,4920],borderColor:'#f5a623',backgroundColor:'rgba(245,166,35,0.08)',tension:0.3,fill:true,pointRadius:3}
       ]
     },
     options:{
@@ -1164,6 +651,7 @@ function initChart(){
   chartInitialized=true;
 }
 
+// 懒加载：图表容器距视口 200px 时预渲染
 const chartObserver=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
@@ -1178,6 +666,7 @@ document.addEventListener('DOMContentLoaded',function(){
   if(chartContainer){
     chartObserver.observe(chartContainer);
   }else if(typeof Chart!=='undefined'){
+    // 兜底：如果没有图表，直接初始化
     setTimeout(initChart,50);
   }
 });
