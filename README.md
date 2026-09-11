@@ -1,35 +1,54 @@
-# AI × 经济日报 · 站点
+# AI × 经济日报 · 站点（部署单元）
 
-> AI 科技 × 经济金融 · 每日 3 报 · 中英双语
+> AI 科技 × 经济金融 · 每日晨报（09:00）· 中英双语
+> 本目录是**唯一的 Git 仓库**，push 后自动触发线上部署。
 
 ## 目录结构
 
 ```
 site/
-├── index.html              # 站点主页（外网用户访问入口）
-├── reports/
-│   └── index.html          # 最新一期报告
+├── index.html              # 站点主页（= 最新一期报告，由 auto_deploy 同步）
 ├── history.html            # 历史报告索引
-├── archive/                # 历史归档（YYYY-MM-DD-{morning|noon|evening}.html）
-├── template-optimized.html # 报告主模板
-└── assets/
-    ├── css/site.css        # 主页样式
-    └── js/site.js          # 主页交互
+├── reports/
+│   ├── index.html          # 最新一期报告（与根 index.html 同步）
+│   └── archive/            # 历史归档 YYYY-MM-DD-{morning|noon|evening}.html
+├── assets/
+│   ├── css/site.css        # 样式
+│   └── js/site.js          # 交互
+├── icons/ · *.svg          # PWA 图标与 OG 图
+├── sw.js · manifest.webmanifest
+├── vercel.json             # Vercel 缓存与 rewrite 规则
+├── sitemap.xml · robots.txt · 404.html
+└── .gitignore
 ```
 
-## 设计理念
+## 线上地址
 
-- **美观大气**：纸面纹理 + 暖棕主色 + 衬线字体
-- **实用可读**：3 屏式结构（Hero / 今日 3 报 / 关于）
-- **和谐统一**：严格继承 v3 视觉规范（与 index.html 完全一致）
+| 用途 | URL | 状态 |
+|------|-----|------|
+| **主站** | https://yurain251029-netizen.github.io/daily/ | 已验证在线 |
+| 备用 | https://ai-daily-black.vercel.app | 以 Vercel 后台为准 |
 
-## 部署方式
+- 仓库：https://github.com/yurain251029-netizen/daily
+- 旧地址 `ai-daily-report` 已失效（404），分享一律使用新地址。
 
-### CloudStudio 部署（推荐，公网访问）
+## 更新流程（每日 09:00 自动化）
 
-将 `site/` 目录部署到 CloudStudio 静态站点。
+无需手动操作。晨报 automation 执行：
 
-### 本地预览
+```bash
+"C:\Users\32477\.workbuddy\binaries\python\versions\3.13.12\python.exe" "D:\整理\AI × 经济 报告\auto_deploy.py" morning
+```
+
+`auto_deploy.py` 四阶段一站式完成：
+1. **构建** — 调用 `../build_report.py`（读 content.json + ../template-injectable.html）
+2. **同步** — 根产物复制到 `reports/` 与本目录根（archive 同步到 `reports/archive/`）
+3. **推送** — git commit + push origin main
+4. **验证** — 检查线上 URL 可达性
+
+手动触发同一条命令即可；分步开关：`--skip-build` / `--skip-push` / `--skip-verify`。
+
+## 本地预览
 
 ```bash
 cd site
@@ -37,13 +56,11 @@ python -m http.server 8000
 # 访问 http://localhost:8000
 ```
 
-## 更新流程
+## 设计理念
 
-每日 3 个 automation 任务（08:00 / 12:00 / 20:00）生成报告后：
+- **美观大气**：纸面纹理 + 暖棕主色 + 衬线字体
+- **实用可读**：Hero / 今日报告 / 历史索引 三屏式结构
+- **涨红跌绿**（中国惯例）、中英双语、术语就近注释
 
-1. 复制 `D:\整理\AI × 经济 报告\index.html` → `D:\整理\AI × 经济 报告\site\reports\index.html`
-2. 复制 `D:\整理\AI × 经济 报告\history.html` → `D:\整理\AI × 经济 报告\site\history.html`
-3. 复制 `D:\整理\AI × 经济 报告\archive\*.html` → `D:\整理\AI × 经济 报告\site\archive\*.html`
-4. 重新部署 site/ 目录
-
-> 💡 建议：后续可改造 automation 任务，让其自动同步到 site/ 目录
+---
+最后更新：2026-09-11
