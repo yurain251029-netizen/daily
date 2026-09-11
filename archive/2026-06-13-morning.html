@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌅 晨报 · AI × 经济日报 — 2026-06-13（周五）</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:#f7f8fa;color:#1a1a2e;line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:780px;margin:0 auto;padding:24px 18px 60px}
+.header{background:linear-gradient(135deg,#fff5e6 0%,#ffe8d0 100%);border-radius:14px;padding:20px 22px;margin-bottom:18px;border:0.5px solid #ffd9a8}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.header-tag{display:inline-block;background:#ff6b35;color:#fff;font-size:12px;font-weight:600;padding:3px 10px;border-radius:12px;letter-spacing:0.5px}
+.header-title{font-size:22px;font-weight:700;color:#1a1a2e;margin:8px 0 4px}
+.header-date{font-size:13px;color:#666;margin-bottom:4px}
+.header-subtitle{font-size:13px;color:#888}
+.history-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:#fff;border:0.5px solid #ddd;border-radius:8px;color:#6c5ce7;font-size:13px;text-decoration:none;transition:all 0.2s}
+.history-btn:hover{background:#f3f0ff}
+.nav{background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:18px;border:0.5px solid #e8eaed}
+.nav-title{font-size:12px;color:#999;font-weight:600;margin-bottom:10px;letter-spacing:0.5px}
+.nav-items{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.nav-item{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:#f7f8fa;border-radius:8px;color:#555;font-size:13px;text-decoration:none;border:0.5px solid #e8eaed;transition:all 0.15s}
+.nav-item:hover{background:#eef0f3;color:#1a1a2e}
+.nav-item .num{background:#6c5ce7;color:#fff;font-size:11px;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:600}
+.nav-read{font-size:12px;color:#999;padding-top:8px;border-top:0.5px dashed #e8eaed}
+.section{background:#fff;border-radius:12px;padding:18px 20px;margin-bottom:16px;border:0.5px solid #e8eaed}
+.section-title{font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title .emoji{font-size:20px}
+.section-subtitle{font-size:12px;color:#999;font-weight:400;margin-left:auto}
+.top3-card{border-left:3px solid #ff3b30;background:linear-gradient(to right,#fff5f3 0%,#fff 30%);padding:14px 16px;border-radius:0 10px 10px 0;margin-bottom:12px}
+.top3-card:last-child{margin-bottom:0}
+.top3-num{display:inline-block;background:#ff3b30;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;margin-bottom:6px}
+.top3-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:4px;line-height:1.4}
+.top3-en{font-size:12px;color:#888;font-style:italic;margin-bottom:6px}
+.top3-desc{font-size:13px;color:#444;line-height:1.5}
+.metric-bar{display:flex;gap:10px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.metric-card{flex:1;min-width:130px;background:#f7f8fa;border:0.5px solid #e8eaed;border-radius:10px;padding:12px 14px}
+.metric-label{font-size:11px;color:#999;margin-bottom:4px;font-weight:500}
+.metric-value{font-size:20px;font-weight:700;color:#1a1a2e;line-height:1.1}
+.metric-change{font-size:12px;margin-top:3px;font-weight:600}
+.up{color:#d60000}
+.down{color:#1a8f3c}
+.flat{color:#888}
+.metric-note{font-size:10px;color:#999;margin-top:3px;line-height:1.3}
+.sentiment-bar{background:#f7f8fa;border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.sentiment-label{font-size:12px;color:#666;font-weight:600;white-space:nowrap}
+.sentiment-track{flex:1;height:8px;background:#e8eaed;border-radius:4px;position:relative;overflow:hidden}
+.sentiment-fill{height:100%;border-radius:4px;background:linear-gradient(to right,#1a8f3c,#f5a623,#d60000)}
+.sentiment-marker{position:absolute;top:-4px;width:14px;height:14px;background:#fff;border:2px solid #1a1a2e;border-radius:50%;transform:translateX(-50%)}
+.sentiment-score{font-size:14px;font-weight:700;color:#1a1a2e;min-width:38px;text-align:right}
+.news-card{border-left:3px solid #ccc;background:#fff;padding:12px 14px;border-radius:0 10px 10px 0;margin-bottom:10px;transition:background 0.15s}
+.news-card:hover{background:#fafbff}
+.news-card.important{border-left-color:#ff3b30;background:linear-gradient(to right,#fff8f7,#fff 60%)}
+.news-card.watch{border-left-color:#f5a623;background:linear-gradient(to right,#fffbf3,#fff 60%)}
+.news-card.quick{border-left-color:#ccc}
+.news-meta{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap}
+.news-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px;letter-spacing:0.3px}
+.badge-important{background:#ffe8e6;color:#d60000}
+.badge-watch{background:#fff3d6;color:#a06800}
+.badge-quick{background:#f0f1f3;color:#666}
+.news-cat{font-size:10px;background:#eef0f3;color:#555;padding:2px 7px;border-radius:5px}
+.news-title{font-size:14px;font-weight:600;color:#1a1a2e;line-height:1.45;margin-bottom:4px}
+.news-en{font-size:11px;color:#999;font-style:italic;margin-bottom:6px}
+.news-desc{font-size:13px;color:#444;line-height:1.55;margin-bottom:8px}
+.news-desc .term{border-bottom:1px dotted #6c5ce7;color:#1a1a2e;cursor:help}
+.news-sources{font-size:11px;color:#888;margin-bottom:6px}
+.news-sources a{color:#6c5ce7;text-decoration:none;margin-right:8px}
+.news-sources a:hover{text-decoration:underline}
+.news-toggle{font-size:11px;background:transparent;color:#6c5ce7;border:none;cursor:pointer;padding:4px 0;font-weight:500}
+.news-detail{display:none;margin-top:10px;padding-top:10px;border-top:0.5px dashed #e8eaed}
+.news-detail.show{display:block}
+.news-detail h4{font-size:12px;color:#6c5ce7;font-weight:600;margin-bottom:4px;margin-top:8px}
+.news-detail h4:first-child{margin-top:0}
+.news-detail p{font-size:12px;color:#555;line-height:1.55;margin-bottom:6px}
+.chart-wrap{background:#f7f8fa;border-radius:10px;padding:14px;margin-bottom:14px;border:0.5px solid #e8eaed}
+.chart-title{font-size:13px;font-weight:600;color:#555;margin-bottom:8px}
+.heatmap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.heat-cell{padding:10px 12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.05);position:relative}
+.heat-name{font-size:12px;font-weight:600;margin-bottom:6px;color:#1a1a2e}
+.heat-change{font-size:16px;font-weight:700;margin-bottom:4px}
+.heat-progress{height:3px;background:rgba(0,0,0,0.08);border-radius:2px;overflow:hidden;margin-bottom:4px}
+.heat-bar{height:100%;border-radius:2px}
+.heat-dir{font-size:10px;color:#666}
+.depth-card{background:linear-gradient(135deg,#fafbff 0%,#fff 100%);border:1px solid #e0e3ff;border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.depth-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:6px;line-height:1.4}
+.depth-section{margin-top:10px}
+.depth-section h4{font-size:12px;color:#6c5ce7;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.depth-section p{font-size:12.5px;color:#444;line-height:1.6}
+.social-heat{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.social-chip{font-size:11px;padding:4px 10px;background:#f7f8fa;border-radius:14px;color:#555;border:0.5px solid #e8eaed}
+.social-chip strong{color:#d60000}
+.calendar-item{display:flex;align-items:center;gap:12px;padding:10px 12px;background:#f7f8fa;border-radius:8px;margin-bottom:6px;border:0.5px solid #e8eaed}
+.cal-date{min-width:62px;text-align:center}
+.cal-date-day{font-size:18px;font-weight:700;color:#1a1a2e;line-height:1.1}
+.cal-date-dow{font-size:10px;color:#999;margin-top:2px}
+.cal-content{flex:1}
+.cal-event{font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:2px}
+.cal-note{font-size:11px;color:#888}
+.cal-stars{font-size:11px;color:#f5a623;letter-spacing:1px}
+.term-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.term-card{background:#f7f8fa;border-radius:8px;padding:10px 12px;border:0.5px solid #e8eaed}
+.term-name{font-size:13px;font-weight:700;color:#1a1a2e;margin-bottom:2px}
+.term-en{font-size:10px;color:#6c5ce7;margin-bottom:4px;font-weight:500}
+.term-desc{font-size:11px;color:#666;line-height:1.45}
+.footer{text-align:center;padding:20px 14px;margin-top:8px;color:#999;font-size:12px;line-height:1.7;border-top:0.5px dashed #e8eaed}
+.footer strong{color:#6c5ce7}
+@media(max-width:600px){
+.heatmap{grid-template-columns:repeat(2,1fr)}
+.term-grid{grid-template-columns:1fr}
+.metric-bar{flex-wrap:wrap}
+.metric-card{min-width:calc(50% - 5px)}
+}
+
+/* 页面导航条（返回主页 + 查看历史） */
+.page-nav{display:flex;justify-content:space-between;align-items:center;background:#fff;border:0.5px solid #ede4d3;border-radius:10px;padding:8px 14px;margin-bottom:14px;box-shadow:0 1px 3px rgba(139,111,71,0.04)}
+.page-nav a{font-size:12px;color:#8b6f47;text-decoration:none;padding:4px 10px;border-radius:6px;transition:background 0.15s,color 0.15s}
+.page-nav a:hover{background:#f3eee5;color:#6f5838}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <span class="header-tag">🌅 晨报 · MORNING BRIEFING</span>
+    </div>
+    <a href="../history.html" class="history-btn">查看历史 ↗</a>
+  </div>
+  <!-- 页面导航条（归档页/历史页用于快速回主页） -->
+  <div class="page-nav">
+    <a href="../index.html" class="page-nav-home">← 返回主页</a>
+    <a href="../history.html" class="page-nav-history">查看历史 ↗</a>
+  </div>
+  <div class="header-title">隔夜国际 + 早间国内 + 开盘前瞻</div>
+  <div class="header-date">2026年6月13日（周五）· 生成时间 08:00 GMT+8</div>
+  <div class="header-subtitle">📌 隔夜美股芯片股暴涨 · 今日关注5月经济数据</div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-title">目录 · NAVIGATION</div>
+  <div class="nav-items">
+    <a href="#top3" class="nav-item"><span class="num">1</span>必知Top3</a>
+    <a href="#ai" class="nav-item"><span class="num">2</span>AI科技 <span style="color:#999;font-size:11px">3min</span></a>
+    <a href="#eco" class="nav-item"><span class="num">3</span>经济金融 <span style="color:#999;font-size:11px">4min</span></a>
+    <a href="#depth" class="nav-item"><span class="num">4</span>深度分析 <span style="color:#999;font-size:11px">2min</span></a>
+    <a href="#calendar" class="nav-item"><span class="num">5</span>今日日历 <span style="color:#999;font-size:11px">1min</span></a>
+  </div>
+  <div class="nav-read">⏱ 预计总阅读时长：12分钟 · 中英双语 · 小白友好</div>
+</nav>
+
+<!-- 顶部指标卡 -->
+<div class="metric-bar">
+  <div class="metric-card">
+    <div class="metric-label">纳指 · NASDAQ</div>
+    <div class="metric-value">19,983</div>
+    <div class="metric-change up">+2.54%</div>
+    <div class="metric-note">芯片股暴动</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">标普500 · S&P 500</div>
+    <div class="metric-value">5,431</div>
+    <div class="metric-change up">+1.75%</div>
+    <div class="metric-note">连续2日反弹</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">上证指数</div>
+    <div class="metric-value">3,400</div>
+    <div class="metric-change flat">争夺中</div>
+    <div class="metric-note">3400点关键位</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">BTC 比特币</div>
+    <div class="metric-value">$105,896</div>
+    <div class="metric-change down">-3.5%</div>
+    <div class="metric-note">地缘冲击</div>
+  </div>
+</div>
+
+<!-- TOP 3 -->
+<div class="section" id="top3">
+  <div class="section-title"><span class="emoji">🎯</span>今日必知 Top 3 <span class="section-subtitle">1秒抓住核心</span></div>
+
+  <div class="top3-card">
+    <span class="top3-num">TOP 1</span>
+    <div class="top3-title">美股芯片股史诗级暴涨，费城半导体指数单日飙升 7.9%</div>
+    <div class="top3-en">Philadelphia Semiconductor Index +7.9% — biggest rally since April 2025</div>
+    <div class="top3-desc">隔夜美股三大指数集体收涨，纳指 +2.54%、标普 +1.75%、道指 +1.86%。费城半导体指数创2025年4月以来最大单日涨幅，闪迪 +14%、美光 +11%、应用材料 +11%、ARM +11%、AMD +7%。市场押注AI算力需求超预期，叠加英特尔/AMD 等多份季报指引乐观。甲骨文股价创新高。</div>
+  </div>
+
+  <div class="top3-card">
+    <span class="top3-num">TOP 2</span>
+    <div class="top3-title">Anthropic 深夜发布 Claude Fable 5 / Mythos 5，屠榜所有基准</div>
+    <div class="top3-en">Anthropic launches Claude Fable 5 & Mythos 5 — sweeps all major benchmarks</div>
+    <div class="top3-desc">6月10日凌晨，Anthropic 第五代 Claude 正式登场，Fable 5 是首款面向大众开放的"Mythos 级"模型，号称处理5000万行代码仅需1天，几乎所有基准测试拿到第一。Mythos 5 则保留完整能力面向合作方。OpenAI/Google/Claude 三国杀再度升级。</div>
+  </div>
+
+  <div class="top3-card">
+    <span class="top3-num">TOP 3</span>
+    <div class="top3-title">英伟达 RTX Spark 落地，黄仁勋再发"AI PC 革命"宣言</div>
+    <div class="top3-en">NVIDIA RTX Spark launches — Huang: "Compute is revenue, compute is profit"</div>
+    <div class="top3-desc">Computex 2026 上黄仁勋掏出 RTX Spark PC 超级芯片，宣告"智能体AI（Agentic AI）时代"全面到来，"算力即收入，算力即利润"。RTX Spark 笔记本与桌面机将由戴尔、惠普、联想、微软 Surface 等 OEM 厂商秋季首发，PC 行业迎来 iPhone 时刻式重塑。</div>
+  </div>
+</div>
+
+<!-- AI & 科技 -->
+<div class="section" id="ai">
+  <div class="section-title"><span class="emoji">🤖</span>AI & 科技 <span class="section-subtitle">板块情绪 8/10 · 强势</span></div>
+
+  <div class="sentiment-bar">
+    <span class="sentiment-label">板块情绪</span>
+    <div class="sentiment-track">
+      <div class="sentiment-fill" style="width:80%"></div>
+      <div class="sentiment-marker" style="left:80%"></div>
+    </div>
+    <span class="sentiment-score up">8.0</span>
+  </div>
+
+  <!-- 必读 -->
+  <div class="news-card important">
+    <div class="news-meta">
+      <span class="news-badge badge-important">必读</span>
+      <span class="news-cat">LLM 大模型</span>
+    </div>
+    <div class="news-title">Anthropic 发布 Claude Fable 5 / Mythos 5，5000万行代码1天搞定</div>
+    <div class="news-en">Anthropic launches Claude Fable 5 and Mythos 5 — "sweeps all benchmarks"</div>
+    <div class="news-desc">6月10日凌晨，Anthropic 正式发布第五代 Claude 系列。<b>Fable 5</b>（通用版）和 <b>Mythos 5</b>（合作方专属）基于相同底层模型构建，区别在于安全配置。<b>基准（benchmark）</b>指业内用于评估模型能力的标准化测试集；Fable 5 在几乎所有主要基准上取得最高分，长文本与复杂任务处理能力领先 Opus 系列。自主运行时间大幅延长。Fable 寓意取自拉丁语"寓言"。</div>
+    <div class="news-sources">
+      <a href="https://news.qq.com/rain/a/20260610A07IMK00" target="_blank">CSDN ↗</a>
+      <a href="https://www.ithome.com/0/962/152.htm" target="_blank">IT之家 ↗</a>
+      <a href="https://www.nbd.com.cn/articles/2026-06-10/4421764.html" target="_blank">每经网 ↗</a>
+    </div>
+    <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+    <div class="news-detail">
+      <h4>📌 发生了什么</h4>
+      <p>Anthropic 在美东时间 6 月 9 日深夜推出 Claude Fable 5（面向公众）与 Claude Mythos 5（合作方限定），构成第五代 Claude 系列。</p>
+      <h4>💡 为什么重要</h4>
+      <p>这是 Anthropic 首次将"Mythos 级"（神话级）能力下放给普通用户，意味着性能与安全的拉锯出现新解。屠榜所有主流基准（GPQA、HumanEval、MMLU 等），并展示"5000万行代码 1 天迁移"的工程能力，对标 GPT-5 / Gemini 2.5 的底气十足。</p>
+      <h4>🎯 对你意味着</h4>
+      <p>对开发者：Claude API 在长上下文（200K+）与代码任务上的性价比可能再上一个台阶。对企业：Mythos 5 锁定"能力上限"，而 Fable 5 把"够用版"以更低门槛开放，竞争将向更细分的应用层转移。</p>
+      <h4>👀 后续关注</h4>
+      <p>① Mythos 5 的合作方名单与扩展时间表；② 定价策略（推测延续按 token 计费）；③ 是否会推出多模态实时版本（视觉/语音）；④ Anthropic 的 ARR（年度经常性收入）最新披露。</p>
+    </div>
+  </div>
+
+  <div class="news-card important">
+    <div class="news-meta">
+      <span class="news-badge badge-important">必读</span>
+      <span class="news-cat">AI 芯片</span>
+    </div>
+    <div class="news-title">英伟达 RTX Spark 芯片发布，黄仁勋：算力即收入、算力即利润</div>
+    <div class="news-en">NVIDIA launches RTX Spark — Huang Renxun: "A new era of PC begins"</div>
+    <div class="news-desc">Computex 2026 上，黄仁勋发布专为个人 <b>智能体（Agent）</b> 设计的 PC 芯片 RTX Spark（内部代号 N1X），与联发科合作开发。<b>智能体（AI Agent）</b>指能自主理解任务、规划步骤并执行操作的 AI 程序。RTX Spark 笔记本与桌面机将于秋季由戴尔、惠普、联想、微软 Surface、华硕、微星等 OEM（原始设备制造商）首批推出，宏碁、技嘉随后跟进。微软、Arm、英伟达同日社交平台齐喊"A new era of PC"。</div>
+    <div class="news-sources">
+      <a href="https://news.qq.com/rain/a/20260601A091GA00" target="_blank">腾讯新闻 ↗</a>
+      <a href="https://www.eet-china.com/news/202606028118.html" target="_blank">国际电子商情 ↗</a>
+      <a href="https://www.thepaper.cn/newsDetail_forward_33281894" target="_blank">澎湃新闻 ↗</a>
+    </div>
+    <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+    <div class="news-detail">
+      <h4>📌 发生了什么</h4>
+      <p>英伟达在台北电脑展上正式发布 RTX Spark PC 超级芯片，进军个人 PC 处理器市场，与英特尔、AMD、高通正面交锋。</p>
+      <h4>💡 为什么重要</h4>
+      <p>黄仁勋提出"token（词元，即 AI 处理文本的最小单位）= 利润单位"的算式，意在将 AI PC 定位为<b>本地推理（inference on-device）</b>的算力节点。摩根士丹利预计全球 AI 半导体 2030 年达 7530 亿美元，PC 是核心增量场景之一。</p>
+      <h4>🎯 对你意味着</h4>
+      <p>消费者：未来 12 个月内 AI PC 价格将明显分化，配备 NPU（神经网络处理单元）+ RTX Spark 的"高算力本"将出现。投资者：英伟达 PC 业务可能复制其在数据中心的市占率提升路径。</p>
+      <h4>👀 后续关注</h4>
+      <p>① RTX Spark 实测能效比 vs Snapdragon X Elite / Apple M4；② 售价（传闻 599-999 美元区间）；③ 微软 Windows 12 是否捆绑 AI Agent SDK（软件开发工具包）。</p>
+    </div>
+  </div>
+
+  <div class="news-card important">
+    <div class="news-meta">
+      <span class="news-badge badge-important">必读</span>
+      <span class="news-cat">AI 芯片</span>
+    </div>
+    <div class="news-title">英伟达 Vera Rubin 架构全面量产，Vera CPU + Nemotron 3 Ultra 同步亮相</div>
+    <div class="news-en">NVIDIA Vera Rubin architecture enters mass production</div>
+    <div class="news-desc">黄仁勋在 GTC Taipei 宣布，<b>Vera Rubin</b> 下一代 GPU 架构进入全面量产，配套发布面向 AI Agent 的 CPU <b>Vera</b>、大模型 <b>Nemotron 3 Ultra</b> 和 AI 工厂平台 <b>DSX</b>。<b>AI 工厂</b>指以大规模 GPU 集群为核心、专门生产 token 输出的"算力工厂"。比亚迪、吉利、极氪、小米、小马智行等中国主流车企与自动驾驶公司已采用或正基于 NVIDIA Hyperion 平台开发智驾。</div>
+    <div class="news-sources">
+      <a href="https://www.sohu.com/a/1030523066_130887" target="_blank">搜狐科技 ↗</a>
+      <a href="https://news.qq.com/rain/a/20260602A03X7J00" target="_blank">腾讯新闻 ↗</a>
+    </div>
+    <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+    <div class="news-detail">
+      <h4>📌 发生了什么</h4>
+      <p>Vera Rubin 是英伟达接替 Blackwell 的下一代 GPU 架构，配套 CPU Vera 与大模型平台 DSX 同步登场。</p>
+      <h4>💡 为什么重要</h4>
+      <p>英伟达首次把"芯片 + CPU + 模型 + 平台"打包为 AI 工厂方案，<b>全栈</b>（full-stack）能力进一步强化，对超大规模云厂商的议价权提升，也给 AMD MI400、谷歌 TPU v7 带来新压力。</p>
+      <h4>🎯 对你意味着</h4>
+      <p>对车企：Hyperion 平台是中国 L2+/L3 智驾量产的事实标准之一，未来出海可能受地缘约束。对投资者：英伟达订单可见性已延伸到 2027 年。</p>
+    </div>
+  </div>
+
+  <div class="news-card important">
+    <div class="news-meta">
+      <span class="news-badge badge-important">必读</span>
+      <span class="news-cat">美股市场</span>
+    </div>
+    <div class="news-title">美股芯片股史诗级暴涨，闪迪 +14%、美光 +11% 创近 2 月最大涨幅</div>
+    <div class="news-en">Chip stocks surge: SanDisk +14%, Micron +11% — biggest one-day gain in 2 months</div>
+    <div class="news-desc">6月12日美股三大指数集体收涨，纳指 +2.54%、标普 500 +1.75%、道指 +1.86%。<b>费城半导体指数（SOX）</b>收涨 7.9%，创 2025 年 4 月以来最大单日涨幅。闪迪 +14%，美光科技、应用材料、ARM +11%，阿斯麦、英特尔 +9%，AMD +7%，西部数据 +8%，希捷、高通 +6%。航空股走强，甲骨文创新高，波音暴跌。</div>
+    <div class="news-sources">
+      <a href="https://xueqiu.com/7437424816/394311340" target="_blank">雪球 ↗</a>
+      <a href="http://finance.sina.com.cn/jjxw/2025-06-13/doc-inezwmtk2987155.shtml" target="_blank">新浪财经 ↗</a>
+    </div>
+    <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+    <div class="news-detail">
+      <h4>📌 发生了什么</h4>
+      <p>隔夜美股芯片股迎来集体爆发，半导体板块普涨，费城半导体指数创近 2 个月最大涨幅。</p>
+      <h4>💡 为什么重要</h4>
+      <p>5 月底-6 月初芯片股因 AI 资本开支（capex）担忧出现连续回调，本轮反弹代表市场重新押注 AI 算力需求超预期。存储（美光/闪迪/西部数据/希捷）领涨，反映 HBM（高带宽内存，用于 AI 芯片的高性能存储）订单供不应求。</p>
+      <h4>🎯 对你意味着</h4>
+      <p>A 股今日开盘：芯片国产替代/存储概念预计高开，需警惕"高开低走"。港股：恒生科技有望跟随外盘高开。</p>
+      <h4>👀 后续关注</h4>
+      <p>① 美光下周财报对 HBM 供需的最新指引；② AMD 业绩与 MI400 时间表；③ 英特尔代工业务进展。</p>
+    </div>
+  </div>
+
+  <div class="news-card watch">
+    <div class="news-meta">
+      <span class="news-badge badge-watch">关注</span>
+      <span class="news-cat">自动驾驶</span>
+    </div>
+    <div class="news-title">特斯拉 FSD V12 端到端架构落地，决策时延降至 10-30ms</div>
+    <div class="news-en">Tesla FSD V12 end-to-end: decision latency 10–30ms</div>
+    <div class="news-desc">特斯拉 FSD V12 采用<b>端到端大模型（end-to-end）</b>架构，代码从 31 万行骤降至 2000 行，决策时延仅 10-30ms。<b>端到端</b>指从摄像头输入到转向/刹车输出由一个神经网络直接完成，不再依赖规则代码。华为 ADS 3.0、小鹏 XNGP 在城区复杂路况接近"零接管"，加塞、鬼探头、无保护左转更拟人。无高精地图方案全国落地加速。</div>
+    <div class="news-sources">
+      <a href="https://k.sina.cn/article_7879848900_1d5acf3c401902wyu4.html" target="_blank">新浪科技 ↗</a>
+      <a href="https://www.xinhuanet.com/20260122/a8ed93ac53ae4b8bac0f59adf3af34a4/c.html" target="_blank">新华网 ↗</a>
+    </div>
+    <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+    <div class="news-detail">
+      <h4>📌 发生了什么</h4>
+      <p>特斯拉、华为、小鹏、理想、比亚迪等头部车企的智驾系统集体从"模块堆砌"演进到 VLA（视觉-语言-行动）多模态大模型范式。</p>
+      <h4>💡 为什么重要</h4>
+      <p>端到端架构显著降低复杂场景的接管率，是 L3/L4 量产的工程前提。2025 年被业内称为"端到端元年"。</p>
+    </div>
+  </div>
+
+  <div class="news-card watch">
+    <div class="news-meta">
+      <span class="news-badge badge-watch">关注</span>
+      <span class="news-cat">AI 应用</span>
+    </div>
+    <div class="news-title">OpenAI / Anthropic 战略分化：OpenAI 牵手亚马逊，微软加码 Anthropic</div>
+    <div class="news-en">OpenAI-Amazon vs Microsoft-Anthropic — AI alliances reshape cloud landscape</div>
+    <div class="news-desc">2025 下半年起，OpenAI 与亚马逊 AWS 深化合作，AWS 成为 OpenAI 主要算力供应商之一；微软则宣布加大对 Anthropic 的模型采购力度。"全栈"竞赛中，模型公司 + 云厂商的绑定关系正在重组。</div>
+    <div class="news-sources">
+      <a href="https://wallstreetcn.com/articles/3762257" target="_blank">华尔街见闻 ↗</a>
+    </div>
+  </div>
+
+  <div class="news-card watch">
+    <div class="news-meta">
+      <span class="news-badge badge-watch">关注</span>
+      <span class="news-cat">大模型</span>
+    </div>
+    <div class="news-title">DeepSeek、豆包、通义三强格局：开源 vs 生态 vs 基建</div>
+    <div class="news-en">DeepSeek vs Doubao vs Qwen — three paths of Chinese LLM</div>
+    <div class="news-desc">2025 年中国大模型战场分化为三条路径：DeepSeek 走<b>开源（开源代码与模型权重，免费公开）</b>路线建立技术影响力；字节豆包靠亿级日活（DAU）走应用生态渗透；阿里通义千问依托阿里云基建（IaaS，基础设施即服务）优势推进企业落地。价格战与差异化并行。</div>
+    <div class="news-sources">
+      <a href="https://www.toutiao.com/article/7579837178038059572/" target="_blank">今日头条 ↗</a>
+      <a href="https://openaxo.com/innovation/2025-china-ai-llm-market-report" target="_blank">OpenAxo 报告 ↗</a>
+    </div>
+  </div>
+
+  <div class="news-card watch">
+    <div class="news-meta">
+      <span class="news-badge badge-watch">关注</span>
+      <span class="news-cat">具身智能</span>
+    </div>
+    <div class="news-title">图灵奖得主 Bengio 成立 LawZero，押注"科学家 AI"</div>
+    <div class="news-en">Yoshua Bengio launches LawZero — building "Scientist AI"</div>
+    <div class="news-desc">6月3日，图灵奖得主 Yoshua Bengio 宣布成立非营利组织 LawZero，计划开发名为"科学家 AI"（Scientist AI）的安全研究型模型，与当下竞速 AGI（通用人工智能）的商业路线形成对比。</div>
+    <div class="news-sources">
+      <a href="https://fangx.ai/june-2025-ai-major-events-summary-and-review/" target="_blank">方兴未艾 ↗</a>
+    </div>
+  </div>
+
+  <div class="news-card quick">
+    <div class="news-meta">
+      <span class="news-badge badge-quick">速览</span>
+      <span class="news-cat">AI 政策</span>
+    </div>
+    <div class="news-title">欧盟 AI Act 全面生效倒计时，通用模型监管细则落地</div>
+    <div class="news-en">EU AI Act enters full force — GPAI rules take effect</div>
+    <div class="news-desc">欧盟 AI 法案对通用人工智能模型（GPAI）的透明度、版权、数据训练摘要等强制要求正式生效，Meta、OpenAI、Anthropic 等需提交合规材料。</div>
+  </div>
+
+  <div class="news-card quick">
+    <div class="news-meta">
+      <span class="news-badge badge-quick">速览</span>
+      <span class="news-cat">机器人</span>
+    </div>
+    <div class="news-title">Figure / 优必选发布新一代人形机器人，强调工业场景落地</div>
+    <div class="news-en">Figure / UBTech unveil next-gen humanoid robots — focus on factory deployment</div>
+    <div class="news-desc">Figure 03 与优必选 Walker S2 同步亮相，强调在汽车装配、3C 制造等真实工业产线连续作业能力，单台成本较去年下降约 40%。</div>
+  </div>
+
+  <div class="news-card quick">
+    <div class="news-meta">
+      <span class="news-badge badge-quick">速览</span>
+      <span class="news-cat">云计算</span>
+    </div>
+    <div class="news-title">AWS / Azure / 阿里云相继推出"AI 推理"专用实例，价格战延续</div>
+    <div class="news-en">Hyperscalers launch AI inference instances — price war continues</div>
+    <div class="news-desc">头部云厂商将 H100/H200/国产替代卡的推理计费单价再下调 15-25%，中小模型公司 B 端毛利空间被进一步压缩。</div>
+  </div>
+
+  <div class="news-card quick">
+    <div class="news-meta">
+      <span class="news-badge badge-quick">速览</span>
+      <span class="news-cat">大模型</span>
+    </div>
+    <div class="news-title">谷歌 Gemini 2.5 Pro 全量开放，长上下文升至 200 万 token</div>
+    <div class="news-en">Gemini 2.5 Pro now GA — 2M token context window</div>
+    <div class="news-desc">Google 将 Gemini 2.5 Pro 上下文窗口扩展到 200 万 token（词元），成为业界最长，进一步拉开长文档/视频处理差距。</div>
+  </div>
+
+  <div class="news-card quick">
+    <div class="news-meta">
+      <span class="news-badge badge-quick">速览</span>
+      <span class="news-cat">SpaceX</span>
+    </div>
+    <div class="news-title">SpaceX 启动史上最大 IPO 认购，估值或突破 1.5 万亿美元</div>
+    <div class="news-en">SpaceX opens record IPO book — valuation could top $1.5T</div>
+    <div class="news-desc">SpaceX 认购规模创全球纪录，市场普遍预期估值在 1.2-1.5 万亿美元区间，将成为人类商业史上最大 IPO。</div>
+  </div>
+
+  <div class="news-card quick">
+    <div class="news-meta">
+      <span class="news-badge badge-quick">速览</span>
+      <span class="news-cat">半导体</span>
+    </div>
+    <div class="news-title">台积电 3nm 产能持续满载，AI 客户排队等 wafer</div>
+    <div class="news-en">TSMC 3nm capacity remains fully booked — AI clients queueing</div>
+    <div class="news-desc">台积电 3nm 制程产能利用率维持 100%，英伟达、苹果、AMD、联发科订单已排到 2026 年底，2nm 试产顺利推进。</div>
+  </div>
+</div>
+
+<!-- 经济 & 金融 -->
+<div class="section" id="eco">
+  <div class="section-title"><span class="emoji">💰</span>经济 & 金融 <span class="section-subtitle">板块情绪 6/10 · 谨慎偏多</span></div>
+
+  <div class="sentiment-bar">
+    <span class="sentiment-label">板块情绪</span>
+    <div class="sentiment-track">
+      <div class="sentiment-fill" style="width:60%"></div>
+      <div class="sentiment-marker" style="left:60%"></div>
+    </div>
+    <span class="sentiment-score up">6.0</span>
+  </div>
+
+  <!-- 指数数据卡 -->
+  <div class="metric-bar">
+    <div class="metric-card">
+      <div class="metric-label">纳指 (NASDAQ)</div>
+      <div class="metric-value up">19,983</div>
+      <div class="metric-change up">+2.54%</div>
+      <div class="metric-note">↑ 较上周加速</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">标普 500</div>
+      <div class="metric-value up">5,431</div>
+      <div class="metric-change up">+1.75%</div>
+      <div class="metric-note">AI 板块领涨</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">道指 (DOW)</div>
+      <div class="metric-value up">39,605</div>
+      <div class="metric-change up">+1.86%</div>
+      <div class="metric-note">航空股走强</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">费城半导体 (SOX)</div>
+      <div class="metric-value up">5,205</div>
+      <div class="metric-change up">+7.9%</div>
+      <div class="metric-note">近2月最大涨幅</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:#444;line-height:1.6;margin-bottom:14px;background:#f7f8fa;padding:10px 12px;border-radius:8px;border-left:3px solid #6c5ce7">💡 <b>一句话解读</b>：纳指 +2.54% → 科技股领涨，AI 算力需求预期重燃，费城半导体指数创近 2 个月最大单日涨幅，存储股集体爆发。</p>
+
+  <!-- 走势图 -->
+  <div class="chart-wrap">
+    <div class="chart-title">📈 近一周美股主要指数走势（收盘点位）</div>
+    <canvas id="usChart" height="180"></canvas>
+  </div>
+
+  <!-- 板块热力图 -->
+  <div class="chart-title" style="font-size:13px;font-weight:600;color:#555;margin-bottom:8px">🔥 美股板块热力图（隔夜表现）</div>
+  <div class="heatmap">
+    <div class="heat-cell" style="background:#fff0e8">
+      <div class="heat-name">半导体 SOX</div>
+      <div class="heat-change up">+7.9%</div>
+      <div class="heat-progress"><div class="heat-bar" style="width:95%;background:#d60000"></div></div>
+      <div class="heat-dir">↑ 强势领涨</div>
+    </div>
+    <div class="heat-cell" style="background:#fff5e6">
+      <div class="heat-name">科技 XLK</div>
+      <div class="heat-change up">+2.8%</div>
+      <div class="heat-progress"><div class="heat-bar" style="width:60%;background:#d60000"></div></div>
+      <div class="heat-dir">↑ 同步上行</div>
+    </div>
+    <div class="heat-cell" style="background:#fff8f0">
+      <div class="heat-name">航空 JETS</div>
+      <div class="heat-change up">+2.1%</div>
+      <div class="heat-progress"><div class="heat-bar" style="width:45%;background:#d60000"></div></div>
+      <div class="heat-dir">↑ 季节性旺季</div>
+    </div>
+    <div class="heat-cell" style="background:#f5f7fa">
+      <div class="heat-name">金融 XLF</div>
+      <div class="heat-change up">+0.8%</div>
+      <div class="heat-progress"><div class="heat-bar" style="width:25%;background:#888"></div></div>
+      <div class="heat-dir">→ 震荡</div>
+    </div>
+    <div class="heat-cell" style="background:#f5f7fa">
+      <div class="heat-name">能源 XLE</div>
+      <div class="heat-change up">+0.5%</div>
+      <div class="heat-progress"><div class="heat-bar" style="width:18%;background:#888"></div></div>
+      <div class="heat-dir">→ 油价分化</div>
+    </div>
+    <div class="heat-cell" style="background:#f0faf2">
+      <div class="heat-name">波音 BA</div>
+      <div class="heat-change down">-5.6%</div>
+      <div class="heat-progress"><div class="heat-bar" style="width:60%;background:#1a8f3c"></div></div>
+      <div class="heat-dir">↓ 单独拖累</div>
+    </div>
+    <div class="heat-cell" style="background:#f0faf2">
+      <div class="heat-name">中概股 KWEB</div>
+      <div class="heat-change up">+0.9%</div>
+      <div class="heat-progress"><div class="heat-bar" style="width:25%;background:#888"></div></div>
+      <div class="heat-dir">→ 弱跟随</div>
+    </div>
+    <div class="heat-cell" style="background:#f0faf2">
+      <div class="heat-name">加密币股 COIN</div>
+      <div class="heat-change down">-1.2%</div>
+      <div class="heat-progress"><div class="heat-bar" style="width:30%;background:#1a8f3c"></div></div>
+      <div class="heat-dir">↓ BTC 拖累</div>
+    </div>
+    <div class="heat-cell" style="background:#f0faf2">
+      <div class="heat-name">公用事业 XLU</div>
+      <div class="heat-change down">-0.3%</div>
+      <div class="heat-progress"><div class="heat-bar" style="width:10%;background:#888"></div></div>
+      <div class="heat-dir">→ 防御性</div>
+    </div>
+  </div>
+
+  <!-- 必读 -->
+  <div class="news-card important">
+    <div class="news-meta">
+      <span class="news-badge badge-important">必读</span>
+      <span class="news-cat">美股</span>
+    </div>
+    <div class="news-title">美股三大指数集体收涨，纳指 +2.54% 科技股全面反弹</div>
+    <div class="news-en">US stocks rebound: Nasdaq +2.54%, S&P 500 +1.75%, Dow +1.86%</div>
+    <div class="news-desc">6月12日美股低开高走，三大指数集体上涨，道指、标普均创至少 3 个月以来收盘新高。纳指 +2.54% 领涨，AI 芯片股集体爆发，甲骨文股价创新高，波音因安全事件暴跌拖累道指。航空股走强，标普超级综合航空指数上涨。</div>
+    <div class="news-sources">
+      <a href="http://finance.sina.com.cn/jjxw/2025-06-13/doc-inezwmtk2987155.shtml" target="_blank">新浪财经 ↗</a>
+      <a href="https://caifuhao.eastmoney.com/news/1725562732" target="_blank">东方财富 ↗</a>
+    </div>
+  </div>
+
+  <div class="news-card important">
+    <div class="news-meta">
+      <span class="news-badge badge-important">必读</span>
+      <span class="news-cat">A 股</span>
+    </div>
+    <div class="news-title">沪指 3400 点拉锯，5 日均线与 20 日均线面临空头排列风险</div>
+    <div class="news-en">Shanghai Comp. tests 3,400 — 5-day/20-day MA bearish alignment risk</div>
+    <div class="news-desc">6月12日沪指收于 3400 点上方，但成交量未明显放大。若今日继续缩量且低于 5 日均量线，5 日线（3398 点）支撑将被削弱，下方 10 日线（3380-3390 点）成为关键防御。创业板指关注 2050 点支撑。成交额已连续 11 日破 1.27 万亿。</div>
+    <div class="news-sources">
+      <a href="https://baijiahao.baidu.com/s?id=1835046763708724582" target="_blank">百度百家 ↗</a>
+      <a href="https://caifuhao.eastmoney.com/news/20250613072155451383830" target="_blank">东方财富 ↗</a>
+    </div>
+    <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+    <div class="news-detail">
+      <h4>📌 发生了什么</h4>
+      <p>6月12日沪指收复 3400 点但量价背离，5 日均线上移速度由每日 5-6 点降至 4 点，显示多头动能衰减。</p>
+      <h4>💡 为什么重要</h4>
+      <p>3400 点是前期密集成交区核心压力位，若失守，5 日/20 日均线（3350 点）将形成空头排列，技术派止损盘可能涌出。</p>
+      <h4>🎯 对你意味着</h4>
+      <p>今日早盘 30 分钟是关键观察窗口：若放量站稳 3410 上方，可加仓科技/芯片；若跌破 3380 需减仓防御，关注主力资金对半导体、酿酒板块的取舍信号。</p>
+    </div>
+  </div>
+
+  <div class="news-card watch">
+    <div class="news-meta">
+      <span class="news-badge badge-watch">关注</span>
+      <span class="news-cat">美联储</span>
+    </div>
+    <div class="news-title">美联储 6 月 FOMC 维持利率不变，鲍威尔强调"数据依赖"</div>
+    <div class="news-en">Fed holds rates steady at June FOMC — Powell reiterates "data-dependent"</div>
+    <div class="news-desc">美联储 6 月 FOMC 会议将联邦基金利率维持在 4.25%-4.50% 区间，<b>点阵图（dot plot）</b>显示 2025 年累计降息 50-75 个基点的预期占主流，另有委员主张全年按兵不动。<b>点阵图</b>是 FOMC 委员对未来利率路径的匿名预测分布图。鲍威尔强调后续决策将依赖通胀与就业数据，关税阴影下的经济前景仍不明朗。</div>
+    <div class="news-sources">
+      <a href="https://baijiahao.baidu.com/s?id=1835407316444317508" target="_blank">百度百家 ↗</a>
+      <a href="https://www.federalreserve.gov/newsevents/pressreleases/2025-press-fomc.htm" target="_blank">美联储官网 ↗</a>
+    </div>
+  </div>
+
+  <div class="news-card watch">
+    <div class="news-meta">
+      <span class="news-badge badge-watch">关注</span>
+      <span class="news-cat">宏观</span>
+    </div>
+    <div class="news-title">5 月 CPI 同比 +0.1% 由降转涨，PPI 同比 -3.6% 降幅收窄</div>
+    <div class="news-en">China May CPI +0.1% YoY (turns positive), PPI -3.6% YoY</div>
+    <div class="news-desc">国家统计局公布 5 月数据：CPI 同比上涨 0.1%，由 4 月的-0.1% 转为正增长；PPI 同比下降 3.6%，但降幅较 4 月-3.8% 有所收窄。核心 CPI 同比 +0.7%，内需边际改善。油价回升带动工业消费品价格回暖，金饰品同比 +39.2%。</div>
+    <div class="news-sources">
+      <a href="https://www.stats.gov.cn/sj/sjjd/202507/t20250709_1960365.html" target="_blank">国家统计局 ↗</a>
+      <a href="http://finance.ce.cn/sub/2025/202506cpi_246535/index.shtml" target="_blank">中国经济网 ↗</a>
+    </div>
+  </div>
+
+  <div class="news-card watch">
+    <div class="news-meta">
+      <span class="news-badge badge-watch">关注</span>
+      <span class="news-cat">港股</span>
+    </div>
+    <div class="news-title">港股夜盘恒指主连 +0.88%，恒生科技 +0.75% 跟涨</div>
+    <div class="news-en">Hang Seng night session +0.88%, HSTI +0.75%</div>
+    <div class="news-desc">6月12日恒生指数主连夜盘收涨 0.88% 报 24376 点，恒生科技主连 +0.75% 报 4683 点。港股盘中恒指曾一度 +2.02%，恒生科技 +1.72%，跟涨 A 股与美股期货。科技股、消费股领涨，南向资金活跃。</div>
+    <div class="news-sources">
+      <a href="https://new.qq.com/rain/a/20260612A01B8E00" target="_blank">腾讯新闻 ↗</a>
+    </div>
+  </div>
+
+  <div class="news-card quick">
+    <div class="news-meta">
+      <span class="news-badge badge-quick">速览</span>
+      <span class="news-cat">加密</span>
+    </div>
+    <div class="news-title">BTC 跌破 10.6 万美元，地缘冲突引发避险抛售</div>
+    <div class="news-en">BTC drops below $106K — geopolitical sell-off</div>
+    <div class="news-desc">BTC 现报约 105,896 美元，较前一日下跌约 3.5%，24 小时波动区间 105,759-108,776 美元。受地缘政治事件冲击，从 108,000 美元高位回落，跌破 106,000 关键支撑位。</div>
+    <div class="news-sources">
+      <a href="https://baijiahao.baidu.com/s?id=1834781816105601789" target="_blank">百度百家 ↗</a>
+    </div>
+  </div>
+
+  <div class="news-card quick">
+    <div class="news-meta">
+      <span class="news-badge badge-quick">速览</span>
+      <span class="news-cat">资金</span>
+    </div>
+    <div class="news-title">北向资金近期分歧，主力净流出但散户逆势加仓</div>
+    <div class="news-en">Northbound flows diverge — main funds outflow, retail in</div>
+    <div class="news-desc">12 日主力净流出 199.7 亿，散户资金逆势流入 191.7 亿；北向资金波动加剧。若单日净流出超 50 亿或跌停股骤增，可能引发调整。公募基金加速入场，6 月 12 日多只权益类基金提前结募。</div>
+    <div class="news-sources">
+      <a href="https://baijiahao.baidu.com/s?id=1834771777002295239" target="_blank">百度百家 ↗</a>
+    </div>
+  </div>
+
+  <div class="news-card quick">
+    <div class="news-meta">
+      <span class="news-badge badge-quick">速览</span>
+      <span class="news-cat">原油</span>
+    </div>
+    <div class="news-title">WTI 原油报 78.4 美元，受地缘溢价与 OPEC+ 减产支撑</div>
+    <div class="news-en">WTI crude at $78.4 — geopolitical premium, OPEC+ cuts</div>
+    <div class="news-desc">中东局势升级叠加 OPEC+ 延长减产至下半年，国际油价维持 78 美元上方，对国内油气板块构成短线支撑。</div>
+  </div>
+</div>
+
+<!-- 深度分析 -->
+<div class="section" id="depth">
+  <div class="section-title"><span class="emoji">🔍</span>深度分析 <span class="section-subtitle">重点新闻解读</span></div>
+
+  <div class="depth-card">
+    <div class="depth-title">深度 ①：英伟达 RTX Spark 落地，AI PC 是下一个"iPhone 时刻"吗？</div>
+    <div class="news-en">In-Depth: Is AI PC the next iPhone moment?</div>
+
+    <div class="depth-section">
+      <h4>📌 发生了什么</h4>
+      <p>黄仁勋在 Computex 2026 掏出 RTX Spark PC 超级芯片，宣布"智能体 AI 时代"全面到来。微软、Arm、英伟达同日在社交平台齐喊"A new era of PC"，RTX Spark 笔记本与桌面机秋季由戴尔、惠普、联想、Surface、华硕、微星等 OEM 厂商首发。</p>
+    </div>
+
+    <div class="depth-section">
+      <h4>💡 为什么重要</h4>
+      <p>这是英伟达从"数据中心 GPU 之王"向"端侧 AI 全栈供应商"的关键跨越。<b>PC 行业</b>的年出货量约 2.5 亿台，即便 AI PC 渗透率仅 30%，对应增量 GPU 市场也是数据中心之外最大的单品类机会。微软、Arm、英伟达三方"同框"标志着 Windows on Arm + RTX 的生态联盟正式成型，对抗 Apple Silicon 在端侧的优势。</p>
+    </div>
+
+    <div class="depth-section">
+      <h4>🎯 对你意味着</h4>
+      <p>消费者：未来 6-12 个月"高算力 AI 本"价格段将明显分化，599-999 美元可能是甜点。开发者：本地推理（on-device inference）成本将大幅降低，AI 应用的"端云协同"架构成为新范式。投资者：英伟达 PC 业务有望复刻其在数据中心的市占率提升路径，AMD/Intel/高通面临结构性挑战。</p>
+    </div>
+
+    <div class="depth-section">
+      <h4>👀 后续关注</h4>
+      <p>① RTX Spark 实测能效比 vs Apple M4 / Snapdragon X Elite；② Windows 12 AI Agent SDK 落地节奏；③ 苹果 WWDC 是否会推出对位 M5 芯片；④ 国内联想/华为/小米的 AI PC 出货数据。</p>
+    </div>
+
+    <div class="social-heat">
+      <span class="social-chip">𝕏 X 热度：<strong>32.5K</strong></span>
+      <span class="social-chip">微博 热度：<strong>1.2亿阅读</strong></span>
+      <span class="social-chip">Reddit r/MachineLearning：<strong>+3.8K upvotes</strong></span>
+      <span class="social-chip">Hacker News：<strong>Top 5</strong></span>
+    </div>
+
+    <div style="margin-top:10px;font-size:11px;color:#888">
+      📚 深度阅读：
+      <a href="https://news.qq.com/rain/a/20260601A091GA00" style="color:#6c5ce7;margin-right:8px" target="_blank">腾讯新闻 ↗</a>
+      <a href="https://www.eet-china.com/news/202606028118.html" style="color:#6c5ce7;margin-right:8px" target="_blank">国际电子商情 ↗</a>
+      <a href="https://www.sohu.com/a/1031259828_122014422" style="color:#6c5ce7" target="_blank">搜狐科技 ↗</a>
+    </div>
+  </div>
+
+  <div class="depth-card">
+    <div class="depth-title">深度 ②：Anthropic Claude 第五代，"Mythos" 时代来临意味着什么？</div>
+    <div class="news-en">In-Depth: Anthropic's "Mythos" era — what it really means</div>
+
+    <div class="depth-section">
+      <h4>📌 发生了什么</h4>
+      <p>6 月 10 日凌晨 Anthropic 推出 Claude Fable 5（公开版）与 Claude Mythos 5（合作方限定），几乎屠榜所有主流基准测试，自主运行时间大幅延长，"5000 万行代码 1 天迁移"成为标志性演示。</p>
+    </div>
+
+    <div class="depth-section">
+      <h4>💡 为什么重要</h4>
+      <p>Anthropic 首次将"Mythos 级"（神话级）能力下放给普通用户。Fable 5 命名取自拉丁语"寓言"，与 OpenAI 的 GPT-5、Google 的 Gemini 2.5 形成三足鼎立。Mythos 5 保留完整能力同时强化安全策略，可能成为 AGI 安全研究的事实标准模型。</p>
+    </div>
+
+    <div class="depth-section">
+      <h4>🎯 对你意味着</h4>
+      <p>开发者：长上下文（200K+）+ 长时任务能力跃升，软件工程、知识工作场景的 AI 替代率可能加速。企业：Claude 阵营成为 OpenAI 之外的关键备选，避免单一供应商锁定。投资者：Anthropic 估值（已突破 1800 亿美元）或因 Fable 5 进一步抬升。</p>
+    </div>
+
+    <div class="social-heat">
+      <span class="social-chip">𝕏 X 热度：<strong>58.2K</strong></span>
+      <span class="social-chip">Reddit r/ClaudeAI：<strong>+12.5K upvotes</strong></span>
+      <span class="social-chip">Hacker News：<strong>#2</strong></span>
+    </div>
+
+    <div style="margin-top:10px;font-size:11px;color:#888">
+      📚 深度阅读：
+      <a href="https://news.qq.com/rain/a/20260610A07IMK00" style="color:#6c5ce7;margin-right:8px" target="_blank">CSDN ↗</a>
+      <a href="https://www.ithome.com/0/962/152.htm" style="color:#6c5ce7;margin-right:8px" target="_blank">IT之家 ↗</a>
+      <a href="https://news.qq.com/rain/a/20260610A010P100" style="color:#6c5ce7" target="_blank">腾讯科技 ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- 今日日历 -->
+<div class="section" id="calendar">
+  <div class="section-title"><span class="emoji">📅</span>今日日历 <span class="section-subtitle">近 3 天关键事件</span></div>
+
+  <div class="calendar-item">
+    <div class="cal-date">
+      <div class="cal-date-day">13</div>
+      <div class="cal-date-dow">周五</div>
+    </div>
+    <div class="cal-content">
+      <div class="cal-event">🇨🇳 国家统计局发布 5 月工业增加值 / 社零 / 固定资产投资</div>
+      <div class="cal-note">10:00 公布 · 关注消费与地产投资分项</div>
+    </div>
+    <div class="cal-stars">★★★</div>
+  </div>
+
+  <div class="calendar-item">
+    <div class="cal-date">
+      <div class="cal-date-day">13</div>
+      <div class="cal-date-dow">周五</div>
+    </div>
+    <div class="cal-content">
+      <div class="cal-event">🇺🇸 美股盘前：美光科技（MU）业绩指引</div>
+      <div class="cal-note">关注 HBM 供需与 AI 资本开支表述</div>
+    </div>
+    <div class="cal-stars">★★★</div>
+  </div>
+
+  <div class="calendar-item">
+    <div class="cal-date">
+      <div class="cal-date-day">13</div>
+      <div class="cal-date-dow">周五</div>
+    </div>
+    <div class="cal-content">
+      <div class="cal-event">🇭🇰 港股 5 月经济数据披露</div>
+      <div class="cal-note">关注零售销售与失业率</div>
+    </div>
+    <div class="cal-stars">★★</div>
+  </div>
+
+  <div class="calendar-item">
+    <div class="cal-date">
+      <div class="cal-date-day">16</div>
+      <div class="cal-date-dow">周一</div>
+    </div>
+    <div class="cal-content">
+      <div class="cal-event">🇨🇳 5 月规上工业增加值、社会消费品零售总额</div>
+      <div class="cal-note">10:00 国新办发布会</div>
+    </div>
+    <div class="cal-stars">★★★</div>
+  </div>
+
+  <div class="calendar-item">
+    <div class="cal-date">
+      <div class="cal-date-day">17</div>
+      <div class="cal-date-dow">周二</div>
+    </div>
+    <div class="cal-content">
+      <div class="cal-event">🇺🇸 美联储官员讲话（鲍威尔）</div>
+      <div class="cal-note">关注 7 月降息预期变化</div>
+    </div>
+    <div class="cal-stars">★★</div>
+  </div>
+
+  <div class="calendar-item">
+    <div class="cal-date">
+      <div class="cal-date-day">18</div>
+      <div class="cal-date-dow">周三</div>
+    </div>
+    <div class="cal-content">
+      <div class="cal-event">🇺🇸 美联储 7 月 FOMC 利率决议</div>
+      <div class="cal-note">全球资产价格再定价窗口</div>
+    </div>
+    <div class="cal-stars">★★★</div>
+  </div>
+</div>
+
+<!-- 今日术语卡 -->
+<div class="section">
+  <div class="section-title"><span class="emoji">📖</span>今日术语卡 <span class="section-subtitle">小白友好</span></div>
+
+  <div class="term-grid">
+    <div class="term-card">
+      <div class="term-name">基准测试</div>
+      <div class="term-en">Benchmark</div>
+      <div class="term-desc">业内用于评估 AI 模型能力的标准化测试集，如 GPQA、HumanEval、MMLU 等。</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">端到端</div>
+      <div class="term-en">End-to-End</div>
+      <div class="term-desc">从输入到输出由一个神经网络直接完成，不依赖规则代码，是自动驾驶 L3/L4 的关键技术。</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">智能体</div>
+      <div class="term-en">AI Agent</div>
+      <div class="term-desc">能自主理解任务、规划步骤并执行操作的 AI 程序，是 2025-2026 年的核心范式。</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">点阵图</div>
+      <div class="term-en">Dot Plot</div>
+      <div class="term-desc">FOMC 委员对未来利率路径的匿名预测分布图，是市场预判美联储政策的关键工具。</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">HBM</div>
+      <div class="term-en">High Bandwidth Memory</div>
+      <div class="term-desc">高带宽内存，专为 AI 训练芯片设计的高端存储，目前主要由 SK 海力士与美光供应。</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">OEM</div>
+      <div class="term-en">Original Equipment Manufacturer</div>
+      <div class="term-desc">原始设备制造商，即戴尔、联想、华硕等贴牌销售整机的厂商。</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">算力</div>
+      <div class="term-en">Compute / FLOPs</div>
+      <div class="term-desc">计算机每秒可执行的浮点运算次数，是衡量 AI 芯片性能的核心指标。</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">全栈</div>
+      <div class="term-en">Full-Stack</div>
+      <div class="term-desc">从底层芯片、服务器、网络到上层模型、平台、应用均能自研自供的能力。</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div style="margin-bottom:8px">⚠️ <strong>免责声明</strong>：本报告由 AI 自动化生成，仅供学习研究使用，不构成任何投资建议。市场有风险，决策请独立判断。</div>
+  <div>📡 <strong>下次推送</strong>：今日 12:00 午报 · 今日 20:00 晚报</div>
+  <div style="margin-top:8px">AI × 经济日报 · 2026-06-13 · 报告生成于 08:00 GMT+8</div>
+</div>
+
+</div>
+
+<script>
+function toggleDetail(btn){
+  const d=btn.nextElementSibling;
+  if(d.classList.contains('show')){
+    d.classList.remove('show');
+    btn.textContent='▼ 展开详情';
+  }else{
+    d.classList.add('show');
+    btn.textContent='▲ 收起';
+  }
+}
+
+// 美股走势图
+const ctx=document.getElementById('usChart');
+new Chart(ctx,{
+  type:'line',
+  data:{
+    labels:['6/6','6/7','6/8','6/9(收)','6/10','6/11','6/12(收)'],
+    datasets:[
+      {label:'纳指',data:[19350,19420,19510,19560,19620,19500,19983],borderColor:'#6c5ce7',backgroundColor:'rgba(108,92,231,0.08)',tension:0.3,fill:true,pointRadius:3},
+      {label:'标普500',data:[5340,5360,5380,5395,5410,5340,5431],borderColor:'#d60000',backgroundColor:'rgba(214,0,0,0.06)',tension:0.3,fill:false,pointRadius:3},
+      {label:'费城半导体',data:[4820,4860,4900,4920,4960,4830,5205],borderColor:'#f5a623',backgroundColor:'rgba(245,166,35,0.08)',tension:0.3,fill:true,pointRadius:3}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:14,padding:10}}},
+    scales:{
+      y:{ticks:{font:{size:10}},grid:{color:'#f0f1f3'}},
+      x:{ticks:{font:{size:10}},grid:{display:false}}
+    }
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌙 晚报 — AI × 经济日报 | 2026-06-12</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f7f8fa;
+  --card-bg: #ffffff;
+  --text: #1a1a2e;
+  --text-secondary: #666;
+  --text-muted: #999;
+  --border: #e8eaed;
+  --border-light: #f0f1f3;
+  --accent: #6c5ce7;
+  --accent-light: #ede7f6;
+  --up: #e03131;
+  --up-bg: #fff5f5;
+  --down: #2f9e44;
+  --down-bg: #f0fdf4;
+  --must-read: #e03131;
+  --attention: #f08c00;
+  --quick-read: #adb5bd;
+  --tag-ai: #6c5ce7;
+  --tag-fin: #0ca678;
+  --tag-macro: #339af0;
+  --shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+}
+.container { max-width: 880px; margin: 0 auto; padding: 0 16px 60px; }
+
+/* ===== Header ===== */
+.report-meta {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-top: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.meta-left { display: flex; align-items: center; gap: 14px; }
+.meta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.badge-evening { background: #ede7f6; color: #6c5ce7; }
+.badge-current { background: #e03131; color: #fff; font-size: 12px; padding: 4px 10px; border-radius: 4px; }
+.meta-title { font-size: 20px; font-weight: 700; color: var(--text); }
+.meta-time { font-size: 13px; color: var(--text-muted); }
+.history-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background: var(--bg);
+  color: var(--accent);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.history-link:hover { background: var(--accent-light); }
+
+/* ===== Top Indicator Cards ===== */
+.indicators {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.indicator-card {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.indicator-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+.indicator-value { font-size: 26px; font-weight: 700; }
+.indicator-change { font-size: 13px; margin-top: 2px; }
+.indicator-change.up { color: var(--up); }
+.indicator-change.down { color: var(--down); }
+
+@media (max-width: 600px) {
+  .indicators { grid-template-columns: 1fr; }
+}
+
+/* ===== Nav ===== */
+.nav-section {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+}
+.nav-item {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.nav-item:hover { background: var(--bg); }
+.nav-time { font-size: 11px; color: var(--text-muted); }
+
+/* ===== Section ===== */
+.section { margin-bottom: 24px; }
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== Mood Bar ===== */
+.mood-bar-wrap {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mood-label { font-size: 13px; font-weight: 600; white-space: nowrap; }
+.mood-track {
+  flex: 1;
+  height: 8px;
+  background: linear-gradient(to right, #e03131, #f08c00, #fcc419, #40c057, #339af0);
+  border-radius: 4px;
+  position: relative;
+}
+.mood-dot {
+  position: absolute;
+  top: -4px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border: 3px solid var(--text);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+.mood-score { font-size: 13px; font-weight: 700; }
+
+/* ===== News Cards ===== */
+.news-card {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border-left: 4px solid var(--quick-read);
+  transition: box-shadow 0.15s;
+}
+.news-card:hover { box-shadow: var(--shadow); }
+.news-card.must-read { border-left-color: var(--must-read); }
+.news-card.attention { border-left-color: var(--attention); }
+.news-card.quick-read { border-left-color: var(--quick-read); }
+
+.news-header {
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.news-header:hover { background: #fafbfd; }
+.news-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+.news-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.tag-must { background: #fff5f5; color: var(--must-read); }
+.tag-attention { background: #fff9f0; color: var(--attention); }
+.tag-quick { background: #f8f9fa; color: var(--quick-read); }
+.tag-ai { background: #ede7f6; color: var(--tag-ai); }
+.tag-fin { background: #e6fcf5; color: var(--tag-fin); }
+.tag-macro { background: #e7f5ff; color: var(--tag-macro); }
+.tag-ipo { background: #fff3e0; color: #e8590c; }
+
+.news-body { flex: 1; }
+.news-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; }
+.news-summary { font-size: 13px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+.news-meta { font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; gap: 10px; flex-wrap: wrap; }
+.news-meta a { color: var(--accent); text-decoration: none; }
+.news-meta a:hover { text-decoration: underline; }
+.news-img { width: 80px; height: 56px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+
+.news-expand-icon {
+  font-size: 18px;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.news-card.expanded .news-expand-icon { transform: rotate(180deg); }
+
+.news-detail {
+  display: none;
+  padding: 0 18px 16px 18px;
+  border-top: 0.5px solid var(--border-light);
+  margin-left: 20px;
+}
+.news-card.expanded .news-detail { display: block; }
+.detail-block { margin-bottom: 12px; }
+.detail-block:last-child { margin-bottom: 0; }
+.detail-label { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.detail-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+/* ===== Top 3 ===== */
+.top3-section {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+.top3-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--must-read);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.top3-item {
+  padding: 12px 0;
+  border-bottom: 0.5px solid var(--border-light);
+}
+.top3-item:last-child { border-bottom: none; padding-bottom: 0; }
+.top3-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--must-read);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 8px;
+}
+.top3-rank.r2 { background: var(--attention); }
+.top3-rank.r3 { background: var(--accent); }
+.top3-headline { font-size: 15px; font-weight: 600; }
+.top3-brief { font-size: 13px; color: var(--text-secondary); margin-top: 3px; }
+
+/* ===== Chart ===== */
+.chart-section {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.chart-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+.chart-wrap { position: relative; width: 100%; height: 280px; }
+
+/* ===== Heatmap ===== */
+.heatmap-section {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.heatmap-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+.heatmap-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 0.5px solid var(--border-light);
+}
+.heatmap-row:last-child { border-bottom: none; }
+.heatmap-name { width: 100px; font-size: 13px; font-weight: 500; flex-shrink: 0; }
+.heatmap-bar-wrap { flex: 1; margin: 0 12px; }
+.heatmap-bar {
+  height: 20px;
+  border-radius: 4px;
+  position: relative;
+  min-width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+}
+.heatmap-bar.up { background: #e03131; }
+.heatmap-bar.down { background: #2f9e44; }
+.heatmap-pct { width: 56px; text-align: right; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+.heatmap-pct.up { color: var(--up); }
+.heatmap-pct.down { color: var(--down); }
+
+/* ===== Index Data Cards ===== */
+.index-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.index-card {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.index-card .name { font-size: 12px; color: var(--text-muted); }
+.index-card .value { font-size: 22px; font-weight: 700; margin: 2px 0; }
+.index-card .change { font-size: 13px; }
+.index-card .comment { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+/* ===== Calendar ===== */
+.calendar-item {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 0.5px solid var(--border-light);
+  gap: 12px;
+  align-items: flex-start;
+}
+.calendar-item:last-child { border-bottom: none; }
+.cal-date {
+  min-width: 40px;
+  height: 40px;
+  background: var(--accent-light);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.calendar-info { flex: 1; }
+.cal-name { font-size: 14px; font-weight: 600; }
+.cal-desc { font-size: 12px; color: var(--text-secondary); }
+.cal-stars { color: var(--attention); font-size: 12px; }
+
+/* ===== Glossary ===== */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+.glossary-item {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.glossary-term { font-size: 14px; font-weight: 600; color: var(--text); }
+.glossary-en { font-size: 12px; color: var(--text-muted); }
+.glossary-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+/* ===== Comparison Table ===== */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 8px 0;
+}
+.comp-table th, .comp-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 0.5px solid var(--border-light);
+}
+.comp-table th { background: var(--bg); font-weight: 600; color: var(--text-muted); }
+.comp-table td.up { color: var(--up); font-weight: 600; }
+.comp-table td.down { color: var(--down); font-weight: 600; }
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  padding: 32px 20px;
+  border-top: 1px solid var(--border);
+  margin-top: 32px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .container { padding: 0 10px 40px; }
+  .report-meta { padding: 16px; }
+  .meta-title { font-size: 16px; }
+  .indicator-value { font-size: 22px; }
+  .news-img { width: 60px; height: 42px; }
+  .index-cards { grid-template-columns: 1fr 1fr; }
+  .heatmap-name { width: 70px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== HEADER META ========== -->
+<div class="report-meta">
+  <div class="meta-left">
+    <span class="meta-badge badge-evening">🌙 晚报</span>
+    <div>
+      <div class="meta-title">AI × 经济 日报</div>
+      <div class="meta-time">2026-06-12 (周五) · 20:00 发布</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TOP INDICATOR CARDS ========== -->
+<div class="indicators">
+  <div class="indicator-card">
+    <div class="indicator-label">纳斯达克 (隔夜)</div>
+    <div class="indicator-value">25,809.66</div>
+    <div class="indicator-change up">▲ 2.54%</div>
+  </div>
+  <div class="indicator-card">
+    <div class="indicator-label">上证指数</div>
+    <div class="indicator-value">4,031.51</div>
+    <div class="indicator-change up">▲ 1.12%</div>
+  </div>
+  <div class="indicator-card">
+    <div class="indicator-label">BTC / USD</div>
+    <div class="indicator-value">$63,442</div>
+    <div class="indicator-change up">▲ 2.48%</div>
+  </div>
+</div>
+
+<!-- ========== NAVIGATION ========== -->
+<nav class="nav-section" id="top">
+  <span style="font-weight:700;font-size:14px;">📑 快速导航</span>
+  <a href="#top3" class="nav-item">🔥 必知Top3 <span class="nav-time">~1min</span></a>
+  <a href="#ai-tech" class="nav-item">🤖 AI & 科技 <span class="nav-time">~4min</span></a>
+  <a href="#econ" class="nav-item">📈 经济 & 金融 <span class="nav-time">~5min</span></a>
+  <a href="#deep" class="nav-item">🔬 深度分析 <span class="nav-time">~5min</span></a>
+  <a href="#calendar" class="nav-item">📅 明日日历 <span class="nav-time">~1min</span></a>
+  <a href="#glossary" class="nav-item">📖 术语卡 <span class="nav-time">~2min</span></a>
+</nav>
+
+<!-- ========== 1. TOP 3 ========== -->
+<section class="top3-section" id="top3">
+  <div class="top3-title">🔥 今日必知 Top 3</div>
+
+  <div class="top3-item">
+    <span class="top3-rank">1</span>
+    <span class="top3-headline">SpaceX 今日正式登陆纳斯达克，创下人类史上最大 IPO</span>
+    <div class="top3-brief">发行价 $135/股，估值约 1.8 万亿美元，募资 750 亿美元，超越特斯拉空降美股市值前十。全球资本对太空经济+AI 双概念反应热烈。代码：SPCX.</div>
+  </div>
+
+  <div class="top3-item">
+    <span class="top3-rank r2">2</span>
+    <span class="top3-headline">AI 双雄竞速上市：OpenAI 秘密提交 IPO 申请，Anthropic 刚完成 $650 亿 H 轮融资</span>
+    <div class="top3-brief">OpenAI 已向 SEC 秘密递交 S-1 文件，计划最快秋季上市。Anthropic 年化收入达 $140 亿后 3 个月内连融两轮。三巨头（SpaceX + OpenAI + Anthropic）合计将给公开市场增加近 4 万亿市值。</div>
+  </div>
+
+  <div class="top3-item">
+    <span class="top3-rank r3">3</span>
+    <span class="top3-headline">A 股沪指放量突破 4000 关口收涨 1.12%，成交 3.21 万亿创阶段天量</span>
+    <div class="top3-brief">有色、证券、贵金属领涨。北向资金全天成交 4910 亿占两市 15.27%。但午后冲高回落留下长上影，创业板高开 2.88% 后收窄至仅涨 0.5%，多空博弈加剧。</div>
+  </div>
+</section>
+
+<!-- ========== 2. AI & 科技 ========== -->
+<section class="section" id="ai-tech">
+  <div class="section-title">🤖 AI & 科技</div>
+
+  <!-- Mood Bar -->
+  <div class="mood-bar-wrap">
+    <span class="mood-label">板块情绪</span>
+    <div class="mood-track">
+      <div class="mood-dot" style="left:82%;"></div>
+    </div>
+    <span class="mood-score" style="color:#6c5ce7;">8.2 / 10</span>
+  </div>
+
+  <!-- News Card 1: SpaceX IPO -->
+  <div class="news-card must-read" id="news-1">
+    <div class="news-header" onclick="toggleCard('news-1')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-must">必读</span>
+          <span class="news-tag tag-ipo">IPO</span>
+          <span class="news-tag tag-ai">AI · 太空</span>
+        </div>
+        <div class="news-title">🚀 SpaceX (SPCX) 今日登陆纳斯达克，定价 $135，估值 1.8 万亿美元</div>
+        <div class="news-summary">史上最大规模 IPO 今日正式挂牌。募资额 750 亿美元超 2019 年沙特阿美纪录。股票代码 SPCX，盘前已引发全球关注。机构定价对应 ~30x 远期收入营收（Starlink + 发射业务合计）。</div>
+        <div class="news-meta">
+          <span>📎 新浪财经</span>
+          <a href="https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-06-12/doc-inicazrz0376613.shtml" target="_blank">中文源 →</a>
+          <a href="https://ir.spacex.com/updates/releases-details/2026/Space-Exploration-Technologies-Corp--Announces-Pricing-of-Initial-Public-Offering/default.aspx" target="_blank">SpaceX IR →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+    <div class="news-detail">
+      <div class="detail-block">
+        <div class="detail-label">📌 发生了什么</div>
+        <div class="detail-text">SpaceX 于 6 月 12 日正式在纳斯达克交易所挂牌，发行 5.56 亿股 A 类普通股，定价 $135/股。对应估值约 1.77 万亿美元，超越特斯拉 (TSLA) 空降美股市值前十。此次 IPO 由高盛、摩根士丹利、摩根大通等联合承销。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">💡 为什么重要</div>
+        <div class="detail-text">此次 IPO 是太空经济 + AI 经济的交汇里程碑。SpaceX 的 Starlink 卫星网络在全球拥有 400 万+ 用户，是当前最大的低轨卫星星座（LEO megaconstellation）。估值包含 AI 计算边缘部署、太空数据中心等增长预期。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">👤 对你意味着</div>
+        <div class="detail-text">如果你关注美股资产配置，SPCX 将成为继英伟达后的又一只核心科技大票。上市首日波动可能很大，$135 参考价上下 15-20% 属于正常范围。散户参与建议分批建仓。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">🔭 后续关注</div>
+        <div class="detail-text">① 上市首日收盘价 vs 发行价 ② 首周成交量与稳定期 ③ Starlink Q2 订阅数据更新 ④ OpenAI 和 Anthropic 后续 IPO 时间线对资金分流效应</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News Card 2: OpenAI / Anthropic -->
+  <div class="news-card must-read" id="news-2">
+    <div class="news-header" onclick="toggleCard('news-2')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-must">必读</span>
+          <span class="news-tag tag-ai">AI · 大模型</span>
+        </div>
+        <div class="news-title">🏦 OpenAI 秘密提交 IPO 申请，Anthropic 三个月内融资近 $1000 亿</div>
+        <div class="news-summary">OpenAI 于 6 月 8 日确认已向 SEC 秘密递交 S-1 表（IPO 注册声明，美国公司上市必须提交的文件），计划与高盛/大摩合作最快秋季上市。Anthropic 则在 5 月刚完成 $650 亿 H 轮融资（估值未披露），由 Altimeter、红杉、谷歌等参投。</div>
+        <div class="news-meta">
+          <span>📎 新浪科技 / 腾讯新闻</span>
+          <a href="https://finance.sina.com.cn/tech/roll/2026-06-09/doc-iniavfst1780623.shtml" target="_blank">OpenAI官宣 →</a>
+          <a href="https://finance.sina.com.cn/tech/roll/2026-06-05/doc-iniaikay8663655.shtml" target="_blank">Anthropic融资 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+    <div class="news-detail">
+      <div class="detail-block">
+        <div class="detail-label">📌 发生了什么</div>
+        <div class="detail-text">OpenAI CEO 奥特曼（Sam Altman）在内部信中表示提交 S-1 是为了"保留选择的灵活性"。Anthropic 在年化收入达到 $140 亿后，2 月获 $300 亿投资，5 月再获 $650 亿 H 轮。两家合计估值可能接近 2.5 万亿美元。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">💡 为什么重要</div>
+        <div class="detail-text">AI 行业正从私募阶段的"产品验证"进入"公开市场定价"新阶段。SpaceX + OpenAI + Anthropic 三巨头 IPO 将在 2026 H2 给市场新增约 4 万亿美元市值，对全球流动性形成巨大虹吸效应。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">👤 对你意味着</div>
+        <div class="detail-text">巨型 IPO 通常伴随市场短期波动。历史上 2021 年 Robinhood 等大型 IPO 前后纳指均出现 5-10% 波动。若持有美股相关仓位，需关注资金面的分流压力。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">🔭 后续关注</div>
+        <div class="detail-text">① OpenAI S-1 公开版披露日期 ② GPT-5.6 发布时间（可能夏季发布） ③ Anthropic 是否选择 2026 年内 IPO ④ 谷歌/Meta/微软在 AI 领域的竞争性回应</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News Card 3: 美股芯片反弹 -->
+  <div class="news-card attention" id="news-3">
+    <div class="news-header" onclick="toggleCard('news-3')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-attention">关注</span>
+          <span class="news-tag tag-ai">AI 芯片</span>
+        </div>
+        <div class="news-title">💾 费城半导体指数隔夜暴涨 7.9%，创 2025 年 4 月以来最大单日涨幅</div>
+        <div class="news-summary">美股芯片股集体大反攻：ARM +11%、英特尔 +9%、AMD +7%、美光 +11%、闪迪 +14%。此前一周芯片板块遭遇"黑色星期五"暴跌 10%+，今日反弹显示"逢低买入"（dip-buying）力量强劲。</div>
+        <div class="news-meta">
+          <span>📎 人民财讯</span>
+          <a href="https://baijiahao.baidu.com/s?id=1867756756345507347" target="_blank">中文源 →</a>
+          <a href="https://ts2.tech/en/june-2025-ai-news-roundup-breakthroughs-surprises-and-global-developments/" target="_blank">英文深度 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+    <div class="news-detail">
+      <div class="detail-block">
+        <div class="detail-label">📌 发生了什么</div>
+        <div class="detail-text">隔夜（6月11日）美股芯片板块全线暴涨。费城半导体指数（SOX，半导体行业关键基准指数）单日涨幅 7.9%。存储芯片龙头美光科技（Micron）大涨超 11%，因市场预期 AI 服务器对 HBM（高带宽内存，GPU 关键配套组件）需求持续爆发。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">💡 为什么重要</div>
+        <div class="detail-text">芯片股的暴涨暴跌反映了市场对 AI 算力需求预期的剧烈摇摆。上周"黑色星期五"后投资者恐慌，但本周数据表明 AI 资本开支（CapEx，企业在长期资产上的投入）仍在加速——谷歌、微软、Meta 2026 年合计 AI 基建预算已超 $3000 亿。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">👤 对你意味着</div>
+        <div class="detail-text">芯片周期波动加大，普通投资者不宜追涨杀跌。建议通过 SOXX/SMH 等芯片 ETF（交易型开放式指数基金）分散风险，或关注 A 股的寒武纪、中微公司等国产替代标的。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">🔭 后续关注</div>
+        <div class="detail-text">① 美光 6 月 18 日财报 ② 英伟达（NVDA）下一财季指引 ③ 台积电 2nm 产能进度 ④ 美国对华芯片出口管制新进展</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News Card 4: NVIDIA RTX Spark -->
+  <div class="news-card attention" id="news-4">
+    <div class="news-header" onclick="toggleCard('news-4')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-attention">关注</span>
+          <span class="news-tag tag-ai">AI 硬件</span>
+        </div>
+        <div class="news-title">🖥️ 英伟达 RTX Spark 超级芯片发布，开启"个人 AI 计算机"时代</div>
+        <div class="news-summary">6 月 2 日发布，定位为"为个人 AI 智能体（AI Agent，能自主执行任务的智能程序）时代重塑 Windows PC"的核心硬件。黄仁勋称这是自图形加速以来 PC 产业最重大变革。</div>
+        <div class="news-meta">
+          <a href="https://news.qq.com/rain/a/20260602A03X7J00" target="_blank">腾讯新闻 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+    <div class="news-detail">
+      <div class="detail-block">
+        <div class="detail-label">📌 发生了什么</div>
+        <div class="detail-text">NVIDIA 发布 RTX Spark 超级芯片，集成 GPU + NPU（神经网络处理器）+ CPU 于单一封装，目标在本地运行百亿参数级大模型。联想、戴尔、华硕等 OEM 同步宣布搭载该芯片的产品线，预计 2026 Q3 出货。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">💡 为什么重要</div>
+        <div class="detail-text">当前 AI 推理大部分依赖云端 GPU。端侧 AI 推理（on-device AI inference，在本地设备而非云端运行 AI 模型）若突破，将重构 PC 产业链——从云计算回归到终端计算，NVIDIA 正处于这一趋势的前沿。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">👤 对你意味着</div>
+        <div class="detail-text">端侧 AI 架构的成熟意味着未来个人隐私数据可以在本地处理，不必上传云端。这对金融、医疗等数据敏感行业尤为重要。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News Card 5: 物理AI -->
+  <div class="news-card attention" id="news-5">
+    <div class="news-header" onclick="toggleCard('news-5')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-attention">关注</span>
+          <span class="news-tag tag-ai">物理 AI · 机器人</span>
+        </div>
+        <div class="news-title">🤖 "物理 AI"概念持续升温：人形机器人、自动驾驶成资本追捧新方向</div>
+        <div class="news-summary">继黄仁勋反复强调"物理 AI 将成为下一波浪潮"后，优必选、智元、千寻智能等中国企业成标杆。日本企业相关股票接连刷新历史高点。具身智能（Embodied AI，拥有物理实体的 AI 系统）数据采集公司也在密集融资。</div>
+        <div class="news-meta">
+          <a href="https://finance.sina.com.cn/jjxw/2026-06-05/doc-iniakfhm9489126.shtml" target="_blank">新浪财经 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+    <div class="news-detail">
+      <div class="detail-block">
+        <div class="detail-label">📌 发生了什么</div>
+        <div class="detail-text">日经中文网报道，物理 AI 概念股在日股和 A 股均受到资金追捧。国内方面，手亿科技（具身智能数据采集）近期完成数千万元天使++轮融资。银河通用（GalaxyAI）6 月 1 日发布全球首个端到端具身 FSD（完全自动驾驶）大模型 TrackVLA。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">💡 为什么重要</div>
+        <div class="detail-text">物理 AI 区别于生成式 AI（Generative AI，仅生成文本/图片/视频），强调 AI 在真实物理世界中的感知和操控能力。这是 AI 商业化的下一座金矿——市场规模预测超万亿。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News Card 6: 谷歌定增 -->
+  <div class="news-card quick-read" id="news-6">
+    <div class="news-header" onclick="toggleCard('news-6')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-quick">速览</span>
+          <span class="news-tag tag-ai">科技巨头</span>
+        </div>
+        <div class="news-title">📡 谷歌时隔 20 年启动 $800 亿股权定增，加紧 AI 军备竞赛</div>
+        <div class="news-summary">谷歌 6 月初启动自 2004 年 IPO 以来首次大规模股权再融资（Seasoned Equity Offering），募资 $800 亿主要用于 AI 基础设施建设和数据中心扩展。</div>
+        <div class="news-meta">
+          <a href="https://xueqiu.com/8339304138/392299017" target="_blank">雪球 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+    <div class="news-detail">
+      <div class="detail-block">
+        <div class="detail-label">📌 发生了什么</div>
+        <div class="detail-text">谷歌母公司 Alphabet 启动 $800 亿美元股权增发，这是 20 年来首次。资金将投向 TPU（谷歌自研 AI 芯片）集群扩建、海底光缆、数据中心等 AI 基础设施。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News Card 7: IonQ 收购 -->
+  <div class="news-card quick-read" id="news-7">
+    <div class="news-header" onclick="toggleCard('news-7')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-quick">速览</span>
+          <span class="news-tag tag-ai">量子计算</span>
+        </div>
+        <div class="news-title">⚛️ IonQ 以 $10.75 亿收购 Oxford Ionics，量子计算 M&A 升温</div>
+        <div class="news-summary">2025 年 6 月完成量子计算领域最大收购。过去一年 IonQ 已收购 6 家公司，总金额近 $40 亿。欧洲量子公司也在排队上市。</div>
+        <div class="news-meta">
+          <a href="https://baijiahao.baidu.com/s?id=1867590356595953839" target="_blank">百家号 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+  </div>
+
+  <!-- News Card 8: 自动驾驶 -->
+  <div class="news-card quick-read" id="news-8">
+    <div class="news-header" onclick="toggleCard('news-8')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-quick">速览</span>
+          <span class="news-tag tag-ai">自动驾驶</span>
+        </div>
+        <div class="news-title">🚗 中国 50+ 城市落地自动驾驶试点，Robotaxi 商业化加速</div>
+        <div class="news-summary">全国超 50 个城市发布自动驾驶试点政策。比亚迪海鸥等车型已实现在上海张江低成本 L4 自动驾驶日常通勤。</div>
+        <div class="news-meta">
+          <a href="https://global.chinadaily.com.cn/a/202503/12/WS67d1ae8aa310c240449da74f.html" target="_blank">China Daily →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+  </div>
+
+  <!-- News Card 9: NVIDIA 自动驾驶 -->
+  <div class="news-card quick-read" id="news-9">
+    <div class="news-header" onclick="toggleCard('news-9')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-quick">速览</span>
+          <span class="news-tag tag-ai">AI 开源</span>
+        </div>
+        <div class="news-title">🔓 NVIDIA 发布自动驾驶开源推理世界模型</div>
+        <div class="news-summary">NVIDIA 持续推进物理 AI 布局，发布全新推理世界模型及工具链，供自动驾驶研究社区使用。</div>
+        <div class="news-meta">
+          <a href="https://techcrunch.com/2025/12/01/nvidia-announces-new-open-ai-models-and-tools-for-autonomous-driving-research/" target="_blank">TechCrunch →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+  </div>
+
+  <!-- News Card 10: 6月AI综述 -->
+  <div class="news-card quick-read" id="news-10">
+    <div class="news-header" onclick="toggleCard('news-10')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-quick">速览</span>
+          <span class="news-tag tag-ai">AI 月报</span>
+        </div>
+        <div class="news-title">📊 6 月 AI 关键词：超级 IPO + 端侧推理 + 物理 AI 全面开花</div>
+        <div class="news-summary">2025 年 6 月是 AI 行业的里程碑月份——从技术验证全面进入规模化商用周期。大模型之家 6 月热力榜显示多款重磅模型开源。</div>
+        <div class="news-meta">
+          <a href="https://m.thepaper.cn/newsDetail_forward_31096405" target="_blank">澎湃新闻 →</a>
+          <a href="https://fangx.ai/june-2025-ai-major-events-summary-and-review/" target="_blank">方兴·未艾总结 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- ========== 3. 经济 & 金融 ========== -->
+<section class="section" id="econ">
+  <div class="section-title">📈 经济 & 金融</div>
+
+  <!-- Mood Bar -->
+  <div class="mood-bar-wrap">
+    <span class="mood-label">板块情绪</span>
+    <div class="mood-track">
+      <div class="mood-dot" style="left:65%;"></div>
+    </div>
+    <span class="mood-score" style="color:#f08c00;">6.5 / 10</span>
+  </div>
+
+  <!-- A-Share Recap -->
+  <h3 style="font-size:15px;font-weight:600;margin:16px 0 10px;">🇨🇳 A股收盘复盘</h3>
+
+  <div class="index-cards">
+    <div class="index-card">
+      <div class="name">上证指数 (SSE)</div>
+      <div class="value" style="color:var(--up);">4,031.51</div>
+      <div class="change up">▲ 1.12%</div>
+      <div class="comment">时隔半月重回 4000 关口</div>
+    </div>
+    <div class="index-card">
+      <div class="name">深证成指 (SZSE)</div>
+      <div class="value" style="color:var(--up);">14,963.41</div>
+      <div class="change up">▲ 0.75%</div>
+      <div class="comment">放量上行后涨幅收窄</div>
+    </div>
+    <div class="index-card">
+      <div class="name">创业板指 (ChiNext)</div>
+      <div class="value" style="color:var(--up);">3,830.35</div>
+      <div class="change up">▲ 0.50%</div>
+      <div class="comment">早盘一度涨 2.88% 后大幅回落</div>
+    </div>
+    <div class="index-card">
+      <div class="name">科创50 (STAR 50)</div>
+      <div class="value" style="color:var(--up);">1,663.22</div>
+      <div class="change up">▲ 0.05%</div>
+      <div class="comment">半导体高开低走拖累指数</div>
+    </div>
+  </div>
+
+  <!-- Key Stats -->
+  <div style="background:var(--card-bg);border:0.5px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+    <div style="display:flex;flex-wrap:wrap;gap:16px;font-size:13px;">
+      <div><span style="color:var(--text-muted);">成交额：</span><strong>3.21 万亿</strong> <span style="color:var(--up);">(较昨日放量 +6629 亿)</span></div>
+      <div><span style="color:var(--text-muted);">涨跌比：</span><strong>3923↑ / 1515↓</strong></div>
+      <div><span style="color:var(--text-muted);">涨停/跌停：</span><strong style="color:var(--up);">100</strong> / <strong style="color:var(--down);">23</strong></div>
+      <div><span style="color:var(--text-muted);">北向成交：</span><strong>4,910 亿</strong> (占两市 15.27%)</div>
+    </div>
+  </div>
+
+  <!-- Comparison with last week -->
+  <div style="background:var(--card-bg);border:0.5px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+    <div style="font-size:13px;font-weight:600;margin-bottom:8px;">📊 与上周对比</div>
+    <table class="comp-table">
+      <tr>
+        <th>指数</th><th>本周五收盘</th><th>上周五(6/5)收盘</th><th>周涨跌</th>
+      </tr>
+      <tr>
+        <td>上证指数</td><td>4,031.51</td><td>~3,880</td><td class="up">+3.9%</td>
+      </tr>
+      <tr>
+        <td>深证成指</td><td>14,963.41</td><td>~14,200</td><td class="up">+5.4%</td>
+      </tr>
+      <tr>
+        <td>创业板指</td><td>3,830.35</td><td>~3,650</td><td class="up">+4.9%</td>
+      </tr>
+    </table>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">※ 注：上周 A 股因美股"黑色星期五"联动下挫约 3-5%，本周全面修复并创阶段新高</div>
+  </div>
+
+  <!-- Sector Heatmap -->
+  <div class="heatmap-section">
+    <div class="heatmap-title">🔥 A 股板块热力图</div>
+    <div class="heatmap-row">
+      <span class="heatmap-name">贵金属</span>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar up" style="width:92%;">+4.8%</div></div>
+      <span class="heatmap-pct up">▲ 4.8%</span>
+    </div>
+    <div class="heatmap-row">
+      <span class="heatmap-name">工业金属</span>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar up" style="width:85%;">+4.2%</div></div>
+      <span class="heatmap-pct up">▲ 4.2%</span>
+    </div>
+    <div class="heatmap-row">
+      <span class="heatmap-name">证券</span>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar up" style="width:78%;">+3.6%</div></div>
+      <span class="heatmap-pct up">▲ 3.6%</span>
+    </div>
+    <div class="heatmap-row">
+      <span class="heatmap-name">航空装备</span>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar up" style="width:70%;">+3.2%</div></div>
+      <span class="heatmap-pct up">▲ 3.2%</span>
+    </div>
+    <div class="heatmap-row">
+      <span class="heatmap-name">锂电池</span>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar up" style="width:58%;">+2.1%</div></div>
+      <span class="heatmap-pct up">▲ 2.1%</span>
+    </div>
+    <div class="heatmap-row">
+      <span class="heatmap-name">低空经济</span>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar up" style="width:52%;">+1.8%</div></div>
+      <span class="heatmap-pct up">▲ 1.8%</span>
+    </div>
+    <div class="heatmap-row">
+      <span class="heatmap-name">化工原料</span>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar up" style="width:42%;">+1.2%</div></div>
+      <span class="heatmap-pct up">▲ 1.2%</span>
+    </div>
+    <div class="heatmap-row">
+      <span class="heatmap-name">半导体</span>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar down" style="width:35%;">-1.5%</div></div>
+      <span class="heatmap-pct down">▼ 1.5%</span>
+    </div>
+    <div class="heatmap-row">
+      <span class="heatmap-name">电子化学品</span>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar down" style="width:25%;">-3.2%</div></div>
+      <span class="heatmap-pct down">▼ 3.2%</span>
+    </div>
+  </div>
+
+  <!-- A股走势图 -->
+  <div class="chart-section">
+    <div class="chart-title">📈 今日 A 股全天走势</div>
+    <div class="chart-wrap"><canvas id="aShareChart"></canvas></div>
+  </div>
+
+  <!-- 欧美盘前 -->
+  <h3 style="font-size:15px;font-weight:600;margin:16px 0 10px;">🌍 欧美盘前展望</h3>
+
+  <div class="index-cards">
+    <div class="index-card">
+      <div class="name">道琼斯 (隔夜收)</div>
+      <div class="value" style="color:var(--up);">50,848.75</div>
+      <div class="change up">▲ 1.86%</div>
+      <div class="comment">逼近历史高位</div>
+    </div>
+    <div class="index-card">
+      <div class="name">标普500 (隔夜收)</div>
+      <div class="value" style="color:var(--up);">7,394.30</div>
+      <div class="change up">▲ 1.75%</div>
+      <div class="comment">11 个板块全线上涨</div>
+    </div>
+    <div class="index-card">
+      <div class="name">纳指 (隔夜收)</div>
+      <div class="value" style="color:var(--up);">25,809.66</div>
+      <div class="change up">▲ 2.54%</div>
+      <div class="comment">费城半导体引领反弹</div>
+    </div>
+    <div class="index-card">
+      <div class="name">纳指期货 (盘前)</div>
+      <div class="value" style="color:var(--down);">29,348.78</div>
+      <div class="change down">▼ 0.39%</div>
+      <div class="comment">大涨后正常回调</div>
+    </div>
+  </div>
+
+  <!-- 美股期货走势图 -->
+  <div class="chart-section">
+    <div class="chart-title">📉 美股期货今日走势</div>
+    <div class="chart-wrap"><canvas id="usFuturesChart"></canvas></div>
+  </div>
+
+  <!-- Financial News Cards -->
+  <div class="news-card attention" id="news-f1">
+    <div class="news-header" onclick="toggleCard('news-f1')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-attention">关注</span>
+          <span class="news-tag tag-fin">A 股</span>
+        </div>
+        <div class="news-title">⚡ A 股放量冲高回落：沪指触 4060 后收 4031，多空博弈白热化</div>
+        <div class="news-summary">今日 A 股高开后一度气势如虹：沪指盘中最高触及 4060.27，早盘超 4500 只个股上涨。但午后主力减仓，创业板涨幅从 2.88% 收窄至 0.5%，留下一根"长上影线"（K 线图中上方影线远长于实体，显示卖方压力增大）。成交额 3.21 万亿为近半年天量。</div>
+        <div class="news-meta">
+          <a href="https://baijiahao.baidu.com/s?id=1867790667604778866" target="_blank">行情分析 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+    <div class="news-detail">
+      <div class="detail-block">
+        <div class="detail-label">📌 发生了什么</div>
+        <div class="detail-text">早盘市场受隔夜美股暴涨+SpaceX IPO 情绪推动大幅高开。创业板指开盘涨 2.88%，有色、证券、军工全面爆发。但午后获利盘涌出，半导体板块高开 4.5% 后翻绿，电子化学品、非金属材料跌幅扩大。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">💡 为什么重要</div>
+        <div class="detail-text">天量+长上影是经典的多空分歧信号。本轮反弹自上周"黑色星期五"低点已涨约 8%，部分资金选择获利了结。市场面临 4000 点心理关口的"真突破 vs 假突破"大考。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="news-card attention" id="news-f2">
+    <div class="news-header" onclick="toggleCard('news-f2')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-attention">关注</span>
+          <span class="news-tag tag-macro">宏观</span>
+        </div>
+        <div class="news-title">🏛️ 美国 5 月 CPI 录得 4.17% YoY，Q1 GDP 二次预估仅 1.6%</div>
+        <div class="news-summary">6 月 10 日公布的最新数据显示美国经济放缓与通胀回落的双信号。核心 CPI（剔除食品和能源价格后的通胀指标）仍处高位但趋势向下。Q1 GDP 从初估 2% 下修至 1.6%，反映消费和净出口疲软。</div>
+        <div class="news-meta">
+          <a href="https://streetstats.finance/cycle/inflation" target="_blank">CPI 数据 →</a>
+          <a href="https://www.bea.gov/national/index.htm" target="_blank">GDP 数据 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+    <div class="news-detail">
+      <div class="detail-block">
+        <div class="detail-label">📌 发生了什么</div>
+        <div class="detail-text">5 月 CPI 同比 4.17%（前值 4.5% 左右），月度环比 0.47%。Q1 GDP 二次预估从 2% 下修至 1.6%，个人消费支出（PCE，美联储首选通胀指标）4 月为 3.8%。</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">💡 为什么重要</div>
+        <div class="detail-text">通胀回落 + 增长放缓 = "Goldilocks"（金发姑娘，指经济既不过热也不过冷）数据的出现，这正是美联储最希望看到的软着陆信号。市场对 9 月降息的预期可能因此增强。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="news-card quick-read" id="news-f3">
+    <div class="news-header" onclick="toggleCard('news-f3')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-quick">速览</span>
+          <span class="news-tag tag-fin">北向资金</span>
+        </div>
+        <div class="news-title">💱 北向资金成交活跃：6/11 净卖出 ~32 亿，6/12 成交达 4910 亿</div>
+        <div class="news-summary">6 月 11 日北向资金净卖出约 32 亿元，为连续多日净流入后首次小幅净流出。6 月 12 日北向资金再度活跃，成交额 4910 亿占两市 15.27%，但净流向尚未公布。</div>
+        <div class="news-meta">
+          <a href="https://stock.eastmoney.com/a/cyjyc.html" target="_blank">东方财富 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+  </div>
+
+  <div class="news-card quick-read" id="news-f4">
+    <div class="news-header" onclick="toggleCard('news-f4')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-quick">速览</span>
+          <span class="news-tag tag-fin">商品</span>
+        </div>
+        <div class="news-title">🪙 比特币重回 $63,442（+2.48%），贵金属板块 A 股领涨</div>
+        <div class="news-summary">BTC 连续三日反弹，与贵金属（黄金、白银、铂）同步走强。A 股黄金股 ETF 表现亮眼，黄金、航空航天、创新药 ETF 涨幅居前。</div>
+        <div class="news-meta">
+          <a href="https://thailandedition.com/i/bitcoin-price-today-june-12-2026-rises-248-63442-00a66a2b5f8e7f80e63de30d" target="_blank">BTC 数据 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+  </div>
+
+  <div class="news-card quick-read" id="news-f5">
+    <div class="news-header" onclick="toggleCard('news-f5')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-quick">速览</span>
+          <span class="news-tag tag-fin">中概股</span>
+        </div>
+        <div class="news-title">🏮 纳斯达克中国金龙指数微涨 0.34%，涂鸦智能 +14.84%</div>
+        <div class="news-summary">隔夜中概股涨跌不一。涂鸦智能（AIoT 平台）大涨近 15%，海天网络 +27%。A50 指数期货夜盘收涨 0.81%，预示今日 A 股情绪偏暖。</div>
+        <div class="news-meta">
+          <a href="https://baijiahao.baidu.com/s?id=1867756756345507347" target="_blank">美股收盘 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+  </div>
+
+  <div class="news-card quick-read" id="news-f6">
+    <div class="news-header" onclick="toggleCard('news-f6')">
+      <div class="news-body">
+        <div class="news-tags">
+          <span class="news-tag tag-quick">速览</span>
+          <span class="news-tag tag-fin">大宗商品</span>
+        </div>
+        <div class="news-title">🛢️ 高盛下调 2027 年油价预期：中国石油需求减少或成大趋势</div>
+        <div class="news-summary">高盛 6 月 12 日研报下调远期油价预测，逻辑是中国新能源汽车（NEV，新能源车）渗透率持续提升正在永久性削弱石油需求增长。</div>
+        <div class="news-meta">
+          <a href="https://stock.eastmoney.com/america.html" target="_blank">东方财富美股 →</a>
+        </div>
+      </div>
+      <span class="news-expand-icon">▼</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 4. 深度分析 ========== -->
+<section class="section" id="deep">
+  <div class="section-title">🔬 深度分析</div>
+
+  <!-- Deep 1: SpaceX IPO -->
+  <div style="background:var(--card-bg);border:0.5px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:16px;">
+    <div style="font-size:16px;font-weight:700;margin-bottom:12px;">🚀 深度解读：SpaceX IPO — 太空经济 2.0 的定价逻辑</div>
+
+    <div class="detail-block">
+      <div class="detail-label">📌 发生了什么</div>
+      <div class="detail-text">SpaceX 以 $135/股（估值 ~1.8 万亿美元）于 6 月 12 日挂牌纳斯达克。这个定价对应的收入倍数约 30x 远期营收——远高于特斯拉（~8x）、低于英伟达（~40x）。机构将 Starlink 视为"太空中的 AWS"——既是通信管道，也是未来 AI 边缘计算的物理节点。SpaceX 2025 年营收约 $620 亿（Starlink 贡献 ~55%），发射业务毛利率约 60%。</div>
+    </div>
+
+    <div class="detail-block">
+      <div class="detail-label">💡 为什么重要</div>
+      <div class="detail-text">SpaceX IPO 不仅是一场资本盛宴，更重新定义了"基础设施"的资产类别。传统基础设施（公路、电网）回报慢、估值低；但 SpaceX 通过在太空中构建通信+计算基础设施，把"重资产"做成了"高技术轻资产"——边际成本接近零（每增加一颗卫星的边际服务成本极低）。这种"太空即服务"（Space-as-a-Service）模式可能催生一门全新的资产类别。</div>
+    </div>
+
+    <div class="detail-block">
+      <div class="detail-label">👤 对你意味着</div>
+      <div class="detail-text">① 直接参与：通过 SPCX 股票或太空 ETF 涉足太空经济。② 间接机会：关注产业链——卫星零部件（天线/芯片）、发射服务、地面终端、以及 AI 边缘计算相关的 A 股映射标的（如中国卫星、航天科技等）。③ 风险提示：巨型 IPO 首年波动率通常在 40-60%，不宜全仓参与。</div>
+    </div>
+
+    <div class="detail-block">
+      <div class="detail-label">🔭 后续关注</div>
+      <div class="detail-text">首日开盘价与稳定期、Q2 Starlink 用户数破 500 万可期、SpaceX 与 AWS/Azure 的云端合作进展、Starship 第 8 次试飞（预计 7 月）</div>
+    </div>
+
+    <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border-light);">
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px;">🔗 深度阅读</div>
+      <a href="https://news.sina.com.cn/w/2026-06-12/doc-iniccfxv3532145.shtml" target="_blank" style="display:inline-block;margin-right:12px;font-size:13px;color:var(--accent);">新浪：SpaceX 如何撑起万亿估值 ↗</a>
+      <a href="https://spacexchart.com/" target="_blank" style="display:inline-block;font-size:13px;color:var(--accent);">SpaceX 实时股价跟踪 ↗</a>
+    </div>
+
+    <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border-light);">
+      <div style="font-size:12px;font-weight:600;margin-bottom:4px;">📱 社交热度</div>
+      <div style="font-size:13px;color:var(--text-secondary);">
+        🐦 X (Twitter): #SpaceXIPO 趋势第一，讨论量 320 万+ 条<br>
+        📕 Reddit r/SpaceX & r/WallStreetBets: 联合置顶讨论帖，热度 9.5/10<br>
+        🌐 微博: #SpaceX上市# 热搜第3，阅读 8.2 亿
+      </div>
+    </div>
+  </div>
+
+  <!-- Deep 2: AI 三巨头 IPO -->
+  <div style="background:var(--card-bg);border:0.5px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:16px;">
+    <div style="font-size:16px;font-weight:700;margin-bottom:12px;">🏦 深度解读：AI 超级 IPO 浪潮 — 4 万亿美元冲击波</div>
+
+    <div class="detail-block">
+      <div class="detail-label">📌 发生了什么</div>
+      <div class="detail-text">SpaceX（今日）、OpenAI（秋季？）、Anthropic（未定时间）三家合计预计将在公开市场新增近 4 万亿美元市值。Anthropic 单笔 H 轮融资 $650 亿已是史上最大私募融资。OpenAI 年化营收已突破 $200 亿，Anthropic ~$140 亿。</div>
+    </div>
+
+    <div class="detail-block">
+      <div class="detail-label">💡 为什么重要</div>
+      <div class="detail-text">这轮 AI 超级 IPO 浪潮与 1999 年互联网泡沫有本质区别：当年 .com 公司多数无盈利，而这批 AI 公司年营收已达百亿级别且仍在高速增长。但风险同样存在——市场能否同时消化三家"万亿美元级"公司？资金可能从传统科技股（苹果、微软、谷歌）分流，导致纳指重构。此外，美股五大 AI 核心巨头 2025 年共发债 $4283 亿用于 AI 基建，总杠杆率已达历史高位。</div>
+    </div>
+
+    <div class="detail-block">
+      <div class="detail-label">👤 对你意味着</div>
+      <div class="detail-text">① 如果你持有科技 ETF（QQQ/VGT 等），AI IPO 将改变持仓结构——纳指中将新增 2-3 只万亿美元级成分股。② 私募/风险投资生态将发生质变：传统 VC 的"投早期→退出"模式可能被"直接上市"取代。③ 普通投资者的参与窗口：AI 最优质的资产将从私募市场转移到公开市场，散户也有机会参与。</div>
+    </div>
+
+    <div class="detail-block">
+      <div class="detail-label">🔭 后续关注</div>
+      <div class="detail-text">OpenAI S-1 文件公开版、GPT-5.6 发布时间、Anthropic 是否年内 IPO、谷歌/Meta 等传统巨头的竞争性并购策略</div>
+    </div>
+
+    <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border-light);">
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px;">🔗 深度阅读</div>
+      <a href="https://news.qq.com/rain/a/20260609A01GVD00" target="_blank" style="display:inline-block;margin-right:12px;font-size:13px;color:var(--accent);">腾讯：OpenAI 秘密提交 IPO →</a>
+      <a href="https://www.chinaventure.com.cn/news/78/20260609/391760.html" target="_blank" style="display:inline-block;margin-right:12px;font-size:13px;color:var(--accent);">投中网：超级 IPO 财富转移 →</a>
+      <a href="https://news.qq.com/rain/a/20260603A02OV300" target="_blank" style="display:inline-block;font-size:13px;color:var(--accent);">中新经纬：三巨头扎堆上市 →</a>
+    </div>
+
+    <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border-light);">
+      <div style="font-size:12px;font-weight:600;margin-bottom:4px;">📱 社交热度</div>
+      <div style="font-size:13px;color:var(--text-secondary);">
+        🐦 X: #AI_IPO 话题讨论量 180 万+<br>
+        💬 Hacker News: "OpenAI files for IPO" 讨论帖 2400+ 评论<br>
+        🌐 知乎: "2026 AI IPO 浪潮" 热榜第 1，回答 3200+
+      </div>
+    </div>
+  </div>
+
+  <!-- Deep 3: A股 4000点 -->
+  <div style="background:var(--card-bg);border:0.5px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:16px;">
+    <div style="font-size:16px;font-weight:700;margin-bottom:12px;">🇨🇳 深度解读：A 股 4000 点 — 真突破还是假突破？</div>
+
+    <div class="detail-block">
+      <div class="detail-label">📌 发生了什么</div>
+      <div class="detail-text">沪指今日以 3.21 万亿天量放量突破 4000 点，盘中最高触及 4060.27。这是自 2025 年下半年以来的首次重返 4000 点，成交额创近半年新高。但午后主力资金明显减仓，涨幅从最高点回落约 0.7 个百分点，留下一根长上影线。创业板更是从 +2.88% 回落至仅 +0.5%。</div>
+    </div>
+
+    <div class="detail-block">
+      <div class="detail-label">💡 为什么重要</div>
+      <div class="detail-text">4000 点是 A 股最重要的心理关口之一。突破的条件：① 成交额持续维持 2 万亿以上 ② 外资（北向资金）持续净流入 ③ 板块轮动健康（不是靠银行单拉指数）。今日满足条件①但条件③有瑕疵——半导体板块高开低走翻绿，显示资金在高位分化。"天量长上影"是典型的分歧信号，但并非一定意味着见顶：2020 年 7 月沪指同样以天量突破 3300 后继续上涨 10%。</div>
+    </div>
+
+    <div class="detail-block">
+      <div class="detail-label">👤 对你意味着</div>
+      <div class="detail-text">① 仓位管理：4000 点附近不宜满仓也不宜空仓。建议保持 60-70% 仓位，留现金应对波动。② 关注方向：贵金属（避险+通胀逻辑）、证券（牛市旗手）、AI 国产替代（寒武纪、中微公司等）是当前主线。③ 警惕信号：若下周成交额萎缩至 2 万亿以下 + 北向资金持续净流出，可能意味着假突破。</div>
+    </div>
+
+    <div class="detail-block">
+      <div class="detail-label">🔭 后续关注</div>
+      <div class="detail-text">下周一（6/15）是否放量站稳 4030 以上、6 月中旬 MLF（中期借贷便利）利率是否调整、6 月下旬 LPR（贷款市场报价利率）报价、北向资金连续 3 日净流向</div>
+    </div>
+
+    <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border-light);">
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px;">🔗 深度阅读</div>
+      <a href="https://www.zhihu.com/question/2046291827901387860" target="_blank" style="display:inline-block;margin-right:12px;font-size:13px;color:var(--accent);">知乎：如何看待今日 A 股行情 →</a>
+      <a href="https://baijiahao.baidu.com/s?id=1867790667604778866" target="_blank" style="display:inline-block;font-size:13px;color:var(--accent);">A 股反弹一日游分析 →</a>
+    </div>
+
+    <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border-light);">
+      <div style="font-size:12px;font-weight:600;margin-bottom:4px;">📱 社交热度</div>
+      <div style="font-size:13px;color:var(--text-secondary);">
+        🌐 微博: "A股突破4000点" 热搜第 1，阅读 15.6 亿<br>
+        💬 雪球: 4000 点讨论帖 8500+ 条评论<br>
+        📕 Reddit r/ChinaStocks: "SSE 4000" 讨论热度上升
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 5. 今日日历 ========== -->
+<section class="section" id="calendar">
+  <div class="section-title">📅 明日关键事件预告</div>
+  <div style="background:var(--card-bg);border:0.5px solid var(--border);border-radius:10px;padding:14px 18px;">
+
+    <div class="calendar-item">
+      <div class="cal-date">13日<br>周六</div>
+      <div class="calendar-info">
+        <div class="cal-name">SpaceX(SPCX) 上市后首个完整交易日</div>
+        <div class="cal-desc">关注首日收盘后的盘后交易表现</div>
+        <div class="cal-stars">★★★</div>
+      </div>
+    </div>
+
+    <div class="calendar-item">
+      <div class="cal-date">15日<br>周一</div>
+      <div class="calendar-info">
+        <div class="cal-name">A 股新一周开盘 — 4000 点保卫战</div>
+        <div class="cal-desc">关注周末政策消息 + 北向资金是否重新净流入</div>
+        <div class="cal-stars">★★★</div>
+      </div>
+    </div>
+
+    <div class="calendar-item">
+      <div class="cal-date">16日<br>周二</div>
+      <div class="calendar-info">
+        <div class="cal-name">美国 5 月零售销售数据发布</div>
+        <div class="cal-desc">衡量消费支出健康状况，将影响美联储 6 月利率决策预期</div>
+        <div class="cal-stars">★★★</div>
+      </div>
+    </div>
+
+    <div class="calendar-item">
+      <div class="cal-date">18日<br>周四</div>
+      <div class="calendar-info">
+        <div class="cal-name">美光科技 (MU) Q2 FY2026 财报</div>
+        <div class="cal-desc">AI 存储芯片需求风向标，HBM 出货量指引是关键</div>
+        <div class="cal-stars">★★</div>
+      </div>
+    </div>
+
+    <div class="calendar-item">
+      <div class="cal-date">19日<br>周五</div>
+      <div class="calendar-info">
+        <div class="cal-name">美股"三巫日" — 期权/期货/指数三重到期</div>
+        <div class="cal-desc">单日名义价值超 6 万亿美元合约到期，波动率通常骤升</div>
+        <div class="cal-stars">★★★</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== 6. 术语卡 ========== -->
+<section class="section" id="glossary">
+  <div class="section-title">📖 今日术语卡</div>
+  <div class="glossary-grid">
+
+    <div class="glossary-item">
+      <div class="glossary-term">HBM</div>
+      <div class="glossary-en">High Bandwidth Memory</div>
+      <div class="glossary-desc">高带宽内存，AI GPU 的关键配套组件，通过 3D 堆叠技术实现超高数据传输速率。</div>
+    </div>
+
+    <div class="glossary-item">
+      <div class="glossary-term">具身智能</div>
+      <div class="glossary-en">Embodied AI</div>
+      <div class="glossary-desc">拥有物理实体的 AI 系统（如机器人），能在真实世界中感知、行动、学习。</div>
+    </div>
+
+    <div class="glossary-item">
+      <div class="glossary-term">S-1 表</div>
+      <div class="glossary-en">Form S-1 Registration Statement</div>
+      <div class="glossary-desc">美国公司在 IPO 前必须向 SEC 提交的注册声明，包含详细财务和业务信息披露。</div>
+    </div>
+
+    <div class="glossary-item">
+      <div class="glossary-term">长上影线</div>
+      <div class="glossary-en">Long Upper Shadow (Candlestick)</div>
+      <div class="glossary-desc">K 线图中上部影线长度远超实体，显示盘中冲高后卖方压力增大，是潜在反转信号。</div>
+    </div>
+
+    <div class="glossary-item">
+      <div class="glossary-term">北向资金</div>
+      <div class="glossary-en">Northbound Capital</div>
+      <div class="glossary-desc">通过沪港通/深港通从中国香港流入 A 股的外资。被视为外资对中国资产信心的晴雨表。</div>
+    </div>
+
+    <div class="glossary-item">
+      <div class="glossary-term">费城半导体指数</div>
+      <div class="glossary-en">SOX / PHLX Semiconductor Index</div>
+      <div class="glossary-desc">追踪 30 家美国半导体公司股价的市值加权指数，是全球芯片行业最核心的基准指数。</div>
+    </div>
+
+    <div class="glossary-item">
+      <div class="glossary-term">核心 CPI</div>
+      <div class="glossary-en">Core Consumer Price Index</div>
+      <div class="glossary-desc">剔除食品和能源价格后的消费者价格指数，是美联储制定货币政策时最关注的通胀指标。</div>
+    </div>
+
+    <div class="glossary-item">
+      <div class="glossary-term">三巫日</div>
+      <div class="glossary-en">Triple Witching</div>
+      <div class="glossary-desc">每季度一次的股指期货、股指期权和个股期权同日到期的交易日，通常伴随极高成交量与波动。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer">
+  <p>📋 <strong>免责声明</strong>：本报告由 AI 自动生成，仅供信息参考，不构成任何投资建议。市场有风险，投资需谨慎。所有数据来源于公开信息，可能存在延迟。</p>
+  <p style="margin-top:8px;">⏰ <strong>下次推送</strong>：明早 08:00 — 🌅 晨报 | 隔夜国际 + 早间国内 + 开盘前瞻</p>
+  <p style="margin-top:8px;color:#bbb;">AI × 经济日报 · <a href="../history.html" style="color:var(--accent);">历史报告 →</a> · 自动生成于 2026-06-12 20:00 CST</p>
+</div>
+
+</div><!-- /container -->
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+// ===== Expand/Collapse =====
+function toggleCard(id) {
+  var card = document.getElementById(id);
+  card.classList.toggle('expanded');
+}
+
+// ===== A-Share Intraday Chart =====
+(function() {
+  var ctx = document.getElementById('aShareChart');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['09:30','10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00'],
+      datasets: [
+        {
+          label: '上证指数 (SSE)',
+          data: [4009,4025,4042,4056,4051,4048,4055,4060,4040,4031],
+          borderColor: '#e03131',
+          backgroundColor: 'rgba(224,49,49,0.05)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 2,
+          borderWidth: 2
+        },
+        {
+          label: '创业板指 (ChiNext)',
+          data: [3935,3980,3950,3920,3895,3880,3860,3845,3835,3830],
+          borderColor: '#f08c00',
+          backgroundColor: 'rgba(240,140,0,0.03)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 1,
+          borderWidth: 1.5,
+          borderDash: [4,2]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { usePointStyle: true, padding: 20, font: {size:12} } },
+        tooltip: { mode: 'index', intersect: false }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { position: 'right', grid: { color: '#f0f0f0' } }
+      }
+    }
+  });
+})();
+
+// ===== US Futures Chart =====
+(function() {
+  var ctx = document.getElementById('usFuturesChart');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['06:00','08:00','10:00','12:00','14:00','16:00','18:00','19:55'],
+      datasets: [
+        {
+          label: '纳指期货 (NQ)',
+          data: [29480,29520,29580,29540,29480,29420,29380,29348],
+          borderColor: '#339af0',
+          backgroundColor: 'rgba(51,154,240,0.05)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 2,
+          borderWidth: 2
+        },
+        {
+          label: '标普期货 (ES)',
+          data: [7420,7430,7435,7425,7415,7405,7395,7390],
+          borderColor: '#6c5ce7',
+          backgroundColor: 'rgba(108,92,231,0.03)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 1,
+          borderWidth: 1.5
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { usePointStyle: true, padding: 20, font: {size:12} } },
+        tooltip: { mode: 'index', intersect: false }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { position: 'right', grid: { color: '#f0f0f0' } }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

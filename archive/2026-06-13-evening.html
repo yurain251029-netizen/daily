@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="page-entering">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌙 晚报 · AI × 经济日报 — 2026-06-13（周六）</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;color:#1a1a2e;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-color:#faf6ed;
+  background-image:
+    radial-gradient(ellipse at center, transparent 60%, rgba(120,90,50,0.05) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.35 0 0 0 0 0.2 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/></svg>")}
+h1,h2,h3,.header-title,.section-title,.tips-title,.date-stamp,.paper-footer{font-family:'Source Han Serif SC','Songti SC','STSong','SimSun',serif;letter-spacing:0.5px}
+.container{max-width:780px;margin:0 auto;padding:24px 18px 60px}
+@media(min-width:1101px){
+  .container{max-width:1080px;padding:28px 24px 60px}
+  .metric-bar{flex-wrap:wrap}
+  .metric-card{flex:1 1 calc(25% - 8px);min-width:160px}
+  .heatmap{grid-template-columns:repeat(6,1fr)}
+  .depth-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .depth-grid .depth-card{margin-bottom:0}
+  .term-grid{grid-template-columns:repeat(4,1fr)}
+  .section-title{font-size:18px}
+  .header-title{font-size:24px}
+  .chart-wrap{height:240px}
+}
+@media(min-width:1601px){
+  /* 超大屏：双列布局 - 解决大屏留白 */
+  body{background-color:#f0ebe0}
+  .container{max-width:1560px;display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start;box-shadow:inset 0 0 80px rgba(120,90,50,0.08);border-radius:14px}
+  .container>.header{grid-column:1 / -1}
+  .container>.nav{grid-column:1 / -1}
+  .container>.metric-bar{grid-column:1 / -1}
+  .container>.section-main{grid-column:1}
+  .container>.sidebar{grid-column:2;position:sticky;top:24px}
+  .container>.footer{grid-column:1 / -1}
+  .heatmap{grid-template-columns:repeat(6,1fr)}
+  .term-grid{grid-template-columns:repeat(2,1fr)}
+  .chart-wrap{height:260px}
+}
+@media(max-width:600px){
+  .heatmap{grid-template-columns:repeat(2,1fr)}
+  .term-grid{grid-template-columns:1fr}
+  .metric-bar{flex-wrap:wrap}
+  .metric-card{min-width:calc(50% - 5px);flex:0 0 calc(50% - 5px)}
+  .header-top{flex-direction:column;gap:8px}
+  .history-btn{align-self:flex-start}
+  .depth-grid{display:block}
+  .depth-grid .depth-card{margin-bottom:12px}
+}
+.header{background:#fff5e6;border-radius:14px;padding:20px 22px;margin-bottom:18px;border:0.5px solid #ffd9a8}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.header-tag{display:inline-block;background:#ff6b35;color:#fff;font-size:12px;font-weight:600;padding:3px 10px;border-radius:12px;letter-spacing:0.5px}
+.header-title{font-size:22px;font-weight:700;color:#1a1a2e;margin:8px 0 4px}
+.header-date{font-size:13px;color:#666;margin-bottom:4px}
+.header-subtitle{font-size:13px;color:#888}
+.history-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:#fff;border:0.5px solid #ddd;border-radius:8px;color:#8b6f47;font-size:13px;text-decoration:none;transition:background 0.2s, color 0.2s}
+.history-btn:hover{background:#f3eee5}
+
+/* 当前报告标识条 */
+.current-report-bar{background:#fff;border:0.5px solid #ede4d3;border-radius:12px;padding:10px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:0 1px 3px rgba(139,111,71,0.04)}
+.current-report-bar .crb-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.current-report-bar .crb-pulse{color:#ff6b35;font-size:14px;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.4}}
+.current-report-bar .crb-label{display:inline-flex;align-items:center;background:linear-gradient(135deg,#ff6b35 0%,#ff9558 100%);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:14px;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(255,107,53,0.25)}
+.current-report-bar .crb-type{display:inline-flex;align-items:center;background:#fff8eb;color:#8b6f47;font-size:12px;font-weight:600;padding:3px 10px;border-radius:10px;border:0.5px solid #ede4d3}
+.current-report-bar .crb-time{font-size:12px;color:#666}
+.current-report-bar .crb-history{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;background:#8b6f47;color:#fff;font-size:12px;font-weight:600;border-radius:8px;text-decoration:none;transition:background 0.2s}
+.current-report-bar .crb-history:hover{background:#6f5838}
+
+/* 页面导航条（返回主页 + 查看历史） */
+.page-nav{display:flex;justify-content:space-between;align-items:center;background:#fff;border:0.5px solid #ede4d3;border-radius:10px;padding:8px 14px;margin-bottom:14px;box-shadow:0 1px 3px rgba(139,111,71,0.04)}
+.page-nav a{font-size:12px;color:#8b6f47;text-decoration:none;padding:4px 10px;border-radius:6px;transition:background 0.15s,color 0.15s}
+.page-nav a:hover{background:#f3eee5;color:#6f5838}
+
+/* tips-top 容器 */
+.read-tips .tips-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.read-tips .tips-close{font-size:18px;color:#fff;cursor:pointer;background:#8b6f47;border:none;padding:2px 8px;line-height:1;border-radius:6px;font-weight:700;transition:background 0.15s, transform 0.15s}
+.read-tips .tips-close:hover{background:#6f5838;transform:scale(1.05)}
+
+/* 导航优化：具体属性过渡 */
+.nav{background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:18px;border:0.5px solid #ede4d3}
+.nav-title{font-size:12px;color:#999;font-weight:600;margin-bottom:10px;letter-spacing:0.5px}
+.nav-items{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.nav-item{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:#faf6ed;border-radius:8px;color:#555;font-size:13px;text-decoration:none;border:0.5px solid #ede4d3;transition:background 0.15s, color 0.15s, border-color 0.15s}
+.nav-item:hover{background:#f0ebe0;color:#1a1a2e}
+.nav-item .num{background:#6c5ce7;color:#fff;font-size:11px;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:600}
+.nav-read{font-size:12px;color:rgba(139,111,71,0.6);padding-top:8px;border-top:0.5px dashed rgba(139,111,71,0.2)}
+.date-stamp{display:inline-block;font-size:11px;color:#8b6f47;background:rgba(139,111,71,0.08);padding:3px 9px;border-radius:10px;margin-left:8px;letter-spacing:0.3px;font-family:'Source Han Serif SC','Songti SC',serif}
+.read-tips{background:#fff8eb;border-radius:12px;padding:10px 14px;margin-bottom:14px;border:0.5px solid #ede4d3;border-left:3px solid #8b6f47;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.read-tips .tips-icon{font-size:14px;color:#8b6f47;font-weight:700;letter-spacing:0.5px;cursor:pointer;user-select:none}
+.read-tips .tips-quick{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.read-tips .tip-chip{font-size:11px;color:#6b5a3e;background:rgba(139,111,71,0.06);padding:3px 8px;border-radius:10px;line-height:1.3}
+.read-tips .tip-chip strong{color:#8b6f47}
+.read-tips .tips-close{font-size:14px;color:#b8a888;cursor:pointer;background:transparent;border:none;padding:0 4px;line-height:1}
+.read-tips .tips-close:hover{color:#8b6f47}
+.read-tips-detail{max-height:0;overflow:hidden;opacity:0;transition:max-height 0.3s ease, opacity 0.25s ease, padding-top 0.3s ease, margin-top 0.3s ease, border-top-color 0.3s ease;margin-top:0;padding-top:0;border-top:0.5px dashed transparent;font-size:12px;color:#6b5a3e;line-height:1.8}
+.read-tips.open .read-tips-detail{max-height:300px;opacity:1;margin-top:10px;padding-top:10px;border-top:0.5px dashed rgba(139,111,71,0.2)}
+.nav-divider{height:1px;margin:6px 0 18px;background:linear-gradient(to right,transparent,#8b6f47 30%,#8b6f47 70%,transparent);opacity:0.3}
+.paper-footer{text-align:center;padding:24px 16px;margin-top:30px;font-size:11px;color:#8b6f47;letter-spacing:0.5px;border-top:0.5px solid #ede4d3;font-family:'Source Han Serif SC','Songti SC',serif}
+.paper-footer-tip{margin-top:4px;color:#b8a888;font-size:10px;font-style:italic}
+
+/* 区块优化：添加 content-visibility */
+.section{background:#fff;border-radius:12px;padding:18px 20px;margin-bottom:16px;border:0.5px solid #ede4d3}
+.section-title{font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title .emoji{font-size:20px}
+.section-subtitle{font-size:12px;color:#999;font-weight:400;margin-left:auto}
+
+/* Top3 卡片优化：去掉渐变，改用实心色 */
+.top3-card{border-left:3px solid #c14545;background:#fdf6f4;padding:14px 16px;border-radius:0 10px 10px 0;margin-bottom:12px}
+.top3-card:last-child{margin-bottom:0}
+.top3-num{display:inline-block;background:#a83a3a;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;margin-bottom:6px}
+.top3-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:4px;line-height:1.4}
+.top3-en{font-size:12px;color:#888;font-style:italic;margin-bottom:6px}
+.top3-desc{font-size:13px;color:#444;line-height:1.5}
+
+/* 指标卡优化：具体属性过渡 + 手机端布局修复 */
+.metric-bar{display:flex;gap:10px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.metric-card{flex:1;min-width:130px;background:#faf6ed;border:0.5px solid #ede4d3;border-radius:10px;padding:12px 14px;transition:background 0.15s, border-color 0.15s}
+.metric-label{font-size:11px;color:#999;margin-bottom:4px;font-weight:500}
+.metric-value{font-size:20px;font-weight:700;color:#1a1a2e;line-height:1.1}
+.metric-change{font-size:12px;margin-top:3px;font-weight:600}
+.up{color:#d60000}
+.down{color:#1a8f3c}
+.flat{color:#888}
+.metric-note{font-size:10px;color:#999;margin-top:3px;line-height:1.3}
+
+/* 情绪指标条 v2 - 暖棕纸面风 + 14px 加高轨道 + 刻度线 + 情绪词 */
+.sentiment-bar{background:#faf6ed;border:0.5px solid #ede4d3;border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.sentiment-label{font-size:12px;color:#8b6f47;font-weight:600;white-space:nowrap;min-width:52px}
+.sentiment-track{flex:1;height:14px;background:#ede4d3;border-radius:7px;position:relative;overflow:visible;box-shadow:inset 0 1px 2px rgba(139,111,71,0.08)}
+.sentiment-fill{height:100%;border-radius:7px;background:linear-gradient(to right,#8b6f47,#c8843a);transition:width 0.4s cubic-bezier(0.4,0,0.2,1)}
+.sentiment-tick{position:absolute;top:50%;width:2px;height:20px;transform:translate(-50%,-50%);background:rgba(139,111,71,0.2);border-radius:1px;pointer-events:none}
+.sentiment-marker{position:absolute;top:-4px;width:12px;height:12px;background:#fff;border:2px solid #8b6f47;border-radius:50%;transform:translateX(-50%);box-shadow:0 1px 4px rgba(139,111,71,0.2);transition:left 0.4s cubic-bezier(0.4,0,0.2,1)}
+.sentiment-score{font-size:16px;font-weight:700;color:#8b6f47;min-width:36px;text-align:right;font-family:'Source Han Serif SC','Songti SC',serif}
+.sentiment-word{font-size:12px;color:#8b6f47;font-weight:500;min-width:44px;text-align:left}
+
+.news-card{border-left:3px solid #ccc;background:#fff;padding:12px 14px;border-radius:0 10px 10px 0;margin-bottom:10px;contain:layout style;transition:background 0.25s ease, border-left-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease}
+.news-card:hover{background:#faf6ed;border-left-color:#8b6f47;box-shadow:0 1px 6px rgba(139,111,71,0.06);transform:translateX(2px);will-change:transform}
+.news-card.important{border-left-color:#c14545;background:#fdf6f4}
+.news-card.watch{border-left-color:#c8843a;background:#faf3eb}
+.news-card.quick{border-left-color:#ccc}
+.news-card.important:hover{border-left-color:#a83a3a}
+.news-card.watch:hover{border-left-color:#8a5a25}
+.news-card.quick:hover{border-left-color:#8b6f47}
+.news-card.expanded{box-shadow:0 2px 12px rgba(139,111,71,0.08)}
+.news-meta{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap}
+.news-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px;letter-spacing:0.3px}
+.badge-important{background:#f5d9d6;color:#a83a3a}
+.badge-watch{background:#f0e3d0;color:#8a5a25}
+.badge-quick{background:#ece4d5;color:#7a6a55}
+.news-cat{font-size:10px;background:#f0ebe0;color:#555;padding:2px 7px;border-radius:5px}
+.news-title{font-size:14px;font-weight:600;color:#1a1a2e;line-height:1.45;margin-bottom:4px}
+.news-en{font-size:11px;color:#999;font-style:italic;margin-bottom:6px}
+.news-desc{font-size:13px;color:#444;line-height:1.55;margin-bottom:8px}
+.news-desc .term{border-bottom:1px dotted #8b6f47;color:#1a1a2e;cursor:help}
+.news-sources{font-size:11px;color:#888;margin-bottom:6px}
+.news-sources a{color:#8b6f47;text-decoration:none;margin-right:8px}
+.news-sources a:hover{text-decoration:underline}
+.news-toggle{font-size:11px;background:transparent;color:#8b6f47;border:none;cursor:pointer;padding:4px 0;font-weight:500;transition:color 0.15s, transform 0.15s}
+.news-toggle:hover{color:#5d4a30;font-weight:600;transform:translateX(2px)}
+
+/* 展开详情优化：添加 CSS 过渡动画 */
+.news-detail{max-height:0;overflow:hidden;opacity:0;transform:translateY(-4px);transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease, transform 0.3s cubic-bezier(0.4,0,0.2,1), padding-top 0.3s ease, margin-top 0.3s ease, border-top-color 0.3s ease;margin-top:0;padding-top:0;border-top:0.5px dashed transparent}
+.news-detail.show{opacity:1;transform:translateY(0);margin-top:10px;padding-top:10px;border-top:0.5px dashed rgba(139,111,71,0.2)}
+.news-detail h4{font-size:12px;color:#8b6f47;font-weight:600;margin-bottom:4px;margin-top:8px}
+.news-detail h4:first-child{margin-top:0}
+.news-detail p{font-size:12px;color:#555;line-height:1.55;margin-bottom:6px}
+
+/* 图表容器优化 */
+.chart-wrap{background:#faf6ed;border-radius:10px;padding:14px;margin-bottom:14px;border:0.5px solid #ede4d3;height:220px;position:relative}
+.chart-title{font-size:13px;font-weight:600;color:#555;margin-bottom:8px}
+[id$="Chart"]{position:absolute;left:14px;right:14px;top:38px;bottom:14px}
+
+/* 热力图 */
+.heatmap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.heat-cell{padding:10px 12px;border-radius:8px;border:0.5px solid rgba(139,111,71,0.15);position:relative;transition:background 0.15s;contain:layout style}
+.heat-cell:hover{background:#faf6ed}
+.heat-name{font-size:12px;font-weight:600;margin-bottom:6px;color:#1a1a2e}
+.heat-change{font-size:16px;font-weight:700;margin-bottom:4px}
+.heat-progress{height:4px;background:rgba(139,111,71,0.12);border-radius:2px;overflow:hidden;margin-bottom:4px}
+.heat-bar{height:100%;border-radius:2px}
+.heat-dir{font-size:10px;color:#666}
+
+/* 深度分析卡片 */
+.depth-card{background:linear-gradient(135deg,#faf6ed 0%,#fff 100%);border:1px solid #ede4d3;border-radius:12px;padding:16px 18px;margin-bottom:12px;transition:border-color 0.25s ease, box-shadow 0.3s ease, transform 0.25s ease}
+.depth-card:hover{border-color:rgba(139,111,71,0.4);box-shadow:0 4px 16px rgba(139,111,71,0.08);transform:translateY(-1px)}
+.depth-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:6px;line-height:1.4}
+.depth-section{margin-top:10px}
+.depth-section h4{font-size:12px;color:#8b6f47;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.depth-section p{font-size:12.5px;color:#444;line-height:1.6}
+.social-heat{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.social-chip{font-size:11px;padding:4px 10px;background:#faf6ed;border-radius:14px;color:#555;border:0.5px solid #ede4d3;transition:background 0.15s, color 0.15s, transform 0.15s;cursor:default}
+.social-chip:hover{background:#f0e3d0;color:#8b6f47;transform:translateY(-1px)}
+
+/* 日历 */
+.calendar-item{display:flex;align-items:center;gap:12px;padding:10px 12px;background:#faf6ed;border-radius:8px;margin-bottom:6px;border:0.5px solid #ede4d3;transition:background 0.15s}
+.cal-date{min-width:62px;text-align:center}
+.cal-date-day{font-size:18px;font-weight:700;color:#1a1a2e;line-height:1.1}
+.cal-date-dow{font-size:10px;color:#999;margin-top:2px}
+.cal-content{flex:1}
+.cal-event{font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:2px}
+.cal-note{font-size:11px;color:#888}
+.cal-stars{font-size:11px;color:#f5a623;letter-spacing:1px}
+
+/* 术语卡 */
+.term-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.term-card{background:#faf6ed;border-radius:8px;padding:10px 12px;border:0.5px solid #ede4d3;transition:background 0.2s ease, border-color 0.2s ease}
+.term-card:hover{background:#f3eee5;border-color:rgba(139,111,71,0.3)}
+.term-name{font-size:13px;font-weight:700;color:#1a1a2e;margin-bottom:2px}
+.term-en{font-size:10px;color:#8b6f47;margin-bottom:4px;font-weight:500}
+.term-desc{font-size:11px;color:#666;line-height:1.45}
+
+/* 页脚 */
+.footer{text-align:center;padding:20px 14px;margin-top:8px;color:#999;font-size:12px;line-height:1.7;border-top:0.5px dashed #ede4d3}
+.footer strong{color:#8b6f47}
+
+/* 回到顶部按钮 */
+.back-to-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:#8b6f47;color:#fff;border:none;border-radius:50%;font-size:20px;cursor:pointer;opacity:0;visibility:hidden;transition:opacity 0.3s, visibility 0.3s, background 0.15s;box-shadow:0 4px 12px rgba(139,111,71,0.3);z-index:1000}
+.back-to-top.show{opacity:1;visibility:visible}
+.back-to-top:hover{background:#6f5838}
+
+/* 手机端布局修复 - 已包含在主媒体查询中 */
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 当前报告标识条 -->
+  <div class="current-report-bar">
+    <div class="crb-left">
+      <span class="crb-pulse">●</span>
+      <span class="crb-label">当前报告</span>
+      <span class="crb-type">🌙 晚报</span>
+      <span class="crb-time">生成时间 · 2026-06-13 20:46</span>
+    </div>
+    <a href="../history.html" class="crb-history">查看历史 ↗</a>
+  </div>
+
+  <!-- 页面导航条（归档页/历史页用于快速回主页） -->
+  <div class="page-nav">
+    <a href="../index.html" class="page-nav-home">← 返回主页</a>
+    <a href="../history.html" class="page-nav-history">查看历史 ↗</a>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <span class="header-tag">🌙 晚报 · EVENING BRIEFING</span>
+        <span class="date-stamp">📅 2026-06-13 · 周六</span>
+      </div>
+    </div>
+    <div class="header-title">SpaceX 史上最大 IPO + A股站稳4000 + 鸿蒙7迈入Agent时代</div>
+    <div class="header-date">2026年6月13日（周六）· 晚报 20:00 GMT+8</div>
+    <div class="header-subtitle">🚀 SPCX收涨19%市值破2万亿 · 沪指4031点成交3.2万亿 · 华为鸿蒙7 Beta全面Agent化 · 美伊停战油价暴跌4%</div>
+  </div>
+
+<!-- 读前提示（轻量引导条） -->
+<div class="read-tips" id="readTips">
+  <div class="tips-top">
+    <span class="tips-icon" onclick="toggleTips()">📖 阅读提示 ▾</span>
+    <button class="tips-close" onclick="this.parentElement.parentElement.style.display='none'" aria-label="关闭">×</button>
+  </div>
+  <div class="tips-quick">
+    <span class="tip-chip">🔴 涨红跌绿</span>
+    <span class="tip-chip"><strong>必知</strong>看左侧红条</span>
+    <span class="tip-chip">📊 图表滚动加载</span>
+    <span class="tip-chip">🌙 晚报=全天总结+深度</span>
+  </div>
+  <div class="read-tips-detail">
+    · <strong>必知（红）</strong>：3 条全天核心事件，看完心里有数<br>
+    · <strong>关注（橙）</strong>：6-8 条值得跟踪的市场动态<br>
+    · <strong>速览（灰）</strong>：8-10 条一分钟读懂<br>
+    · <strong>涨跌色</strong>：中国惯例，涨=红、跌=绿（与国际市场相反）<br>
+    · <strong>术语</strong>：虚线下划线=术语，悬停查看小白注释<br>
+    · <strong>图表</strong>：滚动到附近自动渲染，悬停查看具体数值<br>
+    · <strong>晚报特定</strong>：全天总结 + A股收盘复盘 + 欧美盘前/盘中 + 深度分析最丰富<br>
+  </div>
+</div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-title">目录 · NAVIGATION</div>
+    <div class="nav-items">
+      <a href="#top3" class="nav-item"><span class="num">1</span>必知Top3</a>
+    <a href="#ai" class="nav-item"><span class="num">2</span>AI科技</a>
+    <a href="#eco" class="nav-item"><span class="num">3</span>经济金融</a>
+    <a href="#depth" class="nav-item"><span class="num">4</span>深度分析</a>
+    <a href="#calendar" class="nav-item"><span class="num">5</span>财经日历</a>
+    </div>
+    <div class="nav-read">⏱ 预计总阅读时长：15分钟 · 中英双语 · 小白友好</div>
+  </nav>
+
+  <!-- 顶部指标卡 -->
+  <div class="metric-bar">
+    <div class="metric-card">
+  <div class="metric-label">上证指数</div>
+  <div class="metric-value">4031.51</div>
+  <div class="metric-change up">+1.12%</div>
+  <div class="metric-note">站稳4000关口</div>
+</div>
+<div class="metric-card">
+  <div class="metric-label">深证成指</div>
+  <div class="metric-value">14963.41</div>
+  <div class="metric-change up">+0.75%</div>
+  <div class="metric-note">普涨格局</div>
+</div>
+<div class="metric-card">
+  <div class="metric-label">创业板指</div>
+  <div class="metric-value">3830.35</div>
+  <div class="metric-change up">+0.50%</div>
+  <div class="metric-note">早盘冲高回落</div>
+</div>
+<div class="metric-card">
+  <div class="metric-label">北向资金</div>
+  <div class="metric-value">+150亿(5日)</div>
+  <div class="metric-change up">连续净流入</div>
+  <div class="metric-note">外资主动增配</div>
+</div>
+  </div>
+
+  <!-- TOP 3 -->
+  <div class="section" id="top3">
+    <div class="section-title"><span class="emoji">🎯</span>今日必知 Top 3 <span class="section-subtitle">1秒抓住核心</span></div>
+    <div class="top3-card">
+  <span class="top3-num">TOP 1</span>
+  <div class="top3-title">SpaceX 完成史上最大 IPO，首日收涨 19%，马斯克成首位万亿富翁</div>
+  <div class="top3-en">SpaceX completes largest IPO ever, closes +19%, Musk becomes first trillionaire</div>
+  <div class="top3-desc">SPCX 发行价 $135，盘中最高 $176.52，收报 $161.11，市值超 2 万亿美元，成美国第六大上市公司。</div>
+</div>
+<div class="top3-card">
+  <span class="top3-num">TOP 2</span>
+  <div class="top3-title">A股 周五放量收红，沪指 4031 点站稳 4000 关口，成交 3.2 万亿</div>
+  <div class="top3-en">A-shares surge Friday, Shanghai holds 4,000 on 3.2T yuan turnover</div>
+  <div class="top3-desc">3923 只个股上涨，北向资金连续 5 日净流入超 150 亿，半导体+化工领涨。</div>
+</div>
+<div class="top3-card">
+  <span class="top3-num">TOP 3</span>
+  <div class="top3-title">华为 HDC 2026 发布鸿蒙 7 Beta，全面迈入 AI Agent 时代</div>
+  <div class="top3-en">Huawei HDC 2026 launches HarmonyOS 7 Beta, fully enters AI Agent era</div>
+  <div class="top3-desc">智能体框架 2.0 上线，复杂任务成功率超 90%，小艺升级私人智能助理。</div>
+</div>
+  </div>
+
+  <!-- AI & 科技 -->
+  <div class="section" id="ai">
+    <div class="section-title"><span class="emoji">🤖</span>AI & 科技 <span class="section-subtitle">板块情绪 8.5</span></div>
+    <div class="sentiment-bar">
+      <span class="sentiment-label">板块情绪</span>
+      <div class="sentiment-track">
+        <div class="sentiment-fill" style="width:85%"></div>
+        <span class="sentiment-tick" style="left:25%"></span>
+        <span class="sentiment-tick" style="left:50%"></span>
+        <span class="sentiment-tick" style="left:75%"></span>
+        <div class="sentiment-marker" style="left:85%"></div>
+      </div>
+      <span class="sentiment-score">8.5</span>
+      <span class="sentiment-word" data-pct="85"></span>
+    </div>
+    <div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">大模型</span>
+  </div>
+  <div class="news-title">Claude Opus 4.8 登顶 AI 基准，总分超 GPT-5.5 近 4 倍</div>
+  <div class="news-en">Claude Opus 4.8 tops AI benchmarks, beats GPT-5.5 by nearly 4x</div>
+  <div class="news-desc">Anthropic 5 月底悄然发布新旗舰，在 Artificial Analysis 智能指数 v4.0 以 61.4 分登顶，关键任务胜率 67%。</div>
+  <div class="news-sources"><a href="https://artificialanalysis.ai/" target="_blank" rel="noopener">Artificial Analysis ↗</a><a href="https://finance.sina.com.cn/wm/2026-06-02/doc-inhzzcpm4475245.shtml" target="_blank" rel="noopener">新智元 ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>Anthropic 于 5 月 28 日发布 Claude Opus 4.8，无发布会直接上线，但在 AI 基准测试中一举超越 GPT-5.5。</p>
+  <h4>💡 为什么重要</h4>
+  <p>Opus 4.8 采用全新推理架构，在 ARC-AGI-3 等高难度基准上表现突出，RHAE 得分 1.5%，是第二名的 3 倍。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>AI 模型竞赛进入新阶段——不再只是参数规模，推理效率和关键任务准确率成为新衡量标准。对企业选型影响深远。</p>
+  <h4>👀 后续关注</h4>
+  <p>关注 OpenAI 如何回应（GPT-5.6 已在内部曝光），以及 Anthropic 是否跟进 IPO 计划。</p>
+</div>
+</div>
+<div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">物理AI</span>
+  </div>
+  <div class="news-title">英伟达发布 Cosmos 3：全球首款开放全模态物理 AI 模型</div>
+  <div class="news-en">NVIDIA launches Cosmos 3: world's first open omnimodal physical AI model</div>
+  <div class="news-desc">在 GTC Taipei 发布，融合视觉推理+世界生成+动作预测，面向机器人、自动驾驶、智能工厂。</div>
+  <div class="news-sources"><a href="https://developer.nvidia.com/blog/develop-physical-ai-reasoning-world-and-action-models-with-nvidia-cosmos-3" target="_blank" rel="noopener">NVIDIA Blog ↗</a><a href="https://news.qq.com/rain/a/20260604A0734L00" target="_blank" rel="noopener">财联社 ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>英伟达在 GTC Taipei 大会正式发布 Cosmos 3，是全球首款完全开放的全模态物理 AI 模型，原生支持文本、图像、视频、环境音和动作的多模态生成。</p>
+  <h4>💡 为什么重要</h4>
+  <p>物理 AI（机器人、自动驾驶）需要理解真实世界的物理规律才能安全行动，Cosmos 3 填补了通用物理世界模型的空白。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>大幅降低物理 AI 开发门槛，中小团队也能基于开放模型训练机器人策略，可能催生物理 AI 应用创业潮。</p>
+  <h4>👀 后续关注</h4>
+  <p>关注 Cosmos 3 生态落地速度，以及与特斯拉 Optimus、Figure 等机器人项目的整合进展。</p>
+</div>
+</div>
+<div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">操作系统</span>
+  </div>
+  <div class="news-title">鸿蒙 7 Beta 启动：智能体框架 2.0 + 小艺 Agent 化升级</div>
+  <div class="news-en">HarmonyOS 7 Beta: Agent Framework 2.0 + Xiaoyi Agent upgrade</div>
+  <div class="news-desc">HDC 2026 重磅发布，复杂任务成功率超 90%，开放超 20 项系统级 AI 能力及 GUI 操控。</div>
+  <div class="news-sources"><a href="https://www.huawei.com/cn/news/2026/6/harmonyos7-hdc" target="_blank" rel="noopener">华为官网 ↗</a><a href="https://news.qq.com/rain/a/20260612A06HGG00" target="_blank" rel="noopener">快科技 ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>华为在 HDC 2026 发布 HarmonyOS 7 开发者 Beta，核心变化是系统架构全面 Agent 化，鸿蒙智能体框架升级至 2.0。</p>
+  <h4>💡 为什么重要</h4>
+  <p>从'语音助手'升级为'私人智能助理'，小艺接入 200+ 项系统级感知数据，实现主动服务和多轮任务交互。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>鸿蒙成为首个系统级 AI Agent 平台，1100 万开发者生态有望快速产出 Agent 应用，与 Android/iOS 形成差异化竞争。</p>
+  <h4>👀 后续关注</h4>
+  <p>关注开发者适配速度和消费者端实际体验，以及 Agent 框架对应用开发范式的改变。</p>
+</div>
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">芯片</span>
+  </div>
+  <div class="news-title">英伟达 RTX Spark AI PC 发布：Arm+联发科联手重塑 Windows PC</div>
+  <div class="news-en">NVIDIA RTX Spark AI PC: Arm + MediaTek reshape Windows PC</div>
+  <div class="news-desc">Grace CPU + Blackwell RTX GPU 统一内存，20 核高能效 CPU + 6144 CUDA 核心，联想/戴尔/惠普首批搭载。</div>
+  <div class="news-sources"><a href="https://www.ithome.com/0/959/901.htm" target="_blank" rel="noopener">IT之家 ↗</a><a href="https://www.sohu.com/a/1035766889_114950" target="_blank" rel="noopener">搜狐科技 ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">收购</span>
+  </div>
+  <div class="news-title">英伟达 4 亿美元收购预测 AI 初创 Kumo AI，加码企业级 AI</div>
+  <div class="news-en">NVIDIA acquires predictive AI startup Kumo AI for $400M+</div>
+  <div class="news-desc">从芯片公司向全栈 AI 公司转型的又一关键落子，强化企业级预测分析能力。</div>
+  <div class="news-sources"><a href="https://techstartups.com/2026/06/04/nvidia-acquires-predictive-ai-startup-kumo-ai-in-400m-deal-to-boost-enterprise-ai-push/" target="_blank" rel="noopener">TechStartups ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">芯片</span>
+  </div>
+  <div class="news-title">英伟达联合台积电将 AI 引入晶圆厂，加速半导体设计制造</div>
+  <div class="news-en">NVIDIA and TSMC bring AI into fabs for chip design &amp; manufacturing</div>
+  <div class="news-desc">利用英伟达加速计算和 AI 推进半导体设计制造流程，大幅缩短芯片开发周期。</div>
+  <div class="news-sources"><a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-and-TSMC-Bring-AI-Into-Fabs-to-Advance-Semiconductor-Design-and-Manufacturing/default.aspx" target="_blank" rel="noopener">NVIDIA Investor Relations ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">大模型</span>
+  </div>
+  <div class="news-title">GPT-5.6 内部代号曝光 + Claude Sonnet 4.8 源码泄露</div>
+  <div class="news-en">GPT-5.6 internal codename exposed + Claude Sonnet 4.8 source code leak</div>
+  <div class="news-desc">Codex 日志出现 GPT-5.6，Claude Code 源码泄露 Sonnet 4.8 / Opus 4.7 / Jupiter 等代号。</div>
+  <div class="news-sources"><a href="https://blog.csdn.net/xyghehehehe/article/details/160959137" target="_blank" rel="noopener">CSDN ↗</a><a href="https://www.iweaver.ai/zh/blog/openai-gpt-5-6-claude-sonnet-4-8/" target="_blank" rel="noopener">iWeaver ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">芯片</span>
+  </div>
+  <div class="news-title">英特尔 COMPUTEX 发布多款 AI 创新产品，聚焦推理+智能体+物理 AI</div>
+  <div class="news-en">Intel announces multiple AI innovations at COMPUTEX, focusing on inference, agents &amp; physical AI</div>
+  <div class="news-desc">从芯片到系统级全面布局 AI 推理与智能体时代。</div>
+  <div class="news-sources"><a href="https://newsroom.intel.com/artificial-intelligence/intel-announces-new-ai-innovations-at-computex" target="_blank" rel="noopener">Intel Newsroom ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">机器人</span>
+  </div>
+  <div class="news-title">OpenAI 机器人部门动作频频，物理 AI 赛道热度飙升</div>
+  <div class="news-en">OpenAI Robotics division moves fast as physical AI heats up</div>
+  <div class="news-desc">NVIDIA Cosmos 3 发布后，OpenAI 机器人团队加速布局具身智能。</div>
+  <div class="news-sources"><a href="https://peerlist.io/cnyouzige/articles/ai-agents-news--june-2026-openai-robotics-huawei-harmonyos-a" target="_blank" rel="noopener">Peerlist ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">应用</span>
+  </div>
+  <div class="news-title">AI 初创融资：2026 年已有 107 家 ML 公司融资 54 亿美元</div>
+  <div class="news-en">AI startup funding: 107 ML companies raise $5.4B in 2026</div>
+  <div class="news-desc">资金集中在 AI + 基础设施 + 自动化交叉领域，纯概念项目融资难度加大。</div>
+  <div class="news-sources"><a href="https://www.fundedstartupsdaily.com/raises/ai-ml/" target="_blank" rel="noopener">FundedStartupsDaily ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">大模型</span>
+  </div>
+  <div class="news-title">2026 年 6 月大模型密集发布潮：上下文窗口突破 150 万 Token</div>
+  <div class="news-en">June 2026 model release wave: context windows break 1.5M tokens</div>
+  <div class="news-desc">GPT-5.6、Claude Sonnet 4.8、Gemini 3.5 Pro、Grok 5、Qwen3.6、GLM-5.1 扎堆发布。</div>
+  <div class="news-sources"><a href="https://www.yidaoit.cn/news-2026-06-02-b.html" target="_blank" rel="noopener">一键AI ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">自动驾驶</span>
+  </div>
+  <div class="news-title">COMPUTEX + GTC 自动驾驶密集发布：oToBrite / Turing Drive / 联发科</div>
+  <div class="news-en">COMPUTEX + GTC autonomous driving flood: oToBrite, Turing Drive, MediaTek</div>
+  <div class="news-desc">NVIDIA 智能驾驶平台生态持续扩大，多家厂商发布新一代方案。</div>
+  <div class="news-sources"><a href="https://www.autoconnectedcar.com/2026/06/computex-gtc-autonomous-news-nvidia-otobrite-turing-drive-mediatek-aaeon-foretellix-vinfast-autobrains-microip-intel-axelera-brainchip/" target="_blank" rel="noopener">AutoConnectedCar ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">PC平台</span>
+  </div>
+  <div class="news-title">Arm + NVIDIA RTX Spark 发布 AI PC 平台，Windows on Arm 迎拐点</div>
+  <div class="news-en">Arm + NVIDIA RTX Spark AI PC platform, Windows on Arm inflection point</div>
+  <div class="news-desc">低功耗+高算力组合冲击 Intel/AMD 传统 PC 市场，2026 秋季首批产品上市。</div>
+  <div class="news-sources"><a href="https://www.sohu.com/a/1030956801_122873270" target="_blank" rel="noopener">搜狐科技 ↗</a><a href="https://www.msn.cn/zh-cn/news/other/nvidia-rtx-spark%E8%AE%A9pc%E5%A4%84%E7%90%86%E5%99%A8%E5%B8%82%E5%9C%BA%E5%8F%98%E5%A4%A9-%E8%8B%B1%E4%BC%9F%E8%BE%BE%E4%B8%8E%E8%81%94%E5%8F%91%E7%A7%91%E6%B7%B1%E5%BA%A6%E5%90%88%E4%BD%9C%E8%BF%9B%E6%94%BB%E9%AB%98%E7%AB%AFwindows-pc%E5%B8%82%E5%9C%BA/ar-AA24NKhS" target="_blank" rel="noopener">MSN ↗</a></div>
+  
+</div>
+    <div class="chart-wrap" id="aiChartWrap">
+  <div class="chart-title">A 股 + 美股 近 7 日走势对比</div>
+  <canvas id="aiChart"></canvas>
+</div>
+<script>
+window.__CHART_DATA__={"title": "A 股 + 美股 近 7 日走势对比", "labels": ["06-04", "06-05", "06-08", "06-09", "06-10", "06-11", "06-12"], "datasets": [{"label": "上证指数", "data": [4018, 4027, 3959, 3982, 3993, 3987, 4032], "color": "#8b6f47", "fill": true}, {"label": "标普 500", "data": [7430, 7384, 7410, 7425, 7390, 7394, 7431], "color": "#d60000", "fill": false}, {"label": "纳指", "data": [25580, 25350, 25620, 25750, 25650, 25810, 25960], "color": "#c8843a", "fill": false}]};
+</script>
+  </div>
+
+  <!-- 经济 & 金融 -->
+  <div class="section" id="eco">
+    <div class="section-title"><span class="emoji">💰</span>经济 & 金融 <span class="section-subtitle">板块情绪 7.2</span></div>
+    <div class="sentiment-bar">
+      <span class="sentiment-label">板块情绪</span>
+      <div class="sentiment-track">
+        <div class="sentiment-fill" style="width:72%"></div>
+        <span class="sentiment-tick" style="left:25%"></span>
+        <span class="sentiment-tick" style="left:50%"></span>
+        <span class="sentiment-tick" style="left:75%"></span>
+        <div class="sentiment-marker" style="left:72%"></div>
+      </div>
+      <span class="sentiment-score">7.2</span>
+      <span class="sentiment-word" data-pct="72"></span>
+    </div>
+    <div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">A股复盘</span>
+  </div>
+  <div class="news-title">A 股周五放量收红：沪指 4031 点 +1.12%，3.2 万亿天量成交</div>
+  <div class="news-en">A-shares surge Friday: Shanghai 4031 +1.12% on 3.2T yuan turnover</div>
+  <div class="news-desc">3923 只个股上涨，权重+成长共振，北向资金连续 5 日净买入超 150 亿，沪指重回 4000 点上方。</div>
+  <div class="news-sources"><a href="https://guba.sina.com.cn/?s=thread&amp;tid=5505476&amp;bid=9279" target="_blank" rel="noopener">新浪财经 ↗</a><a href="https://baijiahao.baidu.com/s?id=1867764877187960676" target="_blank" rel="noopener">百度百家 ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>6 月 12 日（周五）A 股三大指数全线收涨，上证指数报 4031.51 点涨 1.12%，深证成指涨 0.75%，创业板指涨 0.50%。全市场成交额 3.24 万亿元。</p>
+  <h4>💡 为什么重要</h4>
+  <p>美股前一日大涨带动亚太情绪回暖，叠加北向资金持续流入和半导体板块政策利好共振。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>沪指站上 4000 点具有重要心理意义，若下周能持续放量站稳，则中期看多信号确立。</p>
+  <h4>👀 后续关注</h4>
+  <p>关注 4000 点能否成为有效支撑而非假突破，以及北向资金流入的持续性。</p>
+</div>
+</div>
+<div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">美股</span>
+  </div>
+  <div class="news-title">美股三大指数收涨：SpaceX 上市提振情绪，标普周线 +0.5%</div>
+  <div class="news-en">US stocks close higher: SpaceX debut boosts sentiment, S&amp;P weekly +0.5%</div>
+  <div class="news-desc">标普 500 涨 0.5%，道指涨 0.7%，纳指涨 0.6%，三大指数周线全线收红。</div>
+  <div class="news-sources"><a href="https://apnews.com/article/wall-street-stocks-dow-nasdaq-f61ee2e7ec8ca8c95048cef76ed27214" target="_blank" rel="noopener">AP News ↗</a><a href="https://www.investopedia.com/stock-market-today-dow-jones-s-and-p-500-06122026-11996464" target="_blank" rel="noopener">Investopedia ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>6 月 12 日美股三大指数收涨，标普 500 涨 0.5%，道指涨 0.7%，纳指涨 0.6%。全周标普涨 0.5%，纳指涨 0.6%，道指涨 0.6%。</p>
+  <h4>💡 为什么重要</h4>
+  <p>SpaceX 史诗级 IPO 提振市场信心，美伊停战协议进展推动油价回落减轻通胀担忧。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>风险偏好回升，资金从避险资产转向成长股，AI+航天板块受益最大。</p>
+  <h4>👀 后续关注</h4>
+  <p>关注下周 SpaceX 第二周交易表现，以及标普 500 指数纳入 SPCX 的时间表。</p>
+</div>
+</div>
+<div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">SpaceX</span>
+  </div>
+  <div class="news-title">SpaceX SPCX 首日收涨 19%，市值超 2 万亿美元创史上最大 IPO</div>
+  <div class="news-en">SpaceX SPCX closes +19% on day one, market cap exceeds $2T in largest IPO ever</div>
+  <div class="news-desc">发行价 $135，开盘 $150，盘中最高 $176.52，收报 $161.11。马斯克成全球首位万亿富翁。</div>
+  <div class="news-sources"><a href="https://www.benzinga.com/markets/ipos/26/06/53180108/spacex-stock-closes-up-19-in-record-shattering-ipo-debut" target="_blank" rel="noopener">Benzinga ↗</a><a href="https://www.npr.org/2026/06/12/nx-s1-5855004/stock-ai-spacex-ipo-elon-musk" target="_blank" rel="noopener">NPR ↗</a><a href="https://fortune.com/2026/06/12/spacex-ipo-trading-first-day-live-updates-elon-musk/" target="_blank" rel="noopener">Fortune ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>SpaceX 以每股 135 美元发行 5.56 亿股，募资 750 亿美元，为首日收盘市值超 2 万亿美元。首日交易量超 3.6 亿股，交易额超 QQQ+SPY ETF 总和。</p>
+  <h4>💡 为什么重要</h4>
+  <p>Starlink + 星舰 + AI 算力三线合一叙事，加上 AB 股双重股权结构保障创始人控制权，吸引长期配置资金。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>成为美国第六大上市公司（超 Meta），将重塑全球航天+AI 算力版图。OpenAI、Anthropic、Stripe 等将参考此次 IPO 调整上市计划。</p>
+  <h4>👀 后续关注</h4>
+  <p>下周股价走势是否守住 $160，标普 500 纳入进度，以及被动指数基金强制买入带来的额外需求。</p>
+</div>
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">原油</span>
+  </div>
+  <div class="news-title">布油暴跌 4% 至 $86.71，美伊停战协议逼近推动油价两月新低</div>
+  <div class="news-en">Brent crashes 4% to $86.71 as US-Iran peace deal nears</div>
+  <div class="news-desc">霍尔木兹海峡紧张缓解，布油月跌近 18%，WTI 跌破 $83。能源板块年内仍涨 21.5%。</div>
+  <div class="news-sources"><a href="https://tradingeconomics.com/commodity/brent-crude-oil" target="_blank" rel="noopener">TradingEconomics ↗</a><a href="https://www.cnbc.com/2026/06/12/oil-prices-wti-brent-on-hopes-of-us-iran-deal-despite-tehran-pushback.html" target="_blank" rel="noopener">CNBC ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">地缘政治</span>
+  </div>
+  <div class="news-title">美伊停战协议措辞已达成一致，霍尔木兹海峡通行有望恢复</div>
+  <div class="news-en">US-Iran ceasefire terms agreed, Strait of Hormuz transit may resume</div>
+  <div class="news-desc">伊朗国家媒体报道和平协议即将签署，海湾阿拉伯石油正重新进入市场。</div>
+  <div class="news-sources"><a href="https://www.thenationalnews.com/business/energy/2026/06/12/oil-prices-drop-below-90-as-trump-claims-iran-peace-deal-may-be-signed-within-days/" target="_blank" rel="noopener">The National ↗</a><a href="https://gvwire.com/2026/06/12/oil-nears-two-month-lows-on-reports-of-imminent-us-iran-peace-deal/" target="_blank" rel="noopener">GV Wire ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">北向资金</span>
+  </div>
+  <div class="news-title">北向资金连续 5 日净买入超 150 亿，外资从低配转向主动增配</div>
+  <div class="news-en">Northbound capital 5-day net inflow exceeds 15B yuan, foreign investors turn active</div>
+  <div class="news-desc">深股通大幅净流入，沪股通小幅净流出，外资'卖价值、买成长'调仓明显。</div>
+  <div class="news-sources"><a href="https://caifuhao.eastmoney.com/news/20260612084526057595430" target="_blank" rel="noopener">东方财富 ↗</a><a href="https://baijiahao.baidu.com/s?id=1867801968434997431" target="_blank" rel="noopener">百度百家 ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">A股板块</span>
+  </div>
+  <div class="news-title">A 股板块分化：半导体+特气领涨，AI 应用+白酒承压</div>
+  <div class="news-en">A-share sector divergence: semiconductors + specialty gas lead, AI apps + liquor drag</div>
+  <div class="news-desc">半导体材料/设备、先进封装、特气涨价领涨；AI 应用板块补跌，白酒消费估值消化中。</div>
+  <div class="news-sources"><a href="https://caifuhao.eastmoney.com/news/20260612103558846596340" target="_blank" rel="noopener">东方财富 ↗</a><a href="https://stock.stockstar.com/RB2026061200026676.shtml" target="_blank" rel="noopener">证券之星 ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">A股板块</span>
+  </div>
+  <div class="news-title">AI 算力芯片板块逆势跌 0.64%，主力资金却净流入 16.26 亿</div>
+  <div class="news-en">AI chip sector dips 0.64% despite 1.6B yuan main-force net inflow</div>
+  <div class="news-desc">海光信息领跌，但主力资金逆势加仓，散户资金净流出 6.94 亿。</div>
+  <div class="news-sources"><a href="https://stock.stockstar.com/RB2026061200026676.shtml" target="_blank" rel="noopener">证券之星 ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">宏观</span>
+  </div>
+  <div class="news-title">美联储基准利率维持 3.75%，市场关注下周会议纪要</div>
+  <div class="news-en">Fed funds rate stays at 3.75%, market watches next week's minutes</div>
+  <div class="news-desc">降息预期反复，CPI 数据与就业数据信号矛盾，6 月 FOMC 纪要成关键。</div>
+  <div class="news-sources"><a href="https://tradingeconomics.com/united-states/interest-rate" target="_blank" rel="noopener">TradingEconomics ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">A股成交</span>
+  </div>
+  <div class="news-title">A 股周五 3.24 万亿天量成交，较前日显著放大</div>
+  <div class="news-en">A-share Friday turnover hits 3.24T yuan, significantly higher than prior day</div>
+  <div class="news-desc">3923 只上涨 / 1515 只下跌，赚钱效应显著但板块轮动加快，持续性偏弱。</div>
+  <div class="news-sources"><a href="https://guba.sina.com.cn/?s=thread&amp;tid=5505476&amp;bid=9279" target="_blank" rel="noopener">新浪财经 ↗</a><a href="https://xueqiu.com/2897100468/394483786" target="_blank" rel="noopener">雪球 ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">黄金</span>
+  </div>
+  <div class="news-title">黄金避险需求减弱，美伊停战推动金价回落</div>
+  <div class="news-en">Gold safe-haven bid eases as US-Iran ceasefire progress deflates risk premium</div>
+  <div class="news-desc">地缘风险溢价消退，但全球央行购金需求仍在，黄金中长期支撑犹存。</div>
+  <div class="news-sources"><a href="https://moneymorning.com/2026/06/12/gold-oil-iran-ceasefire-commodities-june-2026" target="_blank" rel="noopener">MoneyMorning ↗</a></div>
+  
+</div>
+    <div class="heatmap">
+<div class="heat-cell heat-up">
+  <div class="heat-name">特气/化工</div>
+  <div class="heat-change up">+3.2%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:85%;background:#d60000"></div></div>
+  <div class="heat-dir">涨价叠加领涨</div>
+</div>
+<div class="heat-cell heat-up">
+  <div class="heat-name">半导体</div>
+  <div class="heat-change up">+2.1%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:78%;background:#d60000"></div></div>
+  <div class="heat-dir">设备材料强势</div>
+</div>
+<div class="heat-cell heat-up">
+  <div class="heat-name">军工</div>
+  <div class="heat-change up">+1.2%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:62%;background:#d60000"></div></div>
+  <div class="heat-dir">航天概念催化</div>
+</div>
+<div class="heat-cell heat-up">
+  <div class="heat-name">新能源汽车</div>
+  <div class="heat-change up">+1.5%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:58%;background:#d60000"></div></div>
+  <div class="heat-dir">温和上涨</div>
+</div>
+<div class="heat-cell heat-up">
+  <div class="heat-name">金融</div>
+  <div class="heat-change up">+0.8%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:52%;background:#d60000"></div></div>
+  <div class="heat-dir">权重护盘</div>
+</div>
+<div class="heat-cell heat-down">
+  <div class="heat-name">AI 算力芯片</div>
+  <div class="heat-change down">-0.64%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:45%;background:#1a8f3c"></div></div>
+  <div class="heat-dir">冲高回落</div>
+</div>
+<div class="heat-cell heat-down">
+  <div class="heat-name">CPO/光模块</div>
+  <div class="heat-change down">-0.3%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:42%;background:#1a8f3c"></div></div>
+  <div class="heat-dir">小幅回调</div>
+</div>
+<div class="heat-cell heat-down">
+  <div class="heat-name">白酒/消费</div>
+  <div class="heat-change down">-0.6%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:38%;background:#1a8f3c"></div></div>
+  <div class="heat-dir">估值消化</div>
+</div>
+<div class="heat-cell heat-down">
+  <div class="heat-name">医药生物</div>
+  <div class="heat-change down">-0.8%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:35%;background:#1a8f3c"></div></div>
+  <div class="heat-dir">短线回调</div>
+</div>
+</div>
+  </div>
+
+  <!-- 深度分析 -->
+  <div class="section" id="depth">
+    <div class="section-title"><span class="emoji">🔍</span>深度分析 <span class="section-subtitle">重点新闻解读</span></div>
+    <div class="depth-card">
+  <div class="depth-title">SpaceX 2 万亿 IPO：航天 + AI 算力 + 星链的超级资本叙事</div>
+  <div class="depth-en" style="font-size:12px;color:#999;font-style:italic;margin-bottom:8px">SpaceX $2T IPO: the super capital narrative of space + AI compute + Starlink</div>
+  <div class="depth-section">
+  <h4>📌 核心要点</h4>
+  <p>SpaceX 以 $135 发行价募资 750 亿美元，首日收涨 19.34% 至 $161.11，市值超 2 万亿美元，成史上最大 IPO 和美国第六大上市公司。马斯克凭此成为全球首位万亿富翁。</p>
+</div>
+<div class="depth-section">
+  <h4>💡 为什么能撑起 2 万亿</h4>
+  <p>三线合一叙事：① Starlink 卫星互联网已覆盖全球，2025 年营收 187 亿美元；② 星舰可复用火箭将发射成本降至 SpaceX 历史最低；③ AI 算力需求推动星链数据中心概念。AB 股双重股权结构让马斯克保留控制权，吸引长期配置资金。</p>
+</div>
+<div class="depth-section">
+  <h4>🎯 对你的影响</h4>
+  <p>A 股商业航天、卫星互联网概念股下周或迎催化；美股被动指数基金将在 SPCX 纳入标普 500 后强制买入；OpenAI/Anthropic/Stripe 等 2026-2027 年拟上市公司将参考 SpaceX 表现调整 IPO 时机。</p>
+</div>
+
+  <div class="social-heat"><span class="social-chip">#SpaceX</span><span class="social-chip">#SPCX</span><span class="social-chip">#IPO</span><span class="social-chip">#Starlink</span><span class="social-chip">#Musk</span></div>
+</div>
+<div class="depth-card">
+  <div class="depth-title">A 股 4000 点攻坚战：本周 V 型反转后的真突破还是假突破？</div>
+  <div class="depth-en" style="font-size:12px;color:#999;font-style:italic;margin-bottom:8px">A-share 4000-point battle: real breakout or false breakout after V-reversal?</div>
+  <div class="depth-section">
+  <h4>📌 本周走势回顾</h4>
+  <p>周一沪指暴跌 1.70% 失守 4000，周二至周四窄幅震荡消化，周五在 3.24 万亿天量成交下放量站上 4031 点。全周走出'先破后立'的 V 型反转形态。</p>
+</div>
+<div class="depth-section">
+  <h4>💡 多空博弈焦点</h4>
+  <p>多方逻辑：北向资金连续 5 日净流入超 150 亿、3 万亿+天量成交验证增量资金入场、半导体政策利好持续释放。空方逻辑：板块轮动过快持续性偏弱、创业板冲高回落显疲态、AI 应用板块高位补跌。</p>
+</div>
+<div class="depth-section">
+  <h4>🎯 下周关键观察</h4>
+  <p>① 4000 点能否连续 3 日站稳（有效突破标准）；② 北向资金是否延续净流入（外资态度风向标）；③ 成交额能否维持 2.5 万亿以上（量能验证）；④ 半导体会否成为新主线接力 AI 应用。</p>
+</div>
+
+  <div class="social-heat"><span class="social-chip">#A股</span><span class="social-chip">#上证指数</span><span class="social-chip">#4000点</span><span class="social-chip">#北向资金</span></div>
+</div>
+<div class="depth-card">
+  <div class="depth-title">美伊停战：油价暴跌 4% 背后的地缘经济重构</div>
+  <div class="depth-en" style="font-size:12px;color:#999;font-style:italic;margin-bottom:8px">US-Iran ceasefire: the geopolitical-economic restructuring behind 4% oil crash</div>
+  <div class="depth-section">
+  <h4>📌 事件脉络</h4>
+  <p>伊朗国家媒体报道美伊已就停战协议措辞达成一致，霍尔木兹海峡通行有望恢复。布油单日暴跌 4.06% 至 $86.71，月跌近 18%，WTI 跌破 $83，创两个月新低。</p>
+</div>
+<div class="depth-section">
+  <h4>💡 油价三重冲击</h4>
+  <p>① 霍尔木兹海峡风险溢价消退（约占油价 $10-15）；② 海湾阿拉伯石油重新入市增加供给；③ 全球经济放缓预期压制需求端。但能源板块年内仍涨 21.5%，因供给端偏紧格局未根本改变。</p>
+</div>
+<div class="depth-section">
+  <h4>🎯 对 A 股的影响</h4>
+  <p>利好：航空/化工/制造业成本下降；利空：石油开采/煤炭板块承压。关注中国 PPI 数据——油价回落可能延缓工业品通缩改善节奏。</p>
+</div>
+
+  <div class="social-heat"><span class="social-chip">#美伊停战</span><span class="social-chip">#油价</span><span class="social-chip">#布伦特</span><span class="social-chip">#霍尔木兹</span></div>
+</div>
+<div class="depth-card">
+  <div class="depth-title">AI Agent 元年：从鸿蒙 7 到 Cosmos 3，物理 AI 革命全面启动</div>
+  <div class="depth-en" style="font-size:12px;color:#999;font-style:italic;margin-bottom:8px">AI Agent year one: from HarmonyOS 7 to Cosmos 3, physical AI revolution begins</div>
+  <div class="depth-section">
+  <h4>📌 本周三大 Agent 发布</h4>
+  <p>① 华为鸿蒙 7：智能体框架 2.0，复杂任务成功率 90%+；② 英伟达 Cosmos 3：全球首款开放全模态物理 AI 模型；③ 英伟达 RTX Spark：首个 AI Agent 专用 PC 平台。三大发布从手机 OS→世界模型→硬件平台，构成了物理 AI 全栈基础设施。</p>
+</div>
+<div class="depth-section">
+  <h4>💡 为什么 2026 是 Agent 元年</h4>
+  <p>技术层面：大模型推理能力（Opus 4.8/GPT-5.5）已突破 Agent 门槛；生态层面：鸿蒙 1100 万开发者 + Cosmos 开源降低门槛；硬件层面：RTX Spark 让端侧 Agent 推理成为可能。三者共振，2026 年 Agent 应用将呈指数级增长。</p>
+</div>
+<div class="depth-section">
+  <h4>🎯 投资方向</h4>
+  <p>A 股：鸿蒙概念、AI Agent 开发工具、端侧 AI 芯片；美股：NVIDIA 全栈受益、OpenAI/Anthropic IPO 预期、机器人概念股。注意短期涨幅过大后的回调风险。</p>
+</div>
+
+  <div class="social-heat"><span class="social-chip">#AIAgent</span><span class="social-chip">#鸿蒙7</span><span class="social-chip">#Cosmos3</span><span class="social-chip">#物理AI</span></div>
+</div>
+<div class="depth-card">
+  <div class="depth-title">Claude Opus 4.8 vs GPT-5.5：前沿 AI 军备竞赛进入'推理效率'新战场</div>
+  <div class="depth-en" style="font-size:12px;color:#999;font-style:italic;margin-bottom:8px">Claude Opus 4.8 vs GPT-5.5: frontier AI arms race enters 'reasoning efficiency' era</div>
+  <div class="depth-section">
+  <h4>📌 基准对比</h4>
+  <p>Artificial Analysis 智能指数 v4.0：Opus 4.8 以 61.4 分登顶，超 GPT-5.5 近 4 倍关键任务胜率。BenchLM 基准：Opus 4.8 领先 94 对 90。但 Opus 4.8 运行一次 ARC-AGI-3 评测需花费 1 万美元。</p>
+</div>
+<div class="depth-section">
+  <h4>💡 竞赛逻辑转变</h4>
+  <p>2025 年的竞赛是'参数规模'，2026 年已转向'推理效率+关键任务准确率'。Opus 4.8 在 67% 的关键任务中胜出，证明不靠最大参数也能赢。GPT-5.6 内部代号已曝光，预计 2-3 个月内发布，迭代周期从数月缩短至数周。</p>
+</div>
+<div class="depth-section">
+  <h4>🎯 对开发者的启示</h4>
+  <p>① 不要绑定单一模型——领先者可能每季度轮换；② 重视 API 成本：Opus 4.8 高性能的代价是高推理成本；③ Agent 应用开发选型需综合考量延迟、成本、准确率三者平衡。</p>
+</div>
+
+  <div class="social-heat"><span class="social-chip">#Claude</span><span class="social-chip">#GPT</span><span class="social-chip">#AI基准</span><span class="social-chip">#大模型竞赛</span></div>
+</div>
+  </div>
+
+  <!-- 今日日历 -->
+  <div class="section" id="calendar">
+    <div class="section-title"><span class="emoji">📅</span>今日日历 <span class="section-subtitle">近3天关键事件</span></div>
+    <div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">14</div>
+    <div class="cal-date-dow">周日</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">市场休整</div>
+    <div class="cal-note">关注美伊停战协议正式签署进展</div>
+  </div>
+  <div class="cal-stars">☆</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">15</div>
+    <div class="cal-date-dow">周一</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">A 股开盘，4000 点支撑验证</div>
+    <div class="cal-note">沪指能否站稳 4000 是本周核心看点</div>
+  </div>
+  <div class="cal-stars">★★★</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">15</div>
+    <div class="cal-date-dow">周一</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">SPCX 第二周交易</div>
+    <div class="cal-note">观察首日涨幅能否守住，及标普 500 纳入进度</div>
+  </div>
+  <div class="cal-stars">★★★</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">17</div>
+    <div class="cal-date-dow">周三</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">美联储 FOMC 会议纪要公布</div>
+    <div class="cal-note">6 月议息会议细节，关注降息路径信号</div>
+  </div>
+  <div class="cal-stars">★★★</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">18</div>
+    <div class="cal-date-dow">周四</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">中国 5 月经济数据（规上工业/社零/投资）</div>
+    <div class="cal-note">经济复苏成色验证，影响 A 股中期走势</div>
+  </div>
+  <div class="cal-stars">★★</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">20</div>
+    <div class="cal-date-dow">周五</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">月度期权到期日（OpEx）</div>
+    <div class="cal-note">SPCX 期权上市后首次 OpEx，波动可能加大</div>
+  </div>
+  <div class="cal-stars">★★</div>
+</div>
+  </div>
+
+  <!-- 今日术语卡 -->
+  <div class="section" id="terms">
+    <div class="section-title"><span class="emoji">📖</span>今日术语卡 <span class="section-subtitle">小白友好</span></div>
+    <div class="term-grid">
+      <div class="term-card">
+  <div class="term-name">AB 股双重股权结构</div>
+  <div class="term-en">Dual-class Share Structure</div>
+  <div class="term-desc">公司发行 A 类股（1 股 1 票）和 B 类股（1 股 10 票+），创始人持 B 股保留控制权。SpaceX 即用此结构让马斯克在融资 750 亿美元后仍控董事会。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">霍尔木兹海峡</div>
+  <div class="term-en">Strait of Hormuz</div>
+  <div class="term-desc">连接波斯湾与阿曼湾的狭窄水道，全球约 20% 的石油运输经此通过。若通行受阻，油价将飙升；通行恢复则风险溢价消退。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">北向资金</div>
+  <div class="term-en">Northbound Capital</div>
+  <div class="term-desc">通过沪深港通从香港流入 A 股的国际资金，常被视为外资风向标。连续净流入通常意味着外资看好 A 股。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">物理 AI</div>
+  <div class="term-en">Physical AI</div>
+  <div class="term-desc">让 AI 理解真实世界的物理规律（重力、碰撞、材质等），从而驱动机器人、自动驾驶等在物理世界中安全行动。NVIDIA Cosmos 3 是代表性模型。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">智能体框架</div>
+  <div class="term-en">Agent Framework</div>
+  <div class="term-desc">让 AI 能自主理解意图、规划步骤、调用工具、执行复杂任务的软件架构。鸿蒙 7 的智能体框架 2.0 复杂任务成功率达 90%+。</div>
+</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="paper-footer">
+    <div>📜 本报告由 WorkBuddy 自动化生成 · 数据综合自公开媒体</div>
+    <div class="paper-footer-tip">仅供学习参考，不构成投资建议</div>
+  </footer>
+</div>
+
+<!-- 回到顶部按钮 -->
+<button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+
+<script>
+// 展开/收起详情 - 丝滑过渡 + 真实高度测量
+function toggleDetail(btn){
+  const d=btn.nextElementSibling;
+  // 防御：nextElementSibling 不存在或不是 .news-detail 时直接 return
+  if(!d||!d.classList||!d.classList.contains('news-detail'))return;
+  const card=btn.closest('.news-card');
+  if(d.classList.contains('show')){
+    d.style.maxHeight=d.scrollHeight+'px';
+    requestAnimationFrame(()=>{
+      d.style.maxHeight='0';
+      d.style.opacity='0';
+      d.style.transform='translateY(-4px)';
+    });
+    d.addEventListener('transitionend',function hide(){
+      d.classList.remove('show');
+      d.style.maxHeight='';
+      d.style.opacity='';
+      d.style.transform='';
+      d.removeEventListener('transitionend',hide);
+    });
+    btn.textContent='▼ 展开详情';
+    if(card)card.classList.remove('expanded');
+  }else{
+    d.classList.add('show');
+    // 关键修复：scrollHeight 在 max-height:0 状态下被裁剪可能返回 0
+    // 先临时取消 max-height 限制测真实高度，再还原
+    const prevMax = d.style.maxHeight;
+    d.style.maxHeight = 'none';
+    const h = d.scrollHeight;
+    d.style.maxHeight = prevMax || '0';
+    d.style.opacity = '0';
+    d.style.transform = 'translateY(-4px)';
+    requestAnimationFrame(()=>{
+      d.style.maxHeight = h + 'px';
+      d.style.opacity = '1';
+      d.style.transform = 'translateY(0)';
+    });
+    d.addEventListener('transitionend',function showEnd(){
+      d.style.maxHeight='none';
+      d.removeEventListener('transitionend',showEnd);
+    });
+    btn.textContent='▲ 收起';
+    if(card)card.classList.add('expanded');
+  }
+}
+
+function toggleTips(){
+  const t=document.getElementById('readTips');
+  const d=t.querySelector('.read-tips-detail');
+  const icon=t.querySelector('.tips-icon');
+  if(t.classList.contains('open')){
+    d.style.maxHeight=d.scrollHeight+'px';
+    requestAnimationFrame(()=>{
+      d.style.maxHeight='0';
+      d.style.opacity='0';
+    });
+    d.addEventListener('transitionend',function h(){
+      t.classList.remove('open');
+      d.style.maxHeight='';
+      d.style.opacity='';
+      d.removeEventListener('transitionend',h);
+    });
+    if(icon)icon.textContent='📖 阅读提示 ▾';
+  }else{
+    t.classList.add('open');
+    const h=d.scrollHeight;
+    d.style.maxHeight='0';
+    d.style.opacity='0';
+    requestAnimationFrame(()=>{
+      d.style.maxHeight=h+'px';
+      d.style.opacity='1';
+    });
+    d.addEventListener('transitionend',function s(){
+      d.style.maxHeight='';
+      d.removeEventListener('transitionend',s);
+    });
+    if(icon)icon.textContent='📖 阅读提示 ▴';
+  }
+}
+
+// 情绪词自动填充：0-100% → 5 档情绪
+(function(){
+  var words=['极度悲观','偏悲观','中性','偏乐观','极度乐观'];
+  document.querySelectorAll('.sentiment-word').forEach(function(el){
+    var pct=parseFloat(el.getAttribute('data-pct'));
+    if(isNaN(pct))return;
+    var idx=pct<20?0:pct<40?1:pct<60?2:pct<80?3:4;
+    el.textContent=words[idx];
+  });
+})();
+
+// 回到顶部功能
+const backToTop=document.getElementById('backToTop');
+window.addEventListener('scroll',function(){
+  if(window.pageYOffset>300){
+    backToTop.classList.add('show');
+  }else{
+    backToTop.classList.remove('show');
+  }
+});
+backToTop.addEventListener('click',function(){
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+// Chart.js 懒加载 - 解决滚动卡顿 + 图表显示不全 + 数据驱动
+let chartInitialized=false;
+function initChart(){
+  if(chartInitialized)return;
+  const ctx=document.getElementById('aiChart');
+  if(!ctx)return;
+  if(typeof Chart==='undefined'){setTimeout(initChart,80);return;}
+  // 关键：确保 canvas 有有效尺寸，否则渲染失败显示不全
+  if(ctx.offsetWidth===0||ctx.offsetHeight===0){
+    setTimeout(initChart,100);
+    return;
+  }
+  // 数据驱动：从 window.__CHART_DATA__ 读取
+  const data=window.__CHART_DATA__;
+  if(!data||!data.datasets){chartInitialized=true;return;}
+  const datasets=data.datasets.map(function(d){
+    return {
+      label:d.label,
+      data:d.data,
+      borderColor:d.color||'#8b6f47',
+      backgroundColor:d.fill?((d.color||'#8b6f47').replace(')',',0.08)').replace('rgb(','rgba('):'transparent'),
+      tension:0.3,
+      fill:!!d.fill,
+      pointRadius:3
+    };
+  });
+  new Chart(ctx,{
+    type:'line',
+    data:{labels:data.labels||[],datasets:datasets},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:{duration:600},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:14,padding:10}}},
+      scales:{
+        y:{ticks:{font:{size:10}},grid:{color:'#ede4d3'}},
+        x:{ticks:{font:{size:10}},grid:{display:false}}
+      }
+    }
+  });
+  chartInitialized=true;
+}
+
+// 懒加载：图表容器距视口 200px 时预渲染
+const chartObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      initChart();
+      chartObserver.unobserve(e.target);
+    }
+  });
+},{rootMargin:'200px'});
+
+document.addEventListener('DOMContentLoaded',function(){
+  const chartContainer=document.querySelector('.chart-wrap');
+  if(chartContainer){
+    chartObserver.observe(chartContainer);
+  }else if(typeof Chart!=='undefined'){
+    // 兜底：如果没有图表，直接初始化
+    setTimeout(initChart,50);
+  }
+});
+</script>
+</body>
+</html>
