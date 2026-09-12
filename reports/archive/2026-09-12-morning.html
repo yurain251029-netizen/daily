@@ -44,17 +44,45 @@ body{
   background:linear-gradient(180deg,#f8f5ee 0%,#f2eee4 100%);
   min-height:100vh;overflow-x:hidden;
 }
-/* 背景光球：给玻璃面提供可折射的色彩（fixed，仅 transform 动画） */
-.bg-orbs{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.bg-orbs i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform}
-.bg-orbs i:nth-child(1){width:56vmax;height:56vmax;left:-18vmax;top:-20vmax;background:radial-gradient(circle,rgba(255,196,140,.55),transparent 65%);animation:drift1 36s ease-in-out infinite alternate}
-.bg-orbs i:nth-child(2){width:46vmax;height:46vmax;right:-16vmax;top:22%;background:radial-gradient(circle,rgba(140,180,255,.38),transparent 65%);animation:drift2 44s ease-in-out infinite alternate}
-.bg-orbs i:nth-child(3){width:40vmax;height:40vmax;left:24%;bottom:-18vmax;background:radial-gradient(circle,rgba(255,150,150,.30),transparent 65%);animation:drift1 52s ease-in-out infinite alternate-reverse}
+/* 背景场景：aurora 光球 + 天际线剪影 + 浮尘微粒（全部 fixed，只动 transform/opacity） */
+.bg-scene{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg-orbs{position:absolute;inset:0}
+.bg-orbs i{position:absolute;border-radius:50%;opacity:.55;will-change:transform}
+/* 光球用纯 radial-gradient 自带柔边，不再叠加 filter:blur（大元素高斯模糊开销高） */
+.bg-orbs i:nth-child(1){width:58vmax;height:58vmax;left:-18vmax;top:-20vmax;background:radial-gradient(circle,rgba(255,196,140,.5),rgba(255,196,140,0) 68%);animation:drift1 36s ease-in-out infinite alternate}
+.bg-orbs i:nth-child(2){width:48vmax;height:48vmax;right:-16vmax;top:22%;background:radial-gradient(circle,rgba(140,180,255,.34),rgba(140,180,255,0) 68%);animation:drift2 44s ease-in-out infinite alternate}
+.bg-orbs i:nth-child(3){width:42vmax;height:42vmax;left:24%;bottom:-16vmax;background:radial-gradient(circle,rgba(255,150,150,.26),rgba(255,150,150,0) 68%);animation:drift1 52s ease-in-out infinite alternate-reverse}
 @keyframes drift1{to{transform:translate(6vmax,4vmax) scale(1.08)}}
 @keyframes drift2{to{transform:translate(-5vmax,-4vmax) scale(1.1)}}
+/* 天际线剪影：城市意象插画，静置零动画零重绘，only 氛围 */
+.bg-skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:clamp(90px,17vh,190px)}
+.bg-skyline.back{opacity:.5}
+.bg-skyline.front{height:clamp(70px,13vh,150px)}
+/* 浮尘微粒：暖光尘埃缓慢上浮，颗粒小、纯 transform/opacity */
+.bg-dust i{position:absolute;bottom:-3vh;width:5px;height:5px;border-radius:50%;background:radial-gradient(circle,rgba(255,220,170,.9),rgba(255,220,170,0) 70%);opacity:0;animation:rise linear infinite;will-change:transform,opacity}
+.bg-dust i:nth-child(1){left:8%;--s:1;animation-duration:22s}
+.bg-dust i:nth-child(2){left:22%;width:3px;height:3px;--s:.7;animation-duration:30s;animation-delay:6s}
+.bg-dust i:nth-child(3){left:41%;--s:1.4;animation-duration:19s;animation-delay:12s}
+.bg-dust i:nth-child(4){left:58%;width:4px;height:4px;--s:.85;animation-duration:27s;animation-delay:3s}
+.bg-dust i:nth-child(5){left:74%;--s:1.2;animation-duration:24s;animation-delay:15s}
+.bg-dust i:nth-child(6){left:90%;width:3px;height:3px;--s:.7;animation-duration:33s;animation-delay:9s}
+@keyframes rise{
+  0%{transform:translateY(0) scale(var(--s,1));opacity:0}
+  12%{opacity:.5}
+  80%{opacity:.35}
+  100%{transform:translateY(-58vh) scale(calc(var(--s,1)*.6));opacity:0}
+}
 /* 纸感噪点（保留品牌基因，极淡） */
-.bg-orbs::after{content:'';position:absolute;inset:0;
+.bg-scene::after{content:'';position:absolute;inset:0;
   background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.35 0 0 0 0 0.2 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/></svg>")}
+/* 低端设备/小屏自动降级：bg-lite 由 JS 检测添加，小屏由媒体查询触发 */
+.bg-lite .bg-orbs i,.bg-lite .bg-dust i{animation:none !important}
+.bg-lite .bg-dust{display:none}
+@media(max-width:600px){
+  .bg-orbs i:nth-child(3){display:none}
+  .bg-dust{display:none}
+  .bg-skyline{height:clamp(70px,12vh,120px)}
+}
 
 h1,h2,h3,.header-title,.section-title,.paper-footer{font-family:'Source Han Serif SC','Songti SC','STSong','SimSun',serif;letter-spacing:.02em}
 
@@ -304,7 +332,18 @@ h1,h2,h3,.header-title,.section-title,.paper-footer{font-family:'Source Han Seri
 </style>
 </head>
 <body>
-<div class="bg-orbs" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="bg-scene" aria-hidden="true">
+  <div class="bg-orbs"><i></i><i></i><i></i></div>
+  <!-- 天际线剪影（内联 SVG，约 1.2KB，随玻璃折射形成城市意象） -->
+  <svg class="bg-skyline back" viewBox="0 0 1440 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#7c5f3a" opacity=".55" d="M0 220V142h52v-36h26v36h44V88h34v54h32v-22h50V74h18v-16l10-12 10 12v84h56v-30h44v30h58V84h40v58h58v-24h58v24h58V96h34v46h56v-70h20l8-14 8 14h20v70h58v-38h44v38h56v-16h50v16h48V92h36v50h44v-24h40v102Z"/>
+  </svg>
+  <svg class="bg-skyline front" viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#5d4728" opacity=".5" d="M0 180v-52h70v-30h34v30h60v-44h52v44h70v-20h64v20h72V96h40l8-18 8 18h38v32h74v-26h64v26h72v-44h56v44h68v-18h70v18h74v-34h48v34h64v-24h60v24h50v52Z"/>
+    <circle cx="1210" cy="34" r="20" fill="#c8843a" opacity=".28"/>
+  </svg>
+  <div class="bg-dust"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 <div class="container">
 
   <!-- 当前报告标识条 -->
@@ -313,7 +352,7 @@ h1,h2,h3,.header-title,.section-title,.paper-footer{font-family:'Source Han Seri
       <span class="crb-pulse">●</span>
       <span class="crb-label">当前报告</span>
       <span class="crb-type">🌅 晨报</span>
-      <span class="crb-time">生成时间 · 2026-09-12 16:12</span>
+      <span class="crb-time">生成时间 · 2026-09-12 16:22</span>
     </div>
     <a href="../history.html" class="crb-history">查看历史 ↗</a>
   </div>
@@ -852,6 +891,15 @@ window.__CHART_DATA__={"title": "AI 算力链 周走势对比（起点=100）", 
 <button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
 
 <script>
+// 背景动效自动降级：低端设备（CPU≤4核 或 内存≤4GB）静态显示光球、隐藏浮尘
+(function(){
+  try{
+    var lite = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)
+            || (navigator.deviceMemory && navigator.deviceMemory <= 4);
+    if(lite) document.documentElement.classList.add('bg-lite');
+  }catch(e){}
+})();
+
 // 展开/收起详情 - 丝滑过渡 + 真实高度测量
 function toggleDetail(btn){
   const d=btn.nextElementSibling;
