@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="page-entering">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌅 晨报 · AI × 经济日报 — 2026-10-13（周二）</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+<style>
+/* ============================================================
+   AI × 经济日报 · v4 液态玻璃视觉体系（2026-09-12）
+   核心：光感玻璃面 + 暖棕品牌色 + 涨红跌绿 + 流体排版
+   动画只用 transform/opacity；reduced-motion 全量兜底
+   ============================================================ */
+:root{
+  /* 品牌色（主体基调：天空水晶蓝；涨红跌绿永不反转） */
+  --up:#d60000; --down:#1a8f3c; --flat:#8a8a8a;
+  --primary:#1f6fa8; --primary-deep:#154f7d;
+  --accent:#c14545; --accent-deep:#a83a3a;
+  --warm:#c8843a; --warm-deep:#8a5a25;
+  --cyan:#0ea5c6;
+  /* 墨色层级（冷调藏青） */
+  --ink:#16202b; --ink-2:#3e4a59; --ink-3:#7e8c9e;
+  /* 玻璃面 */
+  --glass:rgba(255,255,255,.60);
+  --glass-strong:rgba(255,255,255,.74);
+  --glass-soft:rgba(255,255,255,.44);
+  --glass-border:rgba(255,255,255,.66);
+  --hair:rgba(31,111,168,.14);
+  --blur:blur(20px) saturate(1.55);
+  --shadow-1:0 1px 2px rgba(16,58,96,.04),0 8px 24px rgba(16,58,96,.07);
+  --shadow-2:0 2px 4px rgba(16,58,96,.05),0 18px 44px rgba(16,58,96,.12);
+  --r-lg:20px; --r-md:14px; --r-sm:10px;
+  --ease:cubic-bezier(.4,0,.2,1);
+  /* 流体字号 */
+  --fs-hero:clamp(23px,2.4vw + 12px,34px);
+  --fs-sec:clamp(17.5px,.9vw + 11px,21px);
+  --fs-body:15px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;
+  background:linear-gradient(180deg,#f0f7fd 0%,#e2edf8 100%);
+  min-height:100vh;overflow-x:hidden;
+}
+/* 背景场景：aurora 光球 + 天际线剪影 + 浮尘微粒（全部 fixed，只动 transform/opacity） */
+.bg-scene{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg-orbs{position:absolute;inset:0}
+.bg-orbs i{position:absolute;border-radius:50%;opacity:.55;will-change:transform}
+/* 光球用纯 radial-gradient 自带柔边，不再叠加 filter:blur（大元素高斯模糊开销高） */
+.bg-orbs i:nth-child(1){width:58vmax;height:58vmax;left:-18vmax;top:-20vmax;background:radial-gradient(circle,rgba(124,190,255,.42),rgba(124,190,255,0) 68%);animation:drift1 36s ease-in-out infinite alternate}
+.bg-orbs i:nth-child(2){width:48vmax;height:48vmax;right:-16vmax;top:22%;background:radial-gradient(circle,rgba(150,230,247,.35),rgba(150,230,247,0) 68%);animation:drift2 44s ease-in-out infinite alternate}
+.bg-orbs i:nth-child(3){width:42vmax;height:42vmax;left:24%;bottom:-16vmax;background:radial-gradient(circle,rgba(96,150,235,.24),rgba(96,150,235,0) 68%);animation:drift1 52s ease-in-out infinite alternate-reverse}
+@keyframes drift1{to{transform:translate(6vmax,4vmax) scale(1.08)}}
+@keyframes drift2{to{transform:translate(-5vmax,-4vmax) scale(1.1)}}
+/* 天际线剪影：极简单层（丘线+几座楼宇+圆月），静置零动画零重绘 */
+.bg-skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:clamp(80px,14vh,160px);opacity:.45}
+/* 浮尘微粒：暖光尘埃缓慢上浮，颗粒小、纯 transform/opacity */
+.bg-dust i{position:absolute;bottom:-3vh;width:5px;height:5px;border-radius:50%;background:radial-gradient(circle,rgba(190,230,255,.9),rgba(255,220,170,0) 70%);opacity:0;animation:rise linear infinite;will-change:transform,opacity}
+.bg-dust i:nth-child(1){left:8%;--s:1;animation-duration:22s}
+.bg-dust i:nth-child(2){left:22%;width:3px;height:3px;--s:.7;animation-duration:30s;animation-delay:6s}
+.bg-dust i:nth-child(3){left:41%;--s:1.4;animation-duration:19s;animation-delay:12s}
+.bg-dust i:nth-child(4){left:58%;width:4px;height:4px;--s:.85;animation-duration:27s;animation-delay:3s}
+.bg-dust i:nth-child(5){left:74%;--s:1.2;animation-duration:24s;animation-delay:15s}
+.bg-dust i:nth-child(6){left:90%;width:3px;height:3px;--s:.7;animation-duration:33s;animation-delay:9s}
+@keyframes rise{
+  0%{transform:translateY(0) scale(var(--s,1));opacity:0}
+  12%{opacity:.5}
+  80%{opacity:.35}
+  100%{transform:translateY(-58vh) scale(calc(var(--s,1)*.6));opacity:0}
+}
+/* 纸感噪点（保留品牌基因，极淡） */
+.bg-scene::after{content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.35 0 0 0 0 0.2 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/></svg>")}
+/* 低端设备/小屏自动降级：bg-lite 由 JS 检测添加，小屏由媒体查询触发 */
+.bg-lite .bg-orbs i,.bg-lite .bg-dust i{animation:none !important}
+.bg-lite .bg-dust{display:none}
+@media(max-width:600px){
+  .bg-orbs i:nth-child(3){display:none}
+  .bg-dust{display:none}
+  .bg-skyline{height:clamp(70px,12vh,120px)}
+}
+
+h1,h2,h3,.header-title,.section-title,.paper-footer{font-family:'Source Han Serif SC','Songti SC','STSong','SimSun',serif;letter-spacing:.02em}
+
+/* ---------- 布局：告别两侧留白 ---------- */
+.container{max-width:1080px;margin:0 auto;padding:20px 16px 96px}
+@media(min-width:1101px){
+  /* 全宽统一布局：所有区块与顶部指标卡同宽，日历+术语并排占满整行 */
+  .container{max-width:1240px;padding:26px 24px 104px}
+  .side-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  .side-col .section{margin-bottom:0}
+  .metric-card{min-width:0}
+  .heatmap{grid-template-columns:repeat(3,1fr)}
+  .depth-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .depth-grid .depth-card{margin-bottom:0}
+  .term-grid{grid-template-columns:1fr 1fr}
+  .chart-wrap{height:250px}
+}
+@media(min-width:1601px){
+  .container{max-width:1420px}
+  .term-grid{grid-template-columns:repeat(3,1fr)}
+  .heatmap{grid-template-columns:repeat(6,1fr)}
+  .chart-wrap{height:270px}
+}
+@media(max-width:600px){
+  .heatmap{grid-template-columns:repeat(2,1fr)}
+  .term-grid{grid-template-columns:1fr}
+  .metric-bar{flex-wrap:wrap}
+  .metric-card{min-width:calc(50% - 5px);flex:0 0 calc(50% - 5px)}
+  .header-top{flex-direction:column;align-items:flex-start;gap:10px}
+  .history-btn{align-self:flex-start}
+  .depth-grid{display:block}
+  .depth-grid .depth-card{margin-bottom:14px}
+  .container{padding:14px 12px 96px}
+}
+
+/* ---------- 玻璃基元 ---------- */
+@supports(backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){
+  .g{background:linear-gradient(160deg,rgba(255,255,255,.78),rgba(255,255,255,.42));
+     -webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+     border:1px solid var(--glass-border);
+     box-shadow:var(--shadow-1),inset 0 1px 0 rgba(255,255,255,.85),inset 0 -1px 0 rgba(31,111,168,.05)}
+  .g-strong{background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(255,255,255,.6));
+     -webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+     border:1px solid rgba(255,255,255,.8);
+     box-shadow:var(--shadow-1),inset 0 1px 0 rgba(255,255,255,.95)}
+}
+@supports not (backdrop-filter:blur(1px)){
+  .g,.g-strong{background:rgba(255,255,255,.92);border:1px solid var(--hair);box-shadow:var(--shadow-1)}
+}
+
+/* ---------- 当前报告标识条 ---------- */
+.current-report-bar{border-radius:var(--r-md);padding:12px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.current-report-bar .crb-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.current-report-bar .crb-pulse{color:var(--cyan);font-size:14px;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.35}}
+.current-report-bar .crb-label{display:inline-flex;align-items:center;background:linear-gradient(135deg,#38a8e8,#7cc8f5);color:#fff;font-size:12px;font-weight:700;padding:4px 13px;border-radius:999px;letter-spacing:.06em;box-shadow:0 4px 14px rgba(56,168,232,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+.current-report-bar .crb-type{display:inline-flex;align-items:center;background:rgba(31,111,168,.08);color:var(--primary);font-size:12px;font-weight:600;padding:4px 12px;border-radius:999px;border:1px solid var(--hair)}
+.current-report-bar .crb-time{font-size:12px;color:var(--ink-3)}
+.current-report-bar .crb-history,.history-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;background:linear-gradient(135deg,rgba(31,111,168,.92),rgba(21,80,127,.92));color:#fff;font-size:12px;font-weight:600;border-radius:999px;text-decoration:none;border:1px solid rgba(255,255,255,.35);box-shadow:0 4px 14px rgba(21,80,127,.28),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.current-report-bar .crb-history:hover,.history-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(21,80,127,.36),inset 0 1px 0 rgba(255,255,255,.3)}
+
+/* ---------- 页面导航条（sticky 玻璃） ---------- */
+.page-nav{position:sticky;top:10px;z-index:60;display:flex;justify-content:space-between;align-items:center;border-radius:999px;padding:9px 18px;margin-bottom:16px}
+.page-nav a{font-size:12.5px;color:var(--primary);text-decoration:none;padding:5px 13px;border-radius:999px;transition:background .2s var(--ease),color .2s var(--ease),transform .2s var(--ease)}
+.page-nav a:hover{background:rgba(31,111,168,.1);color:var(--primary-deep);transform:translateY(-1px)}
+
+/* ---------- HEADER ---------- */
+.header{border-radius:var(--r-lg);padding:26px 28px 24px;margin-bottom:16px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-60%;right:-20%;width:50%;height:160%;background:radial-gradient(closest-side,rgba(124,196,255,.3),transparent);pointer-events:none}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;position:relative}
+.header-tag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#38a8e8,#7cc8f5);color:#fff;font-size:12px;font-weight:700;padding:5px 14px;border-radius:999px;letter-spacing:.08em;box-shadow:0 4px 14px rgba(56,168,232,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+.date-stamp{display:inline-flex;align-items:center;font-size:11.5px;color:var(--primary);background:rgba(31,111,168,.08);padding:4px 12px;border-radius:999px;margin-left:8px;letter-spacing:.04em;border:1px solid var(--hair)}
+.header-title{font-size:var(--fs-hero);font-weight:800;color:var(--ink);margin:6px 0 8px;line-height:1.32;position:relative}
+.header-date{font-size:13.5px;color:var(--ink-2);margin-bottom:6px;font-weight:500}
+.header-subtitle{font-size:13.5px;color:var(--ink-3);line-height:1.7;position:relative}
+
+/* ---------- 读前提示 ---------- */
+.read-tips{border-radius:var(--r-md);padding:12px 16px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px;border-left:3px solid var(--primary)}
+.read-tips .tips-top{display:flex;justify-content:space-between;align-items:center;width:100%}
+.read-tips .tips-icon{font-size:13.5px;color:var(--primary);font-weight:700;letter-spacing:.04em;cursor:pointer;user-select:none;transition:color .2s}
+.read-tips .tips-icon:hover{color:var(--primary-deep)}
+.read-tips .tips-quick{display:flex;gap:7px;flex-wrap:wrap;flex:1}
+.read-tips .tip-chip{font-size:11.5px;color:var(--ink-2);background:rgba(31,111,168,.07);padding:4px 11px;border-radius:999px;line-height:1.4;border:1px solid transparent;transition:background .2s,border-color .2s}
+.read-tips .tip-chip:hover{background:rgba(31,111,168,.12);border-color:var(--hair)}
+.read-tips .tip-chip strong{color:var(--primary)}
+.read-tips .tips-close{font-size:14px;color:var(--ink-3);cursor:pointer;background:transparent;border:none;padding:0 4px;line-height:1;transition:color .2s,transform .2s}
+.read-tips .tips-close:hover{color:var(--accent);transform:scale(1.15)}
+.read-tips-detail{max-height:0;overflow:hidden;opacity:0;transition:max-height .3s var(--ease),opacity .25s ease,padding-top .3s var(--ease),margin-top .3s var(--ease),border-top-color .3s ease;margin-top:0;padding-top:0;border-top:1px dashed transparent;font-size:12.5px;color:var(--ink-2);line-height:1.9}
+.read-tips.open .read-tips-detail{max-height:320px;opacity:1;margin-top:4px;padding-top:10px;border-top-color:var(--hair)}
+
+/* ---------- 目录导航 ---------- */
+.nav{border-radius:var(--r-md);padding:16px 20px;margin-bottom:16px}
+.nav-title{font-size:11px;color:var(--ink-3);font-weight:700;margin-bottom:11px;letter-spacing:.18em;text-transform:uppercase}
+.nav-items{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.nav-item{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;background:rgba(255,255,255,.5);border-radius:999px;color:var(--ink-2);font-size:13px;text-decoration:none;border:1px solid var(--hair);transition:background .2s var(--ease),color .2s var(--ease),transform .2s var(--ease),box-shadow .2s var(--ease)}
+.nav-item:hover{background:rgba(255,255,255,.85);color:var(--ink);transform:translateY(-2px);box-shadow:0 6px 16px rgba(16,58,96,.1)}
+.nav-item .num{background:linear-gradient(135deg,var(--cyan),#5fd0e8);color:#fff;font-size:11px;width:19px;height:19px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 2px 6px rgba(14,165,198,.35)}
+.nav-read{font-size:12px;color:rgba(31,111,168,.65);padding-top:10px;border-top:1px dashed var(--hair)}
+
+/* ---------- 区块 ---------- */
+.section{border-radius:var(--r-lg);padding:22px 24px;margin-bottom:16px;contain:layout style}
+.section-title{font-size:var(--fs-sec);font-weight:800;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;gap:9px;line-height:1.35}
+.section-title .emoji{font-size:21px}
+.section-subtitle{font-size:12px;color:var(--ink-3);font-weight:500;margin-left:auto;letter-spacing:.02em}
+
+/* ---------- Top3 ---------- */
+.top3-card{position:relative;border-left:3px solid var(--accent);background:linear-gradient(150deg,rgba(255,246,240,.85),rgba(255,255,255,.5));padding:16px 18px 16px 20px;border-radius:var(--r-sm) var(--r-md) var(--r-md) var(--r-sm);margin-bottom:12px;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+@supports(backdrop-filter:blur(1px)){.top3-card{-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);border:1px solid var(--glass-border);border-left:3px solid var(--accent);box-shadow:var(--shadow-1),inset 0 1px 0 rgba(255,255,255,.8)}}
+.top3-card:last-child{margin-bottom:0}
+.top3-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-2)}
+.top3-num{display:inline-flex;align-items:center;background:linear-gradient(135deg,var(--accent),#e07a6a);color:#fff;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;margin-bottom:8px;letter-spacing:.05em;box-shadow:0 3px 10px rgba(193,69,69,.35),inset 0 1px 0 rgba(255,255,255,.35)}
+.top3-title{font-size:15.5px;font-weight:700;color:var(--ink);margin-bottom:5px;line-height:1.5}
+.top3-en{font-size:12px;color:var(--ink-3);font-style:italic;margin-bottom:7px}
+.top3-desc{font-size:var(--fs-body);color:var(--ink-2);line-height:1.75}
+
+/* ---------- 指标卡 ---------- */
+.metric-bar{display:flex;gap:12px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.metric-card{flex:1;min-width:132px;border-radius:var(--r-md);padding:14px 16px;transition:transform .3s var(--ease),box-shadow .3s var(--ease);background:linear-gradient(160deg,rgba(255,255,255,.7),rgba(255,255,255,.4));border:1px solid var(--glass-border);box-shadow:var(--shadow-1),inset 0 1px 0 rgba(255,255,255,.8)}
+@supports(backdrop-filter:blur(1px)){.metric-card{-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}}
+.metric-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-2)}
+.metric-label{font-size:11px;color:var(--ink-3);margin-bottom:5px;font-weight:600;letter-spacing:.05em}
+.metric-value{font-size:21px;font-weight:800;color:var(--ink);line-height:1.15;font-variant-numeric:tabular-nums;font-feature-settings:'tnum'}
+.metric-change{font-size:12.5px;margin-top:4px;font-weight:700}
+.up{color:var(--up)}
+.down{color:var(--down)}
+.flat{color:var(--flat)}
+.metric-note{font-size:10.5px;color:var(--ink-3);margin-top:4px;line-height:1.35}
+
+/* ---------- 情绪条 ---------- */
+.sentiment-bar{border-radius:var(--r-md);padding:15px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.sentiment-label{font-size:12px;color:var(--primary);font-weight:700;white-space:nowrap;min-width:52px}
+.sentiment-track{flex:1;height:14px;background:rgba(31,111,168,.12);border-radius:999px;position:relative;overflow:visible;box-shadow:inset 0 1px 3px rgba(16,58,96,.12)}
+.sentiment-fill{height:100%;border-radius:999px;background:linear-gradient(to right,#2e86c9,#6fc3e8);transition:width .5s var(--ease);box-shadow:0 0 10px rgba(46,134,201,.4)}
+.sentiment-tick{position:absolute;top:50%;width:2px;height:20px;transform:translate(-50%,-50%);background:rgba(31,111,168,.22);border-radius:1px;pointer-events:none}
+.sentiment-marker{position:absolute;top:-4px;width:13px;height:13px;background:#fff;border:2.5px solid var(--cyan);border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 8px rgba(16,58,96,.25);transition:left .5s var(--ease)}
+.sentiment-score{font-size:17px;font-weight:800;color:var(--primary);min-width:36px;text-align:right;font-variant-numeric:tabular-nums}
+.sentiment-word{font-size:12px;color:var(--primary);font-weight:600;min-width:44px;text-align:left}
+
+/* ---------- 新闻卡 ---------- */
+.news-card{position:relative;border-left:3px solid #c9c4b8;background:rgba(255,255,255,.5);padding:14px 16px;border-radius:var(--r-sm) var(--r-md) var(--r-md) var(--r-sm);margin-bottom:10px;contain:layout style;transition:transform .25s var(--ease),box-shadow .3s var(--ease),border-left-color .3s ease}
+@supports(backdrop-filter:blur(1px)){.news-card{-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);border:1px solid var(--glass-border);border-left:3px solid #c9c4b8;box-shadow:var(--shadow-1),inset 0 1px 0 rgba(255,255,255,.7)}}
+.news-card:hover{transform:translateX(3px);box-shadow:var(--shadow-2);will-change:transform}
+.news-card.important{border-left-color:var(--accent);background:linear-gradient(150deg,rgba(255,243,238,.8),rgba(255,255,255,.5))}
+.news-card.watch{border-left-color:var(--warm);background:linear-gradient(150deg,rgba(255,247,235,.8),rgba(255,255,255,.5))}
+.news-card.important:hover{border-left-color:var(--accent-deep)}
+.news-card.watch:hover{border-left-color:var(--warm-deep)}
+.news-card.quick:hover{border-left-color:var(--primary)}
+.news-card.expanded{box-shadow:var(--shadow-2)}
+.news-meta{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap}
+.news-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+.badge-important{background:rgba(193,69,69,.12);color:var(--accent-deep)}
+.badge-watch{background:rgba(200,132,58,.14);color:var(--warm-deep)}
+.badge-quick{background:rgba(31,111,168,.1);color:var(--primary)}
+.news-cat{font-size:10px;background:rgba(31,111,168,.08);color:var(--ink-2);padding:3px 9px;border-radius:999px;border:1px solid transparent}
+.news-title{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.55;margin-bottom:5px}
+.news-en{font-size:11px;color:var(--ink-3);font-style:italic;margin-bottom:7px}
+.news-desc{font-size:var(--fs-body);color:var(--ink-2);line-height:1.75;margin-bottom:9px}
+.news-desc .term{border-bottom:1px dotted var(--primary);color:var(--ink);cursor:help}
+.news-sources{font-size:11px;color:var(--ink-3);margin-bottom:7px}
+.news-sources a{color:var(--primary);text-decoration:none;margin-right:10px;border-bottom:1px solid transparent;transition:border-color .2s,color .2s}
+.news-sources a:hover{color:var(--primary-deep);border-bottom-color:var(--primary)}
+.news-toggle{font-size:11.5px;background:transparent;color:var(--primary);border:none;cursor:pointer;padding:4px 0;font-weight:600;transition:color .2s,transform .2s}
+.news-toggle:hover{color:var(--primary-deep);transform:translateX(3px)}
+
+/* ---------- 展开详情 ---------- */
+.news-detail{max-height:0;overflow:hidden;opacity:0;transform:translateY(-4px);transition:max-height .35s var(--ease),opacity .25s ease,transform .3s var(--ease),padding-top .3s ease,margin-top .3s ease,border-top-color .3s ease;margin-top:0;padding-top:0;border-top:1px dashed transparent}
+.news-detail.show{opacity:1;transform:translateY(0);margin-top:10px;padding-top:10px;border-top-color:var(--hair)}
+.news-detail h4{font-size:12px;color:var(--primary);font-weight:700;margin-bottom:4px;margin-top:9px;letter-spacing:.04em}
+.news-detail h4:first-child{margin-top:0}
+.news-detail p{font-size:12.5px;color:var(--ink-2);line-height:1.7;margin-bottom:6px}
+
+/* ---------- 图表 ---------- */
+.chart-wrap{border-radius:var(--r-md);padding:16px;margin-bottom:4px;height:230px;position:relative}
+.chart-title{font-size:13px;font-weight:700;color:var(--ink-2);margin-bottom:9px}
+[id$="Chart"]{position:absolute;left:16px;right:16px;top:40px;bottom:16px}
+
+/* ---------- 热力图 ---------- */
+.heatmap{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
+.heat-cell{padding:12px 14px;border-radius:var(--r-sm);border:1px solid var(--hair);position:relative;background:rgba(255,255,255,.42);transition:transform .25s var(--ease),box-shadow .25s var(--ease);contain:layout style}
+.heat-cell:hover{transform:translateY(-2px);box-shadow:var(--shadow-1)}
+.heat-name{font-size:12px;font-weight:700;margin-bottom:6px;color:var(--ink)}
+.heat-change{font-size:17px;font-weight:800;margin-bottom:5px;font-variant-numeric:tabular-nums}
+.heat-progress{height:4px;background:rgba(31,111,168,.12);border-radius:999px;overflow:hidden;margin-bottom:5px}
+.heat-bar{height:100%;border-radius:999px}
+.heat-dir{font-size:10.5px;color:var(--ink-3)}
+
+/* ---------- 深度分析 ---------- */
+.depth-card{background:linear-gradient(150deg,rgba(255,255,255,.72),rgba(255,255,255,.45));border:1px solid var(--glass-border);border-radius:var(--r-md);padding:18px 20px;margin-bottom:14px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+@supports(backdrop-filter:blur(1px)){.depth-card{-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);box-shadow:var(--shadow-1),inset 0 1px 0 rgba(255,255,255,.8)}}
+.depth-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-2)}
+.depth-title{font-size:15.5px;font-weight:800;color:var(--ink);margin-bottom:8px;line-height:1.5}
+.depth-section{margin-top:11px}
+.depth-section h4{font-size:12px;color:var(--primary);font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:5px;letter-spacing:.03em}
+.depth-section p{font-size:13px;color:var(--ink-2);line-height:1.8}
+.social-heat{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.social-chip{font-size:11px;padding:5px 12px;background:rgba(31,111,168,.07);border-radius:999px;color:var(--ink-2);border:1px solid var(--hair);transition:background .2s,color .2s,transform .2s var(--ease);cursor:default}
+.social-chip:hover{background:rgba(46,134,201,.16);color:var(--primary-deep);transform:translateY(-2px)}
+
+/* ---------- 日历 ---------- */
+.calendar-item{display:flex;align-items:center;gap:13px;padding:11px 13px;background:rgba(255,255,255,.42);border-radius:var(--r-sm);margin-bottom:7px;border:1px solid var(--hair);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.calendar-item:hover{transform:translateY(-1px);box-shadow:var(--shadow-1)}
+.cal-date{min-width:56px;text-align:center;background:rgba(31,111,168,.06);border-radius:var(--r-sm);padding:6px 4px}
+.cal-date-day{font-size:19px;font-weight:800;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+.cal-date-dow{font-size:10px;color:var(--ink-3);margin-top:2px}
+.cal-content{flex:1}
+.cal-event{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;line-height:1.45}
+.cal-note{font-size:11px;color:var(--ink-3)}
+.cal-stars{font-size:11px;color:#f5a623;letter-spacing:1px}
+
+/* ---------- 术语卡 ---------- */
+.term-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.term-card{background:rgba(255,255,255,.42);border-radius:var(--r-sm);padding:12px 14px;border:1px solid var(--hair);transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s}
+.term-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-1);border-color:rgba(31,111,168,.28)}
+.term-name{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.term-en{font-size:10px;color:var(--primary);margin-bottom:5px;font-weight:600;letter-spacing:.04em}
+.term-desc{font-size:11px;color:var(--ink-2);line-height:1.55}
+
+/* ---------- 页脚 ---------- */
+.paper-footer{text-align:center;padding:26px 16px;margin-top:14px;font-size:11.5px;color:var(--primary);letter-spacing:.04em;border-radius:var(--r-md)}
+.paper-footer-tip{margin-top:5px;color:var(--ink-3);font-size:10.5px;font-style:italic}
+
+/* ---------- 底部悬浮玻璃导航栏 ---------- */
+.bottom-nav{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:900;display:flex;align-items:center;gap:2px;padding:7px 10px;border-radius:999px;max-width:calc(100vw - 24px)}
+.bn-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border:none;background:transparent;border-radius:999px;color:var(--primary);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;text-decoration:none;letter-spacing:.02em;white-space:nowrap;transition:background .2s var(--ease),color .2s var(--ease),transform .2s var(--ease)}
+.bn-btn:hover{background:rgba(31,111,168,.12);color:var(--primary-deep);transform:translateY(-1px)}
+.bn-btn:active{transform:translateY(0)}
+.bn-divider{width:1px;height:18px;background:var(--hair);flex:none}
+@media(max-width:480px){
+  .bottom-nav{left:12px;right:12px;transform:none;justify-content:center}
+  .bn-btn{padding:9px 14px;font-size:12.5px}
+}
+
+/* ---------- 进场动效（渐进增强） ----------
+   内容默认完全可见；仅当 JS 确认 IntersectionObserver 可用并加上
+   html.js-anim 后才注入隐藏初态，杜绝「JS 失效导致正文不可见」 */
+.js-anim .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease-out,transform .6s var(--ease)}
+.js-anim .reveal.in{opacity:1;transform:translateY(0)}
+.js-anim .reveal:nth-child(2){transition-delay:.06s}
+.js-anim .reveal:nth-child(3){transition-delay:.12s}
+
+/* ---------- 焦点与滚动条 ---------- */
+:focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:4px}
+::-webkit-scrollbar{width:10px;height:8px}
+::-webkit-scrollbar-thumb{background:rgba(31,111,168,.25);border-radius:999px;border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:rgba(31,111,168,.4);background-clip:content-box}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ---------- 动效兜底 ---------- */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+  .js-anim .reveal{opacity:1;transform:none}
+  .bg-orbs i{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="bg-scene" aria-hidden="true">
+  <div class="bg-orbs"><i></i><i></i><i></i></div>
+  <!-- 天际线剪影：极简单层（内联 SVG 约 0.6KB，低不透明度不喧宾夺主） -->
+  <svg class="bg-skyline" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="1180" cy="46" r="26" fill="#7cc4ff" opacity=".35"/>
+    <path fill="#1f6fa8" opacity=".3" d="M0 200v-40h120v-26h90v26h110v-52h24v-20l16-24 16 24v20h24v52h130v-32h110v32h120v-44h90v44h130v-24h110v24h130v-38h100v38h120v-28h110v28h140v40Z"/>
+  </svg>
+  <div class="bg-dust"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
+<div class="container">
+
+  <!-- 当前报告标识条 -->
+  <div class="current-report-bar g">
+    <div class="crb-left">
+      <span class="crb-pulse">●</span>
+      <span class="crb-label">当前报告</span>
+      <span class="crb-type">🌅 晨报</span>
+      <span class="crb-time">生成时间 · 2026-10-13 09:18</span>
+    </div>
+    <a href="../history.html" class="crb-history">查看历史 ↗</a>
+  </div>
+
+  <!-- 页面导航条（sticky 玻璃胶囊） -->
+  <nav class="page-nav g-strong" aria-label="页面导航">
+    <a href="../index.html" class="page-nav-home">← 返回主页</a>
+    <a href="../history.html" class="page-nav-history">查看历史 ↗</a>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="header g">
+    <div class="header-top">
+      <div>
+        <span class="header-tag">🌅 晨报 · MORNING BRIEFING</span>
+        <span class="date-stamp">📅 2026-10-13 · 周二</span>
+      </div>
+    </div>
+    <div class="header-title">美股财报季今夜启幕 + 苹果「欢迎回家」发布会 + DeepSeek 千亿融资收官在即</div>
+    <div class="header-date">2026年10月13日（周二）· 晨报 09:00 GMT+8</div>
+    <div class="header-subtitle">📌 隔夜美股涨跌互现：道指 +0.38% / 纳指 -0.44%；布油涨 1.8% 站上 106 美元（沙特机场遇袭）；今晚盘前四大行拉开 Q3 财报季，标普 500 盈利预期同比 +30.6%</div>
+  </header>
+
+  <!-- 读前提示（轻量引导条） -->
+  <div class="read-tips g" id="readTips">
+    <div class="tips-top">
+      <span class="tips-icon" onclick="toggleTips()">📖 阅读提示 ▾</span>
+      <button class="tips-close" onclick="this.parentElement.parentElement.style.display='none'" aria-label="关闭">×</button>
+    </div>
+    <div class="tips-quick">
+      <span class="tip-chip">🔴 涨红跌绿</span>
+    <span class="tip-chip"><strong>必知</strong>看左侧红条</span>
+    <span class="tip-chip">📊 图表滚动加载</span>
+    <span class="tip-chip">⏰ 隔夜动态 + 财报季启幕 + 早盘前瞻</span>
+    </div>
+    <div class="read-tips-detail">
+      · <strong>必知（红）</strong>：3 条核心大事<br>
+    · <strong>关注（橙）</strong>：4 条<br>
+    · <strong>速览（灰）</strong>：5 条<br>
+    · <strong>涨跌色</strong>：中国惯例<br>
+    · <strong>晨报特定</strong>：隔夜 + 财报季启幕 + 早盘前瞻<br>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav g" id="toc" aria-label="目录">
+    <div class="nav-title">目录 · Navigation</div>
+    <div class="nav-items">
+      <a href="#top3" class="nav-item"><span class="num">1</span>必知Top3</a>
+    <a href="#ai" class="nav-item"><span class="num">2</span>AI科技</a>
+    <a href="#eco" class="nav-item"><span class="num">3</span>经济金融</a>
+    <a href="#depth" class="nav-item"><span class="num">4</span>深度分析</a>
+    <a href="#calendar" class="nav-item"><span class="num">5</span>今日日历</a>
+    </div>
+    <div class="nav-read">⏱ 预计总阅读时长：12分钟 · 中英双语 · 小白友好</div>
+  </nav>
+
+  <!-- 顶部指标卡 -->
+  <div class="metric-bar">
+    <div class="metric-card">
+  <div class="metric-label">上证指数</div>
+  <div class="metric-value">3797.24</div>
+  <div class="metric-change down">-0.43%</div>
+  <div class="metric-note">缩量1.54万亿 双创跌超2%</div>
+</div>
+<div class="metric-card">
+  <div class="metric-label">道指</div>
+  <div class="metric-value">51850.55</div>
+  <div class="metric-change up">+0.38%</div>
+  <div class="metric-note">财报季启幕前企稳</div>
+</div>
+<div class="metric-card">
+  <div class="metric-label">纳指</div>
+  <div class="metric-value">27245.90</div>
+  <div class="metric-change down">-0.44%</div>
+  <div class="metric-note">存储芯片股拖累</div>
+</div>
+<div class="metric-card">
+  <div class="metric-label">布伦特原油</div>
+  <div class="metric-value">106.65美元</div>
+  <div class="metric-change up">+1.8%</div>
+  <div class="metric-note">沙特机场遇袭推高</div>
+</div>
+  </div>
+
+  <!-- TOP 3 -->
+  <section class="section g reveal" id="top3">
+    <div class="section-title"><span class="emoji">🎯</span>今日必知 Top 3 <span class="section-subtitle">1秒抓住核心</span></div>
+    <div class="top3-card">
+  <span class="top3-num">TOP 1</span>
+  <div class="top3-title">苹果「Welcome Home」发布会今晚纽约启幕：首款智能家庭中枢 HomePad 领衔</div>
+  <div class="top3-en">Apple 'Welcome Home' event kicks off tonight in New York, HomePad smart hub expected</div>
+  <div class="top3-desc">北京时间今晚 21:00，苹果在纽约 Tribeca 举行智能家居专场发布会，预计首发智能家庭中枢（传闻代号 HomePad）、新版 Apple TV 4K 与 HomePod mini 2。这是新 CEO John Ternus 上任后苹果押注「AI 智能家居」的首场大考。</div>
+</div>
+<div class="top3-card">
+  <span class="top3-num">TOP 2</span>
+  <div class="top3-title">美股 Q3 财报季今夜启幕：摩根大通、高盛、花旗、富国盘前放榜</div>
+  <div class="top3-en">Q3 earnings season kicks off tonight: JPMorgan, Goldman, Citi, Wells Fargo report premarket</div>
+  <div class="top3-desc">四大行联合强生、联合健康今晚盘前发布财报，标普 500 三季度盈利预期同比大增 30.6%（LSEG 数据）。本周还有美国 CPI、PPI、零售销售三连发，是全年最密集的数据周之一。</div>
+</div>
+<div class="top3-card">
+  <span class="top3-num">TOP 3</span>
+  <div class="top3-title">DeepSeek 新一轮融资收官在即：至少 800 亿元，腾讯、宁德时代领投</div>
+  <div class="top3-en">DeepSeek nears closing of 80B+ yuan round co-led by Tencent and CATL</div>
+  <div class="top3-desc">据彭博、路透报道，DeepSeek 本轮融资已锁定至少 800 亿元人民币，远超最初 500 亿目标，最终或逼近 1000 亿元，投后目标估值约 5000 亿元，为 2027 年 IPO 铺路。中国 AI 资本化全面提速。</div>
+</div>
+  </section>
+
+  <!-- AI & 科技 -->
+  <section class="section g reveal" id="ai">
+    <div class="section-title"><span class="emoji">🤖</span>AI &amp; 科技 <span class="section-subtitle">板块情绪 6.5</span></div>
+    <div class="sentiment-bar g">
+      <span class="sentiment-label">板块情绪</span>
+      <div class="sentiment-track">
+        <div class="sentiment-fill" style="width:65%"></div>
+        <span class="sentiment-tick" style="left:25%"></span>
+        <span class="sentiment-tick" style="left:50%"></span>
+        <span class="sentiment-tick" style="left:75%"></span>
+        <div class="sentiment-marker" style="left:65%"></div>
+      </div>
+      <span class="sentiment-score">6.5</span>
+      <span class="sentiment-word" data-pct="65"></span>
+    </div>
+    <div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">公司动态</span>
+  </div>
+  <div class="news-title">微软市值一年来重上 4 万亿美元：宣布自家 AI 芯片大规模部署计划</div>
+  <div class="news-en">Microsoft tops $4T again on major AI chip deployment plans</div>
+  <div class="news-desc">隔夜微软股价涨 0.9%，市值时隔一年重新站上 4 万亿美元。催化因素是微软宣布将大规模部署自研 AI 芯片（Maia 系列），降低对英伟达的单一依赖。</div>
+  <div class="news-sources"><a href="https://www.thenewstribune.com/news/nation-world/national/article317586144.html" target="_blank" rel="noopener">Reuters（权威媒体） ↗</a><a href="https://investopedia.com/stock-market-today-dow-jones-s-and-p-500-10122026-12170121" target="_blank" rel="noopener">Investopedia（权威媒体） ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>周一微软股价上涨 0.9%，市值一年来首次重新突破 4 万亿美元。公司此前宣布了自有 AI 芯片的大规模部署计划，同时执行容器（MXC）沙箱方案正式商用。</p>
+  <h4>💡 为什么重要</h4>
+  <p>在 OpenAI 营收下修引发「AI 基建投资回报」担忧的当口，微软用自研芯片降本和市值新高证明大厂仍有能力消化 AI 资本开支。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>自研芯片放量将分流英伟达部分订单预期，同时压低云端推理成本，利好微软系软件与云业务估值。</p>
+  <h4>👀 后续关注</h4>
+  <p>关注今晚起各大云厂商财报中对 AI 资本开支与折旧口径的表述，以及 Maia 芯片的实际部署规模数据。</p>
+</div>
+</div>
+<div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">资本市场</span>
+  </div>
+  <div class="news-title">Anthropic IPO 投资者日明日举行：2 万亿美元估值目标遭遇「最荒谬 IPO」质疑</div>
+  <div class="news-en">Anthropic pre-IPO investor day tomorrow: $2T ambition meets 'most absurd IPO' critique</div>
+  <div class="news-desc">据彭博报道，Anthropic 明日在旧金山总部举行 Pre-IPO 投资者日，计划最早 11 月 9 日当周启动路演、感恩节前挂牌，估值目标约 2 万亿美元。独立研究机构 New Constructs 此前将其称为「2026 年最荒谬的 IPO」，给出的合理估值仅约 1500 亿美元。</div>
+  <div class="news-sources"><a href="https://www.panewslab.com/en/columns/019bd5d0-ee36-74b3-b0a2-f32eeaf23788" target="_blank" rel="noopener">Bloomberg（权威媒体·经转载） ↗</a><a href="https://baijiahao.baidu.com/s?id=1878467195242190450" target="_blank" rel="noopener">CNBC（权威媒体·经转载） ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>Anthropic 将于 10 月 14 日举行投资者日，争取感恩节前在纳斯达克挂牌，目标估值约 2 万亿美元，将成史上最大 IPO；New Constructs 报告认为其合理估值仅约 1500 亿美元，差距超过 13 倍。</p>
+  <h4>💡 为什么重要</h4>
+  <p>这是「AI 泡沫之辩」的具象化：一边是 OpenAI 年化营收被曝不足 500 亿美元，一边是 Anthropic 冲击 2 万亿估值，华尔街对 AI 公司定价分歧已到摊牌时刻。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>若定价成功，将带动全球 AI 资产重新锚定；若破发或缩量，中概与港 A 两地 AI 板块情绪都会受波及。</p>
+  <h4>👀 后续关注</h4>
+  <p>明日投资者日披露的收入结构、算力承诺与亏损路径是核心看点；随后 11 月路演认购倍数是情绪温度计。</p>
+</div>
+</div>
+<div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">融资</span>
+  </div>
+  <div class="news-title">DeepSeek 千亿融资收官在即：腾讯、宁德时代领投，估值冲 5000 亿元</div>
+  <div class="news-en">DeepSeek nears 80-100B yuan round led by Tencent and CATL at ~500B yuan valuation</div>
+  <div class="news-desc">据彭博、路透报道，DeepSeek 本轮融资已锁定至少 800 亿元（约 120 亿美元），远超原定 500 亿目标，最终总额有望逼近 1000 亿元，腾讯与宁德时代为最大出资方，投后目标估值约 5000 亿元，并为 2027 年 IPO 铺路。</div>
+  <div class="news-sources"><a href="https://techstartups.com/2026/10/06/deepseek-to-raise-12-billion-in-tencent-and-catl-backed-funding-ahead-of-ipo/" target="_blank" rel="noopener">Bloomberg/Reuters（权威媒体·经转载） ↗</a><a href="https://new.qq.com/rain/a/20261007A03U0H00" target="_blank" rel="noopener">腾讯新闻（引彭博社报道） ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>10 月 12 日消息确认本轮融资进入收官阶段：至少 800 亿元已锁定，腾讯、宁德时代出资最大，吉利、京东、网易、IDG 等跟投；资金将投向下一代万亿参数模型与国产算力集群（含华为昇腾生态）。</p>
+  <h4>💡 为什么重要</h4>
+  <p>这是中国大模型赛道年内最大单笔融资。彭博行业研究测算中美顶尖模型基准差距已从年初 9% 收窄至 3%，资本正为「中国 AI 平价追赶」路线下重注。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>直接利好国产算力链（昇腾生态、数据中心、电力配套），同时 DeepSeek 的低价 API 将继续压制全球模型价格带。</p>
+  <h4>👀 后续关注</h4>
+  <p>交割公告与最终估值口径；2027 年 IPO 地点（科创板 vs 港股）的监管进展；V4 旗舰模型发布节奏。</p>
+</div>
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">芯片</span>
+  </div>
+  <div class="news-title">存储芯片隔夜重挫：传长鑫 CXMT 新一代 DRAM 取得进展，美光领跌、费半三周低</div>
+  <div class="news-en">Memory chips slide as CXMT next-gen DRAM progress weighs on Micron</div>
+  <div class="news-desc">隔夜半导体板块大幅回调：存储设备板块跌 3.4%、半导体板块跌 3.9%，SOXX 芯片 ETF 跌 2.6%，费城半导体指数触及三周低点。导火索是中国长鑫存储（CXMT）在下一代 DRAM 上传出技术进展，直接冲击美光等国际存储巨头的溢价逻辑。</div>
+  <div class="news-sources"><a href="https://www.thenewstribune.com/news/nation-world/national/article317586144.html" target="_blank" rel="noopener">Reuters（权威媒体） ↗</a><a href="https://www.cnbctv18.com/market/dow-jones-outperforms-snp-500-nasdaq-us-market-monday-key-factors-explained-salesforce-micron-oil-prices-20010369.htm" target="_blank" rel="noopener">CNBC TV18（权威媒体） ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">前沿研究</span>
+  </div>
+  <div class="news-title">OpenAI 数学手稿风波：公开 722 份后撤回 3 篇，数学家公开批评「刷库式投稿」</div>
+  <div class="news-en">OpenAI pulls 3 math preprints over sign error amid mathematician criticism</div>
+  <div class="news-desc">OpenAI 上周公开其前沿模型产出的 722 份数学手稿后，因一处符号错误撤回 3 篇、修订 14 篇。集合论学家 Karagila 更公开批评其「划分原理」预印本结构混乱、会把审稿负担转嫁给学界，拒付与奥特曼约定的威士忌赌注。</div>
+  <div class="news-sources"><a href="https://aibreakingwire.com/news/ai-brief-2026-10-12" target="_blank" rel="noopener">AI Breaking Wire（行业聚合） ↗</a><a href="https://fruition.net/frontier/10-12-2026" target="_blank" rel="noopener">Fruition Frontier（行业聚合） ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">终端硬件</span>
+  </div>
+  <div class="news-title">微软×英伟达 RTX Spark AI PC 生态成型：Surface Laptop Ultra 2599 美元起、10 月 16 日上市</div>
+  <div class="news-en">Microsoft-NVIDIA RTX Spark AI PCs go mainstream from $2,599 on Oct 16</div>
+  <div class="news-desc">微软与英伟达联合推出 RTX Spark AI PC 阵容：Surface Laptop Ultra 搭载 RTX Spark SoC、最高 128GB 统一内存，2599 美元起，10 月 16 日发货；联想、华硕、戴尔、惠普等同步跟进。配套的微软执行容器（MXC）同步商用，为 AI 智能体提供系统级沙箱。</div>
+  <div class="news-sources"><a href="https://aibriefs.news/ai-news-today" target="_blank" rel="noopener">AIBriefs（行业聚合·多源） ↗</a><a href="https://www.8020ai.co/p/elon-on-terafab-we-ll-figure-out-chips" target="_blank" rel="noopener">80/20 AI（行业聚合） ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">AI安全</span>
+  </div>
+  <div class="news-title">韩国金融机构攻击案发酵：一大学生被指用 Claude Code 等工具攻击 7 家银行，6.7 万资料外泄</div>
+  <div class="news-en">S. Korean bank breach: student allegedly used Claude Code and open-source tools to hit 7 lenders</div>
+  <div class="news-desc">据 CrowdStrike 分析与新韩银行等披露，一名大学生疑似利用 Claude Code、开源工具与国产模型中转服务，攻击新韩银行、KB 国民银行等至少 7 家韩国金融机构，超 6.7 万客户及员工资料外泄。中国外交部回应称不了解有关情况、反对散播虚假信息。</div>
+  <div class="news-sources"><a href="https://new.qq.com/rain/a/20261012A03VZ500" target="_blank" rel="noopener">腾讯新闻·AIGC 早报（引 CrowdStrike） ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">大模型</span>
+  </div>
+  <div class="news-title">Mistral Large 4 预览版发布：1 万亿参数（激活 49B），权重月底开放</div>
+  <div class="news-en">Mistral Large 4 preview: 1T-parameter open-weight model</div>
+  <div class="news-desc">法国 Mistral 发布 Large 4 预览版：原生多模态、总参数 1T 但激活仅 49B，在欧洲数据中心用 3800 块 Grace Blackwell 训练，权重月底开放下载。</div>
+  <div class="news-sources"><a href="https://aibriefs.news/ai-news-today" target="_blank" rel="noopener">AIBriefs（行业聚合·多源） ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">并购</span>
+  </div>
+  <div class="news-title">亚马逊传洽购 AI 视频公司 Decart：作价约 70 亿美元</div>
+  <div class="news-en">Amazon in talks to buy Decart for ~$7B, WSJ reports</div>
+  <div class="news-desc">据华尔街日报报道，亚马逊正洽谈以约 70 亿美元收购 AI 视频生成公司 Decart；消息公布后亚马逊股价小幅走低。</div>
+  <div class="news-sources"><a href="https://investopedia.com/stock-market-today-dow-jones-s-and-p-500-10122026-12170121" target="_blank" rel="noopener">WSJ via Investopedia（权威媒体） ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">通信</span>
+  </div>
+  <div class="news-title">SpaceX 收购全国性低频段频谱组合，美国三大运营商股价反弹</div>
+  <div class="news-en">SpaceX to acquire nationwide low-band spectrum portfolio</div>
+  <div class="news-desc">马斯克旗下 SpaceX 达成收购一张全国低频段频谱牌照组合的协议，此前因该消息承压的 T-Mobile、AT&amp;T、Verizon 周一集体反弹，SpaceX 本身再涨 0.5%。</div>
+  <div class="news-sources"><a href="https://investopedia.com/stock-market-today-dow-jones-s-and-p-500-10122026-12170121" target="_blank" rel="noopener">Investopedia（权威媒体） ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">开源</span>
+  </div>
+  <div class="news-title">Google DeepMind 开源 EmbeddingGemma 2：740M 多模态嵌入模型</div>
+  <div class="news-en">DeepMind open-sources EmbeddingGemma 2 (740M, Apache 2.0)</div>
+  <div class="news-desc">基于 Gemma 4 构建，将文本、代码、图像、视频、音频统一映射到 768 维向量空间，Apache 2.0 协议，支持截断到 128 维以节省最多 6 倍存储。</div>
+  <div class="news-sources"><a href="https://aibriefs.news/ai-news-today" target="_blank" rel="noopener">AIBriefs（行业聚合·多源） ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">应用</span>
+  </div>
+  <div class="news-title">Meta Muse 热度延续：下载破 660 万、日活 180 万</div>
+  <div class="news-en">Meta Muse tops 6.6M downloads, 1.8M daily users</div>
+  <div class="news-desc">9 月 8 日上线以来 Meta Muse 智能体持续放量，累计下载超 660 万、日活 180 万。受此提振，Meta 隔夜大涨 3.4%，成为科技板块中少有的亮点。</div>
+  <div class="news-sources"><a href="https://aibriefs.news/ai-news-today" target="_blank" rel="noopener">AIBriefs（行业聚合·多源） ↗</a></div>
+  
+</div>
+    <div class="chart-wrap" id="aiChartWrap">
+  <div class="chart-title">AI 龙头板块近 7 个交易日相对走势（10/2=100，费半两日重挫）</div>
+  <canvas id="aiChart"></canvas>
+</div>
+<script>
+window.__CHART_DATA__={"title": "AI 龙头板块近 7 个交易日相对走势（10/2=100，费半两日重挫）", "labels": ["10/2", "10/5", "10/6", "10/7", "10/8", "10/9", "10/12"], "datasets": [{"label": "标普500", "data": [100, 100.3, 100.9, 100.5, 99.3, 100.0, 99.9], "color": "#c8843a", "fill": true}, {"label": "纳斯达克", "data": [100, 100.4, 101.3, 100.9, 99.6, 101.0, 100.5], "color": "#d60000", "fill": false}, {"label": "费城半导体", "data": [100, 100.3, 101.5, 100.0, 99.0, 95.7, 93.2], "color": "#8b6f47", "fill": true}]};
+</script>
+  </section>
+
+  <!-- 经济 & 金融 -->
+  <section class="section g reveal" id="eco">
+    <div class="section-title"><span class="emoji">💰</span>经济 &amp; 金融 <span class="section-subtitle">板块情绪 5.5</span></div>
+    <div class="sentiment-bar g">
+      <span class="sentiment-label">板块情绪</span>
+      <div class="sentiment-track">
+        <div class="sentiment-fill" style="width:55%"></div>
+        <span class="sentiment-tick" style="left:25%"></span>
+        <span class="sentiment-tick" style="left:50%"></span>
+        <span class="sentiment-tick" style="left:75%"></span>
+        <div class="sentiment-marker" style="left:55%"></div>
+      </div>
+      <span class="sentiment-score">5.5</span>
+      <span class="sentiment-word" data-pct="55"></span>
+    </div>
+    <div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">美股</span>
+  </div>
+  <div class="news-title">隔夜美股分化收官：道指 +0.38%、标普 -0.06%、纳指 -0.44%，量能创年内新低</div>
+  <div class="news-en">Mixed close on Wall Street ahead of earnings avalanche</div>
+  <div class="news-desc">美债市场因哥伦布日休市，股市成交清淡。道指靠 Salesforce 双重上调评级涨 0.38%，纳指受存储芯片拖累跌 0.44%，标普基本持平于 7807 点。10 年期美债收益率周五收于 5.24% 高位，市场屏息等待明日 CPI。</div>
+  <div class="news-sources"><a href="https://www.thenewstribune.com/news/nation-world/national/article317586144.html" target="_blank" rel="noopener">Reuters（权威媒体） ↗</a><a href="http://www.mankatofreepress.com/news/business/how-major-us-stock-indexes-fared-monday-10-12-2026/article_7c4593b4-ee36-5463-84c5-e6b917287870.html" target="_blank" rel="noopener">AP（权威媒体） ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>周一美股三大指数涨跌互现：道指 +198 点（+0.38%）报 51850.55，标普 500 -0.06% 报 7807.24，纳指 -0.44% 报 27245.90，成交量创年内新低。</p>
+  <h4>💡 为什么重要</h4>
+  <p>财报季 + CPI + PPI + 零售销售四箭齐发前，市场主动降杠杆观望；油价飙升又添通胀担忧，克利夫兰联储主席 Hammack 呼吁「较快」转向更紧缩立场。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>今晚四大行财报是第一道考验：盈利预期同比 +30.6% 的门槛不低，任何指引走弱都可能放大波动；A 股算力链今日开盘情绪亦受隔夜芯片大跌压制。</p>
+  <h4>👀 后续关注</h4>
+  <p>今晚 20:30 起四大行财报；明日（10/14）美国 9 月 CPI（市场预期核心同比约 2.5%）；10/28 FOMC 决议。</p>
+</div>
+</div>
+<div class="news-card important">
+  <div class="news-meta">
+    <span class="news-badge badge-important">必读</span>
+    <span class="news-cat">能源</span>
+  </div>
+  <div class="news-title">布油站上 106 美元：利雅得机场遇袭、「能源停火」遭违反指控</div>
+  <div class="news-en">Brent above $106 after Riyadh airport attack, energy ceasefire strain</div>
+  <div class="news-desc">周末沙特利雅得国际机场遭伊朗支持的胡塞武装致命袭击、机场运营中断，WTI 周一涨 1.5% 至 93.28 美元、布油涨 1.8% 至 106.65 美元。特朗普宣布的俄乌「能源停火」也遭乌克兰方面指责被俄方违反。</div>
+  <div class="news-sources"><a href="https://www.thenewstribune.com/news/nation-world/national/article317586144.html" target="_blank" rel="noopener">Reuters（权威媒体） ↗</a><a href="https://investopedia.com/stock-market-today-dow-jones-s-and-p-500-10122026-12170121" target="_blank" rel="noopener">Investopedia（权威媒体） ↗</a></div>
+  <button class="news-toggle" onclick="toggleDetail(this)">▼ 展开详情</button>
+  <div class="news-detail">
+  <h4>📌 发生了什么</h4>
+  <p>胡塞武装周末袭击利雅得机场造成人员伤亡，沙特宣布拦截更多导弹与无人机；同时乌克兰指控俄罗斯违反特朗普宣布的「能源停火」。国际油价应声大涨，能源板块领涨标普。</p>
+  <h4>💡 为什么重要</h4>
+  <p>油价是当前通胀预期的最大变量：若地缘冲突推高能源价格，10 月加息概率（CME FedWatch 约 22%）与长端美债收益率都可能再上行。</p>
+  <h4>🎯 对你意味着</h4>
+  <p>国内出行、航空成本面临燃油附加费上调压力；油气、海运板块短期受益，但下游化工与航空承压。</p>
+  <h4>👀 后续关注</h4>
+  <p>霍尔木兹海峡航运风险指标、今晚起美国 API/EIA 库存数据、俄乌停火谈判的能源条款进展。</p>
+</div>
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">A股</span>
+  </div>
+  <div class="news-title">A 股缩量分化：沪指失守 3800 点，双创跌超 2%，银行股逆势集体新高</div>
+  <div class="news-en">A-shares split: Shanghai slips below 3,800 as banks hit new highs, tech slumps</div>
+  <div class="news-desc">昨日 A 股缩量调整：沪指 -0.43% 报 3797.24 点，深成指 -2.03%、创业板指 -2.61%，两市成交 1.54 万亿（缩量约 3600 亿），超 4300 只个股下跌。银行股集体创新高（国有大行 +2.6%），资金明显高低切换、从算力硬件流向价值红利。</div>
+  <div class="news-sources"><a href="https://caifuhao.eastmoney.com/news/20261012162008996212620" target="_blank" rel="noopener">东方财富·财富号（财经媒体） ↗</a><a href="https://xueqiu.com/1270690430/411992685" target="_blank" rel="noopener">雪球收盘播报 ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">数据前瞻</span>
+  </div>
+  <div class="news-title">明日美中通胀数据同日落地：美国 9 月 CPI 核心预期约 2.5%，叠加 Anthropic 投资者日</div>
+  <div class="news-en">US September CPI due Wednesday with core seen ~2.5%</div>
+  <div class="news-desc">明日（10/14）美国 9 月 CPI 与中国 9 月物价数据同日公布，美国核心 CPI 市场预期约 2.5%；同日还有 Anthropic 投资者日与 IEA 月度石油报告，是本周信息密度最高的一天。</div>
+  <div class="news-sources"><a href="https://www.thenewstribune.com/news/nation-world/national/article317586144.html" target="_blank" rel="noopener">Reuters（权威媒体） ↗</a><a href="https://stockmarketwatch.com/digest/2026-10-12" target="_blank" rel="noopener">StockMarketWatch（数据聚合） ↗</a></div>
+  
+</div>
+<div class="news-card watch">
+  <div class="news-meta">
+    <span class="news-badge badge-watch">关注</span>
+    <span class="news-cat">美联储</span>
+  </div>
+  <div class="news-title">克利夫兰联储主席放鹰：应「较快」转向更紧缩立场，10 月加息概率约 22%</div>
+  <div class="news-en">Fed's Hammack urges faster move to restrictive policy; Oct hike odds ~22%</div>
+  <div class="news-desc">克利夫兰联储主席 Hammack 表示，通胀已更加广谱、开始影响企业定价行为，美联储应「相对较快」转向限制性立场。CME FedWatch 显示 10 月加息概率周一升至约 22%（上周五为 17.7%）。</div>
+  <div class="news-sources"><a href="https://www.thenewstribune.com/news/nation-world/national/article317586144.html" target="_blank" rel="noopener">Reuters（权威媒体） ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">大宗与汇率</span>
+  </div>
+  <div class="news-title">黄金回落 0.6% 至 4192 美元，比特币徘徊 8.3 万美元，美元指数升至 102.60</div>
+  <div class="news-en">Gold eases to $4,192 as dollar index climbs to 102.60</div>
+  <div class="news-desc">美元走强压制贵金属：黄金期货 -0.6% 报 4192 美元/盎司，比特币从隔夜高点 8.42 万美元回落至约 8.3 万美元，美元指数涨 0.4% 至 102.60。</div>
+  <div class="news-sources"><a href="https://investopedia.com/stock-market-today-dow-jones-s-and-p-500-10122026-12170121" target="_blank" rel="noopener">Investopedia（权威媒体） ↗</a></div>
+  
+</div>
+<div class="news-card quick">
+  <div class="news-meta">
+    <span class="news-badge badge-quick">速览</span>
+    <span class="news-cat">中国数据</span>
+  </div>
+  <div class="news-title">中国海关总署今日按惯例公布 9 月外贸数据，出口增速能否续升受关注</div>
+  <div class="news-en">China September trade data due today per usual schedule</div>
+  <div class="news-desc">按惯例海关总署今日上午公布 9 月进出口数据。8 月出口（美元计）同比增 4.4%，机构普遍关注在全球制造业 PMI 仍处扩张区间的背景下 9 月增速能否继续修复。具体数字以海关总署官方发布为准。</div>
+  <div class="news-sources"><a href="https://data.eastmoney.com/report/zw_strategy.jshtml?encodeUrl=Iot8l90ZfL+LXag0mE/ME2mBEwXBD3qI45pRFdIEQ3A=" target="_blank" rel="noopener">中国银河宏观（机构研报·8 月数据回顾） ↗</a></div>
+  
+</div>
+    <div class="heatmap">
+<div class="heat-cell heat-up">
+  <div class="heat-name">银行</div>
+  <div class="heat-change up">+2.60%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:88%;background:#d60000"></div></div>
+  <div class="heat-dir">资金大幅流入·集体新高</div>
+</div>
+<div class="heat-cell heat-up">
+  <div class="heat-name">贵金属</div>
+  <div class="heat-change up">+2.33%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:70%;background:#d60000"></div></div>
+  <div class="heat-dir">金银走高带动</div>
+</div>
+<div class="heat-cell heat-up">
+  <div class="heat-name">保险</div>
+  <div class="heat-change up">+2.09%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:60%;background:#d60000"></div></div>
+  <div class="heat-dir">价值红利防御</div>
+</div>
+<div class="heat-cell heat-down">
+  <div class="heat-name">半导体/算力</div>
+  <div class="heat-change down">-2.61%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:80%;background:#1a8f3c"></div></div>
+  <div class="heat-dir">资金流出·隔夜利空压制</div>
+</div>
+<div class="heat-cell heat-down">
+  <div class="heat-name">光通信</div>
+  <div class="heat-change down">-1.40%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:65%;background:#1a8f3c"></div></div>
+  <div class="heat-dir">算力链回调</div>
+</div>
+<div class="heat-cell heat-down">
+  <div class="heat-name">券商信托</div>
+  <div class="heat-change down">-2.73%</div>
+  <div class="heat-progress"><div class="heat-bar" style="width:75%;background:#1a8f3c"></div></div>
+  <div class="heat-dir">高位获利了结</div>
+</div>
+</div>
+  </section>
+
+  <!-- 深度分析 -->
+  <section class="section g reveal" id="depth">
+    <div class="section-title"><span class="emoji">🔍</span>深度分析 <span class="section-subtitle">重点新闻解读</span></div>
+    <div class="depth-card">
+  <div class="depth-title">财报季 + CPI 双重考验：本周美股的两道关口</div>
+  <div class="depth-en" style="font-size:12px;color:#999;font-style:italic;margin-bottom:8px">Earnings season meets CPI: the two gates for US stocks this week</div>
+  <div class="depth-section">
+  <h4>📌 核心要点</h4>
+  <p>本周是 2026 年信息最密集的交易周之一：今晚盘前摩根大通、高盛、花旗、富国四大行联合强生、联合健康放榜，拉开 Q3 财报季；周三美国 9 月 CPI、周四 PPI 与零售销售接踵而至。LSEG 口径下标普 500 三季度盈利预期同比 +30.6%，门槛高企——超预期是常态，指引才是胜负手。</p>
+</div>
+<div class="depth-section">
+  <h4>💡 为什么重要</h4>
+  <p>当前美股处在上周历史高点附近的「高位缩量」状态，债券市场又因哥伦布日休市失去方向锚。企业盈利若能接住高预期，10 年期美债 5.24% 的利率压力可被消化；反之，油价飙升（布油 106 美元）叠加工资数据偏热，正在给「higher for longer」的定价添柴，克利夫兰联储主席已公开喊话加快收紧。</p>
+</div>
+<div class="depth-section">
+  <h4>🎯 对你意味着</h4>
+  <p>普通投资者本周最实用的动作是「降低操作频率」：财报与 CPI 落地前追涨杀跌的胜率最低。对 A 股算力链持仓者，隔夜存储芯片大跌（CXMT 冲击美光逻辑）是直接的隔夜情绪利空，注意今晨开盘的相关板块波动；而银行股新高显示红利价值仍是资金避风港。</p>
+</div>
+<div class="depth-section">
+  <h4>🔍 后续观察</h4>
+  <p>四大行财报中的投行业务与信贷质量表述；CPI 中住房与核心服务分项；10/28 FOMC 前最后一批官员讲话的口径变化。</p>
+</div>
+
+  <div class="social-heat"><span class="social-chip">#财报季</span><span class="social-chip">#美联储</span><span class="social-chip">#美股</span></div>
+</div>
+<div class="depth-card">
+  <div class="depth-title">AI 资本叙事的裂缝与反差：从 OpenAI 500 亿到 DeepSeek 千亿</div>
+  <div class="depth-en" style="font-size:12px;color:#999;font-style:italic;margin-bottom:8px">Cracks and contrasts in the AI capital narrative</div>
+  <div class="depth-section">
+  <h4>📌 核心要点</h4>
+  <p>过去一周 AI 资本市场呈现罕见反差：OpenAI 年化营收被曝不足 500 亿美元（远低于 700 亿的此前口径），周一继续压制半导体板块；但同一时间，微软市值重上 4 万亿美元、DeepSeek 千亿元融资收官在即、Anthropic 仍瞄准 2 万亿美元 IPO。钱在流出「对回报率最敏感」的环节，同时在涌入确定性更高的平台与性价比路线。</p>
+</div>
+<div class="depth-section">
+  <h4>💡 为什么重要</h4>
+  <p>这说明市场并未整体否定 AI，而是在做「质量重定价」：单纯堆算力的叙事开始打折（费半两日重挫），而能证明单位算力产出效率的玩家（自研芯片降本的微软、低价高质的 DeepSeek、开放权重的 Mistral）反而获得资本加注。中美 AI 的估值锚也在分化：美国靠营收想象力，中国靠「3% 差距 + 一半价格」的工程性价比。</p>
+</div>
+<div class="depth-section">
+  <h4>🎯 对你意味着</h4>
+  <p>对从业者与投资者，选边信号已经清晰：关注「推理成本曲线」而非「参数军备竞赛」。DeepSeek、Mistral 的开放权重路线正在把模型能力商品化，真正的护城河向数据、分发与硬件效率转移。明日的 Anthropic 投资者日是观察美国 AI 定价逻辑能否守住的最好窗口。</p>
+</div>
+<div class="depth-section">
+  <h4>🔍 后续观察</h4>
+  <p>Anthropic 投资者日披露的单位推理经济性；DeepSeek 交割公告与昇腾集群建设进度；OpenAI 是否下调企业版定价应对。</p>
+</div>
+
+  <div class="social-heat"><span class="social-chip">#DeepSeek</span><span class="social-chip">#Anthropic</span><span class="social-chip">#AI泡沫之辩</span></div>
+</div>
+  </section>
+
+  <!-- 侧栏：日历 + 术语（大屏 sticky 双栏） -->
+  <aside class="side-col">
+    <section class="section g reveal" id="calendar">
+      <div class="section-title"><span class="emoji">📅</span>今日日历 <span class="section-subtitle">近3天关键事件</span></div>
+      <div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">13</div>
+    <div class="cal-date-dow">周二</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">美股 Q3 财报季启幕：摩根大通/高盛/花旗/富国/强生/联合健康盘前放榜</div>
+    <div class="cal-note">标普盈利预期同比 +30.6%</div>
+  </div>
+  <div class="cal-stars">★★★</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">13</div>
+    <div class="cal-date-dow">周二</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">苹果「Welcome Home」发布会（纽约，北京时间 21:00）</div>
+    <div class="cal-note">HomePad 智能家庭中枢领衔</div>
+  </div>
+  <div class="cal-stars">★★</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">13</div>
+    <div class="cal-date-dow">周二</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">中国海关总署 9 月外贸数据（惯例 11:00 前后）</div>
+    <div class="cal-note">以官方发布为准</div>
+  </div>
+  <div class="cal-stars">★★</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">14</div>
+    <div class="cal-date-dow">周三</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">美国 9 月 CPI + 中国 9 月物价数据同日公布</div>
+    <div class="cal-note">美核心 CPI 预期约 2.5%；同日 Anthropic 投资者日 + IEA 月报</div>
+  </div>
+  <div class="cal-stars">★★★</div>
+</div>
+<div class="calendar-item">
+  <div class="cal-date">
+    <div class="cal-date-day">15</div>
+    <div class="cal-date-dow">周四</div>
+  </div>
+  <div class="cal-content">
+    <div class="cal-event">美国 9 月 PPI + 零售销售；台积电 Q3 财报</div>
+    <div class="cal-note">AI 需求风向标</div>
+  </div>
+  <div class="cal-stars">★★★</div>
+</div>
+    </section>
+
+    <section class="section g reveal" id="terms">
+      <div class="section-title"><span class="emoji">📖</span>今日术语卡 <span class="section-subtitle">小白友好</span></div>
+      <div class="term-grid">
+        <div class="term-card">
+  <div class="term-name">财报季</div>
+  <div class="term-en">Earnings Season</div>
+  <div class="term-desc">上市公司集中发布季度业绩的时期。美股每季初由大银行打头阵，其指引往往影响整个市场情绪。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">CPI</div>
+  <div class="term-en">Consumer Price Index</div>
+  <div class="term-desc">消费者物价指数，衡量通胀水平。美联储根据它决定加息还是降息，超预期常引发股债波动。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">费半</div>
+  <div class="term-en">Philadelphia Semiconductor Index (SOX)</div>
+  <div class="term-desc">费城半导体指数，跟踪美股主要芯片公司，是观察全球 AI 与半导体景气度的风向标。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">DRAM/存储芯片</div>
+  <div class="term-en">DRAM / Memory Chips</div>
+  <div class="term-desc">电脑和手机的「运行内存」。长鑫（CXMT）等中国厂商的技术突破会压缩国际巨头的定价权，所以相关股票反应剧烈。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">ARR</div>
+  <div class="term-en">Annual Recurring Revenue</div>
+  <div class="term-desc">年化经常性收入：把当月订阅收入乘以 12 估算全年收入，是衡量 AI/软件公司营收规模的常用口径。</div>
+</div>
+<div class="term-card">
+  <div class="term-name">投资者日</div>
+  <div class="term-en">Investor Day</div>
+  <div class="term-desc">IPO 前公司向机构投资者集中「路演推介」的活动，会上披露的财务与算力承诺会直接影响发行定价。</div>
+</div>
+      </div>
+    </section>
+  </aside>
+
+  <!-- FOOTER -->
+  <footer class="paper-footer g">
+    <div>📜 本报告由 WorkBuddy 自动化生成 · 数据综合自公开媒体</div>
+    <div class="paper-footer-tip">仅供学习参考，不构成投资建议</div>
+  </footer>
+</div>
+
+<!-- 底部悬浮玻璃导航栏 -->
+<div class="bottom-nav g-strong" role="navigation" aria-label="底部快捷导航">
+  <button class="bn-btn" id="bnTop" type="button">⬆ 返回顶部</button>
+  <span class="bn-divider" aria-hidden="true"></span>
+  <a class="bn-btn" href="#toc">☰ 返回目录</a>
+</div>
+
+<script>
+// 背景动效自动降级：低端设备（CPU≤4核 或 内存≤4GB）静态显示光球、隐藏浮尘
+(function(){
+  try{
+    var lite = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)
+            || (navigator.deviceMemory && navigator.deviceMemory <= 4);
+    if(lite) document.documentElement.classList.add('bg-lite');
+  }catch(e){}
+})();
+
+// 展开/收起详情 - 丝滑过渡 + 真实高度测量
+function toggleDetail(btn){
+  const d=btn.nextElementSibling;
+  // 防御：nextElementSibling 不存在或不是 .news-detail 时直接 return
+  if(!d||!d.classList||!d.classList.contains('news-detail'))return;
+  const card=btn.closest('.news-card');
+  if(d.classList.contains('show')){
+    d.style.maxHeight=d.scrollHeight+'px';
+    requestAnimationFrame(()=>{
+      d.style.maxHeight='0';
+      d.style.opacity='0';
+      d.style.transform='translateY(-4px)';
+    });
+    d.addEventListener('transitionend',function hide(){
+      d.classList.remove('show');
+      d.style.maxHeight='';
+      d.style.opacity='';
+      d.style.transform='';
+      d.removeEventListener('transitionend',hide);
+    });
+    btn.textContent='▼ 展开详情';
+    if(card)card.classList.remove('expanded');
+  }else{
+    d.classList.add('show');
+    // 关键修复：scrollHeight 在 max-height:0 状态下被裁剪可能返回 0
+    const prevMax = d.style.maxHeight;
+    d.style.maxHeight = 'none';
+    const h = d.scrollHeight;
+    d.style.maxHeight = prevMax || '0';
+    d.style.opacity = '0';
+    d.style.transform = 'translateY(-4px)';
+    requestAnimationFrame(()=>{
+      d.style.maxHeight = h + 'px';
+      d.style.opacity = '1';
+      d.style.transform = 'translateY(0)';
+    });
+    d.addEventListener('transitionend',function showEnd(){
+      d.style.maxHeight='none';
+      d.removeEventListener('transitionend',showEnd);
+    });
+    btn.textContent='▲ 收起';
+    if(card)card.classList.add('expanded');
+  }
+}
+
+function toggleTips(){
+  const t=document.getElementById('readTips');
+  const d=t.querySelector('.read-tips-detail');
+  const icon=t.querySelector('.tips-icon');
+  if(t.classList.contains('open')){
+    d.style.maxHeight=d.scrollHeight+'px';
+    requestAnimationFrame(()=>{
+      d.style.maxHeight='0';
+      d.style.opacity='0';
+    });
+    d.addEventListener('transitionend',function h(){
+      t.classList.remove('open');
+      d.style.maxHeight='';
+      d.style.opacity='';
+      d.removeEventListener('transitionend',h);
+    });
+    if(icon)icon.textContent='📖 阅读提示 ▾';
+  }else{
+    t.classList.add('open');
+    const h=d.scrollHeight;
+    d.style.maxHeight='0';
+    d.style.opacity='0';
+    requestAnimationFrame(()=>{
+      d.style.maxHeight=h+'px';
+      d.style.opacity='1';
+    });
+    d.addEventListener('transitionend',function s(){
+      d.style.maxHeight='';
+      d.removeEventListener('transitionend',s);
+    });
+    if(icon)icon.textContent='📖 阅读提示 ▴';
+  }
+}
+
+// 情绪词自动填充：0-100% → 5 档情绪
+(function(){
+  var words=['极度悲观','偏悲观','中性','偏乐观','极度乐观'];
+  document.querySelectorAll('.sentiment-word').forEach(function(el){
+    var pct=parseFloat(el.getAttribute('data-pct'));
+    if(isNaN(pct))return;
+    var idx=pct<20?0:pct<40?1:pct<60?2:pct<80?3:4;
+    el.textContent=words[idx];
+  });
+})();
+
+// 底部导航栏：返回顶部（尊重系统减少动效设置）
+(function(){
+  var btn=document.getElementById('bnTop');
+  if(!btn)return;
+  btn.addEventListener('click',function(){
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+  });
+})();
+
+// 进场动效（渐进增强 + 双重兜底）：
+// 1) 仅当 IntersectionObserver 可用时才加 js-anim 注入隐藏初态——JS 失效时内容始终可见；
+// 2) 3 秒兜底：任何原因导致 observer 未触发，也强制显示全部区块。
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    return; // 无 IO：不加 js-anim，内容直接可见
+  }
+  document.documentElement.classList.add('js-anim');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){io.observe(el)});
+  // 兜底：3 秒后若仍无任何区块显示（observer 因异常未触发），强制全部显示
+  setTimeout(function(){
+    if(!document.querySelector('.reveal.in')){
+      els.forEach(function(el){el.classList.add('in')});
+    }
+  },3000);
+})();
+
+// Chart.js 懒加载 - 解决滚动卡顿 + 图表显示不全 + 数据驱动
+let chartInitialized=false;
+function initChart(){
+  if(chartInitialized)return;
+  const ctx=document.getElementById('aiChart');
+  if(!ctx)return;
+  if(typeof Chart==='undefined'){setTimeout(initChart,80);return;}
+  // 关键：确保 canvas 有有效尺寸，否则渲染失败显示不全
+  if(ctx.offsetWidth===0||ctx.offsetHeight===0){
+    setTimeout(initChart,100);
+    return;
+  }
+  // 数据驱动：从 window.__CHART_DATA__ 读取
+  const data=window.__CHART_DATA__;
+  if(!data||!data.datasets){chartInitialized=true;return;}
+  const datasets=data.datasets.map(function(d){
+    return {
+      label:d.label,
+      data:d.data,
+      borderColor:d.color||'#2e86c9',
+      backgroundColor:d.fill?((d.color||'#2e86c9').replace(')',',0.08)').replace('rgb(','rgba('):'transparent',
+      tension:0.3,
+      fill:!!d.fill,
+      pointRadius:3
+    };
+  });
+  new Chart(ctx,{
+    type:'line',
+    data:{labels:data.labels||[],datasets:datasets},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:{duration:600},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:14,padding:10}}},
+      scales:{
+        y:{ticks:{font:{size:10}},grid:{color:'rgba(31,111,168,0.1)'}},
+        x:{ticks:{font:{size:10}},grid:{display:false}}
+      }
+    }
+  });
+  chartInitialized=true;
+}
+
+// 懒加载：图表容器距视口 200px 时预渲染
+const chartObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      initChart();
+      chartObserver.unobserve(e.target);
+    }
+  });
+},{rootMargin:'200px'});
+
+document.addEventListener('DOMContentLoaded',function(){
+  const chartContainer=document.querySelector('.chart-wrap');
+  if(chartContainer){
+    chartObserver.observe(chartContainer);
+  }else if(typeof Chart!=='undefined'){
+    // 兜底：如果没有图表，直接初始化
+    setTimeout(initChart,50);
+  }
+});
+</script>
+</body>
+</html>
